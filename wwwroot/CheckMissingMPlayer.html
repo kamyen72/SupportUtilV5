@@ -1,0 +1,666 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>User Activity Listing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        .TitleText {
+            text-align: center;
+            font-weight: bolder;
+            font-size: 40px;
+            color: #ff0000; /* #5C5C5C; */
+            text-shadow: -2px -2px 0px #333333, 1px 1px 0px #666666;
+        }
+
+        .tblhd {
+            background: #ade3ef;
+            font-weight: bolder;
+        }
+
+        #div_result {
+            text-align: center;
+            color: blue;
+            font-size: 16px;
+            padding-left: 700px;
+            padding-top: 30px;
+        }
+
+        td {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        .servertitle {
+            font-size:18px;
+            font-weight: bold;
+            color: blue;
+        }
+    </style>
+
+    <script>
+        function GetUserActivityList() {
+            //alert("Platform:" + $("#SelectedPlatform").val());
+
+            //alert(JSON.stringify({ "AgentName": $("#txtAgentName").val(), "CompanyCode": $("#txtCompanyCode").val(), "Platform": $("#SelectedPlatform").val(), "APID": $("#txtAPID").val(), "APIDomain": "", "PlatformText": "" }));
+            $.ajax({
+                type: "POST",
+                url: "/API/GetActivityList",
+                data: JSON.stringify({ "CurrentPeriod": $("#txtCurrentPeriod").val(), "UserName": $("#txtUserName").val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response.length);
+                    GenerateUserActivityList(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function checkEmpty() {
+            if ($("#txtUserName").val() != "") {
+                $("#btnGenAll").attr("disabled", true);
+            }
+            else {
+                $("#btnGenAll").attr("disabled", false);
+            }
+        }
+    </script>
+
+    <script>
+        function ProcessAllButtons() {
+            //alert("wooi");
+            var MaxRec = document.getElementById("TotalRecs").value;
+            //alert(MaxRec);
+
+            if (MaxRec == "" || MaxRec == 0) {
+                return;
+            }
+            var nm = "";
+            var bnm = "";
+            var mylist = [];
+            var obj = {
+                CurrentPeriod: "",
+                UserName: ""
+            }
+            document.getElementById("downloadlink1").style = "display:block;";
+
+            for (i = 0; i < MaxRec; i++) {
+                nm = "rec" + i;
+                bnm = "but-" + i;
+
+                if (document.getElementById(nm).checked == false) {
+                    document.getElementById(bnm).disabled = true;
+                    document.getElementById(bnm).style = "background: #999999";
+                }
+                else {
+                    document.getElementById(bnm).disabled = false;
+                    document.getElementById(bnm).style = "background: #8fce00";
+
+                    var obj2 = {
+                        CurrentPeriod: "",
+                        UserName: ""
+                    }
+
+                    obj2.CurrentPeriod = document.getElementById(bnm).getAttribute("data-CurrentPeriod");
+                    obj2.UserName = document.getElementById(bnm).getAttribute("data-UserName");
+
+                    //alert(i + " - " + obj2.UserName);
+
+                    mylist.push(obj2);
+
+                    console.log(document.getElementById(bnm).getAttribute("data-CurrentPeriod") + " " + document.getElementById(bnm).getAttribute("data-UserName"))
+                }
+            }
+
+            //var myval = JSON.stringify(mylist);
+            //alert(myval);
+            SubmitForExcelGeneration(mylist);
+        }
+    </script>
+
+    <script>
+        function SelectAll() {
+            //alert("All selected");
+            var MaxRec = $("#TotalRows").val();
+            var TotalRec = 0;
+            for (i = 0; i < MaxRec; i++) {
+                var nm = "rec" + i;
+                document.getElementById(nm).checked = true;
+                TotalRec++;
+            }
+            $("#TotalRecs").val(TotalRec);
+            //ProcessAllButtons();
+        }
+    </script>
+
+    <script>
+        function UncheckAll() {
+            //alert("All unselected");
+            var MaxRec = document.getElementById("TotalRows").value;
+
+            var TotalRec = MaxRec;
+
+
+            for (i = 0; i < MaxRec; i++) {
+                var nm = "rec" + i;
+                document.getElementById(nm).checked = false;
+
+
+            }
+            $("#TotalRecs").val(0);
+            //ProcessAllButtons();
+        }
+    </script>
+
+    <script>
+        function DisableButtons(myid) {
+            var nm = myid;
+            var i = nm.replace("rec", "");
+            var bnm = "but-" + i;
+            if (document.getElementById(nm).checked == false) {
+                document.getElementById(bnm).disabled = true;
+                document.getElementById(bnm).style = "background: #999999";
+            }
+            else {
+                document.getElementById(bnm).disabled = false;
+                document.getElementById(bnm).style = "background: #8fce00";
+                console.log(document.getElementById(bnm).getAttribute("data-CurrentPeriod") + " " + document.getElementById(bnm).getAttribute("data-UserName"))
+            }
+        }
+    </script>
+
+    <script>
+        function SubmitForExcelGeneration(mylist) {
+            //alert("submit for Excel Generation, total records for processing: " + mylist.length);
+            var myval = JSON.stringify(mylist);
+            //alert(myval);
+            $.ajax({
+                type: "POST",
+                url: "/API/GenActivityExcel",
+                data: JSON.stringify({ "value": myval }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response.length);
+                    //alert("successfully generated the Excel workbook");
+                    document.getElementById("downloadlink1").style = "display:block;";
+                    $("#downloadlink1").attr("href", "ExcelFiles/" + response[0].FileName);
+                    $("#downloadlink1").attr("style", "font-size:20px;font-weight:bolder;color:red;");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function GenerateUserActivityFullList() {
+            //alert("Please be patient, it may take some time");
+            var img2 = "<img src='clock.gif' style='width:100px;height:100px;'> ";
+
+            $("#div_result2").attr("style", "display:block;padding-left:1000px;");
+            $("#div_result2").html(img2);
+            var myval = $("#txtUserName").val();
+            $.ajax({
+                type: "POST",
+                url: "/API/GenActivityExcelMPlayerAllFields",
+                data: JSON.stringify({ "value": myval }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response[0].FileName + " from " + response[0].FolderName);
+                    //alert("successfully generated the Excel workbook");
+
+                    document.getElementById("downloadlink1").style = "display:block;";
+                    $("#downloadlink1").attr("href", "ExcelFiles/" + response[0].FileName);
+                    $("#downloadlink1").attr("style", "font-size:20px;font-weight:bolder;color:red;");
+
+                    $("#div_result2").attr("style", "display:none;");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function resetCurrentPeriodColor() {
+            $("#txtCurrentPeriod").attr("style", "background:@ffffff;font-size:26px;");
+        }
+    </script>
+
+    <script>
+        function patchme(me) {
+            var txt = "";
+            txt = txt + me.getAttribute("data-AllIDs");
+
+            txt = txt + "\n";
+            txt = txt + me.getAttribute("data-dbname");
+
+            alert(txt);
+
+
+            $.ajax({
+                type: "POST",
+                url: "/API/CreateMissingMPlayerByDB",
+                data: JSON.stringify({ "dbname": me.getAttribute("data-dbname"), "allIDs": me.getAttribute("data-AllIDs") }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert(response.ReturnText);
+
+                    $("#div_result2").html(txt);
+                    $("#div_result2").attr("style", "display:none;");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+
+            //alert(txt);
+        }
+    </script>
+
+    <script>
+        function CheckMissingMplayerByDB(myDB) {
+            alert("Checking missing records in " + myDB);
+            var CP = $("#txtCurrentPeriod").val();
+            if (CP == "") {
+                alert("Please enter the Ticket No to be checked");
+                $("#txtCurrentPeriod").attr("style", "background:pink;");
+                $("#txtCurrentPeriod").focus();
+                return;
+            }
+            //alert("Please be patient, finding the missing mplayer in DBs");
+
+            var img2 = "<img src='clock.gif' style='width:100px;height:100px;'> ";
+
+            $("#div_result2").attr("style", "display:block;padding-left:1000px;");
+            $("#div_result2").html(img2);
+
+            var AllIDs = "";
+
+            var myval = $("#txtCurrentPeriod").val();
+            //var myDB = "db_local";
+            $.ajax({
+                type: "POST",
+                url: "/API/CheckMissingMPlayerByDB",
+                data: JSON.stringify({ "CurrentPeriod": myval, "DBNametoSearch": myDB }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert("success");
+                    if (response.length == 0) {
+                        alert("No missing records found in " + myDB);
+                    }
+                    $("#div_result2").html("");
+                    $("#div_result2").attr("style", "display:none;");
+                    //$("#div_result2").attr("style", "display:none;");
+
+
+                    //alert(response.ReturnText);
+
+/*                    var GDMPList = JSON.parse(response.ReturnText);*/
+                    //alert("Number of records in list: " + response.length);
+
+                    var maxrec = response[0].Rows.length;
+                    var thisrow = response[0];
+                    //var myDB = thisrow.dbname;
+                    var txt = "<table border=1 style='border-style:solid; border-color:grey; border-width:1px;'>";
+                    txt = txt + "<tr>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>##</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>Source</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>ID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UserName</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>MemberID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UpdateDate</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CurrentPeriod</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>SelectedNums</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>MPlayer Rec</td>";
+                    txt = txt + "</tr>";
+
+
+                    for (let i = 0; i < maxrec; i++) {
+                        var thisrec = thisrow.Rows[i];
+                        txt = txt + "<tr>";
+                        txt = txt + "<td>" + (i + 1) + "</td>";
+                        txt = txt + "<td>" + myDB + "</td>";
+                        txt = txt + "<td>" + thisrec.GDMP_ID + "</td>";
+                        if (i != 0) {
+                            AllIDs = AllIDs + ", " + thisrec.GDMP_ID;
+                        }
+                        else {
+                            AllIDs = AllIDs + "" + thisrec.GDMP_ID;
+                        }
+                        txt = txt + "<td>" + thisrec.UserName + "</td>";
+                        txt = txt + "<td>" + thisrec.MemberID + "</td>";
+                        txt = txt + "<td>" + thisrec.UpdateDate + "</td>";
+                        txt = txt + "<td>" + thisrec.CurrentPeriod + "</td>";
+                        txt = txt + "<td>" + thisrec.SelectedNums + "</td>";
+                        if (thisrec.MPlayer_Rec == 0) {
+                            txt = txt + "<td style='background:pink;'>" + thisrec.MPlayer_Rec + "</td>";
+                        }
+                        else {
+                            txt = txt + "<td>" + thisrec.MPlayer_Rec + "</td>";
+                        }
+                        txt = txt + "</tr>";
+                    }
+                    txt = txt + "</table>";
+
+                    if (AllIDs != "") {
+                        txt = txt + "<br><br><button style='width:300px;opacity:0;'></button><button style='color:white;background:#FF99FF;font-size:20px;' data-dbname='" + myDB + "' data-AllIDs='" + AllIDs + "' onclick='patchme(this)'>Create MPlayers</button>";
+                    }
+                    //alert(AllIDs);
+                    document.getElementById("txtIDs").innerText = AllIDs;
+                    //alert("from div: " + document.getElementById("txtIDs").innerText);
+
+                    $("#div_result2").html(txt);
+                    $("#div_result2").attr("style", "font-size:14px;padding-left:680px;padding-top:50px;");
+
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function CheckMissingMPlayersAllDBs() {
+            //alert("Checking All DBs");
+            var CP = $("#txtCurrentPeriod").val();
+            if (CP == "") {
+                alert("Please enter the Ticket No to be checked");
+                $("#txtCurrentPeriod").attr("style", "background:pink;");
+                $("#txtCurrentPeriod").focus();
+                return;
+            }
+            //alert("Please be patient, finding the missing mplayer in DBs");
+
+            var img2 = "<img src='clock.gif' style='width:100px;height:100px;'> ";
+
+            $("#div_result2").attr("style", "display:block;padding-left:1000px;");
+            $("#div_result2").html(img2);
+
+            var myval = $("#txtCurrentPeriod").val();
+            $.ajax({
+                type: "POST",
+                url: "/API/CheckMissingMPlayerAllDBs",
+                data: JSON.stringify({ "InputText": myval }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response.length);
+                    //
+                    //document.getElementById("div_result2").style = "display:none";
+                    var txt = "";
+                    var AllIDs = "";
+                    var myDB = "";
+
+                    for (let i = 0; i < response.length; i++) {
+                        var thislist = response[i];
+                        var maxrec = thislist.Rows.length;
+                        myDB = thislist.dbname;
+
+                        txt = txt + "<table border=1 style='border-style:solid; border-color:grey; border-width:1px;'>";
+                        txt = txt + "<tr>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>##</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>Source</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>ID</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UserName</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>MemberID</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UpdateDate</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CurrentPeriod</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>SelectedNums</td>";
+                        txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>MPlayer Rec</td>";
+                        txt = txt + "</tr>";
+
+                        for (let j = 0; j < maxrec; j++) {
+
+                            var thisrow = thislist.Rows[j];
+
+                            //alert(thisrow.DBname);
+                            //alert(thisrow.GDMP_ID);
+
+                            txt = txt + "<tr>";
+                            txt = txt + "<td>" + (j + 1) + "</td>";
+                            txt = txt + "<td>" + thisrow.DBname + "</td>";
+                            txt = txt + "<td>" + thisrow.GDMP_ID + "</td>";
+                            if (j != 0) {
+                                AllIDs = AllIDs + ", " + thisrow.GDMP_ID;
+                            }
+                            else {
+                                AllIDs = AllIDs + "" + thisrow.GDMP_ID;
+                            }
+
+                            //alert(AllIDs);
+                            txt = txt + "<td>" + thisrow.UserName + "</td>";
+                            txt = txt + "<td>" + thisrow.MemberID + "</td>";
+                            txt = txt + "<td>" + thisrow.UpdateDate + "</td>";
+                            txt = txt + "<td>" + thisrow.CurrentPeriod + "</td>";
+                            txt = txt + "<td>" + thisrow.SelectedNums + "</td>";
+
+                            //alert("MPlayer: " + thisrow.MPlayer_Rec);
+
+                            if (thisrow.MPlayer_Rec == 0) {
+                                txt = txt + "<td style='background:pink;'>" + thisrow.MPlayer_Rec + "</td>";
+                            }
+                            else {
+                                txt = txt + "<td>" + thisrow.MPlayer_Rec + "</td>";
+                            }
+                            txt = txt + "</tr>";
+
+                            //alert(txt);
+                        }
+                        txt = txt + "</table>";
+
+                        txt = txt + "<br><br><button style='width:300px;opacity:0;'></button><button style='color:white;background:#FF99FF;font-size:20px;' data-dbname='" + myDB + "' data-AllIDs='" + AllIDs + "' onclick='patchme(this)'>Create MPlayers</button>";
+                        //alert(AllIDs);
+                        //alert(txt);
+                        $("#div_result2").html(txt);
+                        document.getElementById("txtIDs").innerText = AllIDs;
+                        //alert("from div: " + document.getElementById("txtIDs").innerText);
+
+                    }
+                    $("#div_result2").html(txt);
+                    $("#div_result2").attr("style", "font-size:14px;padding-left:680px;padding-top:50px;");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function CheckMissingMplayer() {
+            alert("kejap");
+            var CP = $("#txtCurrentPeriod").val();
+            if (CP == "") {
+                alert("Please enter the Ticket No to be checked");
+                $("#txtCurrentPeriod").attr("style", "background:pink;");
+                $("#txtCurrentPeriod").focus();
+                return;
+            }
+            alert("Please be patient, finding the missing mplayer in DBs");
+
+            var img2 = "<img src='clock.gif' style='width:100px;height:100px;'> ";
+
+            $("#div_result2").attr("style", "display:block;padding-left:1000px;");
+            $("#div_result2").html(img2);
+            //alert(img2);
+
+            var AllIDs = "";
+
+            var myval = $("#txtCurrentPeriod").val();
+            $.ajax({
+                type: "POST",
+                url: "/API/CheckMissingMPlayer",
+                data: JSON.stringify({ "value": myval }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    
+                    //$("#div_result2").attr("style", "display:none;");
+                    alert(response.length);
+
+                    
+                    var maxrec = response.length;
+                    var txt = "<table border=1 style='border-style:solid; border-color:grey; border-width:1px;'>";
+                    txt = txt + "<tr>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>##</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>Source</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>ID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UserName</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>MemberID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UpdateDate</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CurrentPeriod</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>SelectedNums</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>MPlayer Rec</td>";
+                    txt = txt + "</tr>";
+
+
+                    for (let i = 0; i < maxrec; i++) {
+                        txt = txt + "<tr>";
+                        txt = txt + "<td>" + (i + 1) + "</td>";
+                        txt = txt + "<td>" + response[i].DBname + "</td>";
+                        txt = txt + "<td>" + response[i].GDMP_ID + "</td>";
+                        if (i != 0) {
+                            AllIDs = AllIDs + ", " + response[i].GDMP_ID;
+                        }
+                        else {
+                            AllIDs = AllIDs + "" + response[i].GDMP_ID;
+                        }
+                        txt = txt + "<td>" + response[i].UserName + "</td>";
+                        txt = txt + "<td>" + response[i].MemberID + "</td>";
+                        txt = txt + "<td>" + response[i].UpdateDate + "</td>";
+                        txt = txt + "<td>" + response[i].CurrentPeriod + "</td>";
+                        txt = txt + "<td>" + response[i].SelectedNums + "</td>";
+                        if (response[i].MPlayer_Rec == 0) {
+                            txt = txt + "<td style='background:pink;'>" + response[i].MPlayer_Rec + "</td>";
+                        }
+                        else {
+                            txt = txt + "<td>" + response[i].MPlayer_Rec + "</td>";
+                        }
+                        txt = txt + "</tr>";
+                    }
+                    txt = txt + "</table>";
+
+                    txt = txt + "<br><br><button style='width:300px;opacity:0;'></button><button style='color:white;background:#FF99FF;font-size:20px;'>Create MPlayers</button>";
+                    alert(AllIDs);
+                    document.getElementById("txtIDs").innerText = AllIDs;
+                    alert("from div: " + document.getElementById("txtIDs").innerText);
+
+                    $("#div_result2").html(txt);
+                    $("#div_result2").attr("style", "font-size:14px;padding-left:680px;padding-top:50px;");
+
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+
+        }
+    </script>
+
+</head>
+<body>
+    <div id="mainDiv" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <span class="TitleText">Check Missing Record in MPlayer Table</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <label style="font-size: 26px;">TicketNo (Current Period)</label>
+                <input type="text" id="txtCurrentPeriod" value="" onkeyup="resetCurrentPeriodColor()" style="font-size: 26px;" />
+                <button onclick="CheckMissingMPlayersAllDBs()" style="font-size:26px;background:red;color:white;font-weight:bold;">Check All DBs</button>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 50px;">
+            <div class="col-sm-4 col-md-4" style="text-align: center; border-style: solid; border-width: thin; height: 240px; ">
+                <label class="servertitle">Server 55</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_ghl55')">GHL</button>
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_tm')">ThirdM</button>
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_tm2')">ThirdM2</button>
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_tm3')">ThirdM3</button>
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_bv')">BV</button>
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_wl')">WL</button>
+            </div>
+            <div class="col-sm-4 col-md-4" style="text-align: center; border-style: solid; border-width: thin; height: 240px; ">
+                <label class="servertitle">Server 149</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_ace99')">ACE 99</button>
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_king4d')">King 4D</button>
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_togelking')">TogelKing</button>
+            </div>
+            <div class="col-sm-4 col-md-4" style="text-align: center; border-style: solid; border-width: thin; height: 240px; ">
+                <label class="servertitle">Staging Server (118.107.201.247)</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_ghlstaging')">GHL</button>
+                <br /><br />
+
+                <label class="servertitle">Local</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <button class="servertitle" onclick="CheckMissingMplayerByDB('db_local')">ThirdM</button>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12" id="div_result2" style="display:none;">
+            </div>
+        </div>
+
+        <div id="ReportJSON" style="display:none;"></div>
+        <div style="display:none">
+            <input type="text" id="TotalRecs" value="" />
+            <input type="text" id="TotalRows" value="" />
+            <div id="txtIDs"></div>
+            <div id="txtJason"></div>
+        </div>
+    </div>
+
+</body>
+</html>

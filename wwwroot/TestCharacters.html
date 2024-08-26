@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Test Alphabet Running Number</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        function ShowAscii() {
+            //alert("I will demo the running alphabets");
+            var txt = "<table border=1 style='border-style:solid;boder-color:grey;border-width:1px;'>";
+            for (let i = 65; i < 91; i++) {
+                var c = String.fromCharCode(i);
+                //console.log(c);
+                var n = c.charCodeAt(0);
+                txt = txt + "<tr style='padding:25px 25px 25px 25px;font-size:18px;font-weight:bold;'><td>" + c + "</td><td>" + n + "</td></tr>";
+            }
+            txt = txt + "</table>";
+
+            $("#divResult").html(txt);
+            $("#divResult").attr("Style", "padding-left:700px;");
+        }
+
+        function GenerateNextCode() {
+            let starttxt = $("#txtStartNum").val();
+            var txt = "The starting code: " + $("#txtStartNum").val() + " and the lenght is: " + starttxt.length + "<br><table border=1>";
+
+            var maxlen = starttxt.length;
+            var list = [];
+            for (let x = 0; x < maxlen; x++) {
+                let thisc = starttxt.substring(x, x + 1)
+                let thiscode = thisc.charCodeAt(0);
+                list.push(thiscode);
+                console.log(thiscode);
+                txt = txt + "<tr >";
+                txt = txt + "<td style='padding: 25px 25px 25px 25px;font-size:18px;'>" + thisc + "</td>";
+                txt = txt + "<td style='padding: 25px 25px 25px 25px;font-size:18px;'>" + thiscode + "</td>";
+                txt = txt + "</tr>";
+            }
+            txt = txt + "</table><br><br>";
+
+            var list2 = [];
+
+
+            // ---- checking the last alphabet ---
+            if (list[maxlen - 1] == 90) {
+                for (let z = 0; z < maxlen - 2; z++) {
+                    list2.push(list[z]);
+                }
+                //alert("The last character is Z");
+                list[maxlen - 1] == 65;
+
+                console.log("Last Character: " + list[maxlen - 1]);
+                var newnum = list[maxlen - 2];
+                newnum = newnum + 1;
+                var prev = maxlen - 2;
+
+
+                console.log("Previous index: " + prev);
+                list[prev] == newnum;
+
+                list2.push(newnum);
+                list2.push(64);
+                console.log("Last 2nd Character: " + list2[prev] + " - " + newnum);
+            }
+            else {
+                for (let z = 0; z < maxlen ; z++) {
+                    list2.push(list[z]);
+                }
+            }
+
+            txt = txt + "The next code will be: <table border=1 style='border-style:solid;boder-color:grey;border-width:1px;'>" 
+            let txt2 = "";
+            let newcode = "";
+            for (let x = 0; x < maxlen; x++) {
+                let thisc = String.fromCharCode(list2[x]);
+                let thiscode = thisc.charCodeAt(0);
+                
+                if (x <= (maxlen - 2)) {
+                    console.log(x + " - " + thisc + " - " + thiscode);
+
+                    txt2 = txt2 + "<tr>";
+                    txt2 = txt2 + "<td style='color:blue;padding: 25px 25px 25px 25px;font-size:18px;'>" + thisc + "</td>";
+                    txt2 = txt2 + "<td style='color:blue;padding: 25px 25px 25px 25px;font-size:18px;'>" + thiscode + "</td>";
+                    txt2 = txt2 + "</tr>";
+
+                    newcode = newcode + thisc;
+                }
+                else if (x == maxlen - 1) {
+                    let thisc = String.fromCharCode(list2[maxlen-1] + 1);
+                    let thiscode = thisc.charCodeAt(0);
+
+                    console.log(x + " - " + thisc + " - " + thiscode);
+
+                    txt2 = txt2 + "<tr>";
+                    txt2 = txt2 + "<td style='font-weight:bolder;color:red;padding: 25px 25px 25px 25px;font-size:18px;'>" + thisc + "</td>";
+                    txt2 = txt2 + "<td style='font-weight:bolder;color:red;padding: 25px 25px 25px 25px;font-size:18px;'>" + thiscode + "</td>";
+                    txt2 = txt2 + "</tr>";
+
+                    newcode = newcode + thisc;
+                }
+                
+            }
+            txt2 = txt2 + "</table><br><br>";
+            txt = txt + txt2;
+
+            $("#divResult").html(txt);
+            $("#divResult").attr("Style", "padding: 25px 25px 25px 100px;");
+
+            $("#txtNewCode").val(newcode);
+        }
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-auto" style="padding: 50px 15px 15px 15px;">
+                <label>Starting Code</label>
+                <input type="text" id="txtStartNum" value="DAHW" />
+                <button onclick="GenerateNextCode()">Generate Next Code</button>
+                <label>New Code</label>
+                <input type="text" id="txtNewCode" value="DAHW" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto" id="divResult">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

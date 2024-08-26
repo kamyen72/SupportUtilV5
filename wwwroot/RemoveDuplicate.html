@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Duplicate Record Removal Utility</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        .TitleText {
+            text-align: center;
+            font-weight: bolder;
+            font-size: 40px;
+            color: #5C5C5C;
+            text-shadow: -2px -2px 0px #333333, 1px 1px 0px #666666;
+        }
+    </style>
+    <script>
+        function jsGetCurrentPeriods() {
+            document.getElementById("btnCheck").disabled = true;
+
+            var clock = "<img src='/clock.gif' style='display:block;width=50px; height=50px;' />";
+            $("#div_result").prop("style", "padding-left:850px;")
+            $("#div_result").html(clock);
+
+            console.log($("#StartDate").val());
+
+            console.log(JSON.stringify({ "StartDate": $("#StartDate").val(), "EndDate": $("#EndDate").val() }));
+
+            $.ajax({
+                type: "POST",
+                url: "/API/GetCurrentPeriods",
+                data: JSON.stringify({ "StartDate": $("#StartDate").val(), "EndDate": $("#EndDate").val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    var mylist = response;
+
+                    var txt = "";
+                    for (let i = 0; i < mylist.length; i++) {
+                        txt = txt + "<option value='" + mylist[i].currentperiod + "'>" + mylist[i].currentperiod + "</option>";
+                    }
+
+                    var select = document.getElementById('SelectedCurrentPeriod');
+                    select.innerHTML = txt;
+                    $("#div_result").html("");
+
+                    document.getElementById("btnCheck").disabled = false;
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+
+        function jsCheckCount() {
+            document.getElementById("btnCheck").disabled = true;
+
+            var clock = "<img src='/clock.gif' style='display:block;width=50px; height=50px;' />";
+            $("#div_result").prop("style", "padding-left:850px;")
+            $("#div_result").html(clock);
+
+            //alert("Checking record count");
+            var e = document.getElementById("SelectedCurrentPeriod");
+            console.log("Selected value: " + e.value);
+            //alert("chop chop chop");
+
+            $.ajax({
+                type: "POST",
+                url: "/API/GetDiffFromDBs",
+                data: JSON.stringify({ "InputText": e.value }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    var mylist = response;
+                    console.log(mylist.length);
+
+                    var txt = "<p style='font-size:28px;font-weight:bold;'>Findings:</p>";
+                    txt = txt + "<table border=1 style='border-style:solid;border-color:grey;border-width:1px;'>";
+                    txt = txt + "<tr style='font-weight:bolder;background:grey;color:white;'>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Server</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>DB Name</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Ticket No</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Selected Nums</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>User Name</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>GameDealerMemberID</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>MPlayer Recs</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>GDMPlayer Recs</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Difference</td>";
+                    txt = txt + "<td></td>";
+                    txt = txt + "</tr>";
+
+                    for (let i = 0; i < mylist.length; i++) {
+                        txt = txt + "<tr>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].ip + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].dbfullname + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].CurrentPeriod + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].SelectedNums + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].UserName + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].GameDealerMemberID + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].MPlayer_Recs + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].GDMPlayer_Recs + "</td>";
+                        txt = txt + "<td style='background:pink;padding-left:5px;padding-right:5px;'>" + mylist[i].Diff + "</td>";
+                        txt = txt + "<td><button onclick='jsDeleteDuplicate(this)' data-connStr='" + mylist[i].connStr + "' data-CurrentPeriod='" + mylist[i].CurrentPeriod + "' data-SelectedNums='" + mylist[i].SelectedNums + "' data-GameDealerMemberID='" + mylist[i].GameDealerMemberID + "'>Clean</button></td>";
+                        txt = txt + "</tr>";
+                    }
+                    txt = txt + "</table>";
+                    $("#div_result").prop("style", "padding-left:430px;")
+                    $("#div_result").html(txt);
+
+                    document.getElementById("btnCheck").disabled = false;
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+
+        function jsCheckCount2() {
+            document.getElementById("btnCheck").disabled = true;
+
+            var clock = "<img src='/clock.gif' style='display:block;width=50px; height=50px;' />";
+            $("#div_result").prop("style", "padding-left:850px;")
+            $("#div_result").html(clock);
+
+            //alert("Checking record count");
+            var e = document.getElementById("SelectedCurrentPeriod2");
+            console.log("Selected value: " + e.value);
+            //alert("chop chop chop");
+
+            $.ajax({
+                type: "POST",
+                url: "/API/GetDiffFromDBs",
+                data: JSON.stringify({ "InputText": e.value }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    var mylist = response;
+                    console.log(mylist.length);
+
+                    var txt = "<p style='font-size:28px;font-weight:bold;'>Findings:</p>";
+                    txt = txt + "<table border=1 style='border-style:solid;border-color:grey;border-width:1px;'>";
+                    txt = txt + "<tr style='font-weight:bolder;background:grey;color:white;'>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Server</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>DB Name</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Ticket No</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Selected Nums</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>User Name</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>GameDealerMemberID</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>MPlayer Recs</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>GDMPlayer Recs</td>";
+                    txt = txt + "<td style='padding-left:5px;padding-right:5px;'>Difference</td>";
+                    txt = txt + "<td></td>";
+                    txt = txt + "</tr>";
+
+                    for (let i = 0; i < mylist.length; i++) {
+                        txt = txt + "<tr>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].ip + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].dbfullname + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].CurrentPeriod + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].SelectedNums + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].UserName + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].GameDealerMemberID + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].MPlayer_Recs + "</td>";
+                        txt = txt + "<td style='padding-left:5px;padding-right:5px;'>" + mylist[i].GDMPlayer_Recs + "</td>";
+                        txt = txt + "<td style='background:pink;padding-left:5px;padding-right:5px;'>" + mylist[i].Diff + "</td>";
+                        txt = txt + "<td><button onclick='jsDeleteDuplicate(this)' data-connStr='" + mylist[i].connStr + "' data-CurrentPeriod='" + mylist[i].CurrentPeriod + "' data-SelectedNums='" + mylist[i].SelectedNums + "' data-GameDealerMemberID='" + mylist[i].GameDealerMemberID + "'>Clean</button></td>";
+                        txt = txt + "</tr>";
+                    }
+                    txt = txt + "</table>";
+                    $("#div_result").prop("style", "padding-left:430px;")
+                    $("#div_result").html(txt);
+
+                    document.getElementById("btnCheck").disabled = false;
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+
+        function jsDeleteDuplicate(me) {
+            var connStr = $(me).attr('data-connStr');
+            var curPeriod = $(me).attr('data-CurrentPeriod');
+            var selNums = $(me).attr('data-SelectedNums');
+            var GDMID = $(me).attr('data-GameDealerMemberID');
+
+            var clock = "<img src='/clock.gif' style='display:block;width=50px; height=50px;' />";
+
+            var existinghtml = $("#div_result").html();
+
+            //$("#div_result").prop("style", "padding-left:450px;")
+            $("#div_result").html(existinghtml + "<br>" + clock);
+
+            $.ajax({
+                type: "POST",
+                url: "/API/DeleteDuplicate",
+                data: JSON.stringify({ "ConnStr": connStr, "CurrentPeriod": curPeriod, "SelectedNums": selNums, "GameDealerMemberID": GDMID }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $("#div_result").html("<p style='font-weight:bolder;font-size:28px;'>Duplicate Records Removed</p>");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <span class="TitleText">Duplicate Record Removal Utility</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <label>Start Date</label><input type="date" id="StartDate" />
+                <label>End Date</label><input type="date" id="EndDate" /><button onclick="jsGetCurrentPeriods()">Get Current Periods</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center;">
+                <label>Ticket No (Current Period to Search)</label>
+                <select id="SelectedCurrentPeriod">
+                </select>
+                <button id="btnCheck" onclick="jsCheckCount()">Check Difference</button>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center;">
+                <label>Ticket No (Manually Enter)</label>
+                <input type="text" value="" id="SelectedCurrentPeriod2">
+                </input>
+                <button id="btnCheck" onclick="jsCheckCount2()">Check Difference</button>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" id="div_result" style="text-align: center;font-size: 16px;">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

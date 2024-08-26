@@ -1,0 +1,450 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>User Activity Listing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        .TitleText {
+            text-align: center;
+            font-weight: bolder;
+            font-size: 40px;
+            color: #5C5C5C;
+            text-shadow: -2px -2px 0px #333333, 1px 1px 0px #666666;
+        }
+
+        .tblhd 
+        {
+            background: #ade3ef; font-weight:bolder;
+        }
+
+        #div_result {
+            text-align: center;
+            color: blue;
+            font-size: 16px;
+            padding-left: 700px;
+            padding-top:30px;
+        }
+
+        td {
+            padding-left:5px;
+            padding-right: 5px;
+        }
+    </style>
+
+    <script>
+        function GetUserActivityList() {
+            //alert("Platform:" + $("#SelectedPlatform").val());
+
+            //alert(JSON.stringify({ "AgentName": $("#txtAgentName").val(), "CompanyCode": $("#txtCompanyCode").val(), "Platform": $("#SelectedPlatform").val(), "APID": $("#txtAPID").val(), "APIDomain": "", "PlatformText": "" }));
+            $.ajax({
+                type: "POST",
+                url: "/API/GetActivityList",
+                data: JSON.stringify({ "CurrentPeriod": $("#txtCurrentPeriod").val(), "UserName": $("#txtUserName").val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response.length);
+                    GenerateUserActivityList(response);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function checkEmpty() {
+            if ($("#txtUserName").val() != "") {
+                $("#btnGenAll").attr("disabled", true);
+            }
+            else {
+                $("#btnGenAll").attr("disabled", false);
+            }
+        }
+    </script>
+
+    <script>
+        function ProcessAllButtons() {
+            //alert("wooi");
+            var MaxRec = document.getElementById("TotalRecs").value;
+            //alert(MaxRec);
+
+            if (MaxRec == "" || MaxRec == 0) {
+                return;
+            }
+            var nm = "";
+            var bnm = "";
+            var mylist = [];
+            var obj = {
+                CurrentPeriod: "",
+                UserName: ""
+            }
+            document.getElementById("downloadlink1").style = "display:block;";
+
+            for (i = 0; i < MaxRec; i++) {
+                nm = "rec" + i;
+                bnm = "but-" + i;
+
+                if (document.getElementById(nm).checked == false) {
+                    document.getElementById(bnm).disabled = true;
+                    document.getElementById(bnm).style = "background: #999999";
+                }
+                else {
+                    document.getElementById(bnm).disabled = false;
+                    document.getElementById(bnm).style = "background: #8fce00";
+
+                    var obj2 = {
+                        CurrentPeriod: "",
+                        UserName: ""
+                    }
+
+                    obj2.CurrentPeriod = document.getElementById(bnm).getAttribute("data-CurrentPeriod");
+                    obj2.UserName = document.getElementById(bnm).getAttribute("data-UserName");
+
+                    //alert(i + " - " + obj2.UserName);
+
+                    mylist.push(obj2);
+
+                    console.log(document.getElementById(bnm).getAttribute("data-CurrentPeriod") + " " + document.getElementById(bnm).getAttribute("data-UserName"))
+                }
+            }
+
+            //var myval = JSON.stringify(mylist);
+            //alert(myval);
+            SubmitForExcelGeneration(mylist);
+        }
+    </script>
+
+    <script>
+        function SelectAll() {
+            //alert("All selected");
+            var MaxRec = $("#TotalRows").val();
+            var TotalRec = 0;
+            for (i = 0; i < MaxRec; i++) {
+                var nm = "rec" + i;
+                document.getElementById(nm).checked = true;
+                TotalRec++;
+            }
+            $("#TotalRecs").val(TotalRec);
+            //ProcessAllButtons();
+        }
+    </script>
+
+    <script>
+        function UncheckAll() {
+            //alert("All unselected");
+            var MaxRec = document.getElementById("TotalRows").value;
+            
+            var TotalRec = MaxRec;
+            
+
+            for (i = 0; i < MaxRec; i++) {
+                var nm = "rec" + i;
+                document.getElementById(nm).checked = false;
+                
+                
+            }
+            $("#TotalRecs").val(0);
+            //ProcessAllButtons();
+        }
+    </script>
+
+    <script>
+        function DisableButtons(myid) {
+            var nm = myid;
+            var i = nm.replace("rec", "");
+            var bnm = "but-" + i;
+            if (document.getElementById(nm).checked == false) {
+                document.getElementById(bnm).disabled = true;
+                document.getElementById(bnm).style = "background: #999999";
+            }
+            else {
+                document.getElementById(bnm).disabled = false;
+                document.getElementById(bnm).style = "background: #8fce00";
+                console.log(document.getElementById(bnm).getAttribute("data-CurrentPeriod") + " " + document.getElementById(bnm).getAttribute("data-UserName"))
+            }
+        }
+    </script>
+
+    <script>
+        function SubmitForExcelGeneration(mylist) {
+            //alert("submit for Excel Generation, total records for processing: " + mylist.length);
+            var myval = JSON.stringify(mylist);
+            //alert(myval);
+            $.ajax({
+                type: "POST",
+                url: "/API/GenActivityExcel",
+                data: JSON.stringify({ "value": myval }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response.length);
+                    //alert("successfully generated the Excel workbook");
+                    document.getElementById("downloadlink1").style = "display:block;";
+                    $("#downloadlink1").attr("href", "ExcelFiles/" + response[0].FileName);
+                    $("#downloadlink1").attr("style", "font-size:20px;font-weight:bolder;color:red;");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function GenerateUserActivityFullList() {
+            //alert("Please be patient, it may take some time");
+            var img2 = "<img src='clock.gif' style='width:100px;height:100px;'> ";
+
+            $("#div_result2").attr("style", "display:block;padding-left:1000px;");
+            $("#div_result2").html(img2);
+            var myval = $("#txtUserName").val();
+            $.ajax({
+                type: "POST",
+                url: "/API/GenActivityExcelMPlayerAllFields",
+                data: JSON.stringify({ "value": myval }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response[0].FileName + " from " + response[0].FolderName);
+                    //alert("successfully generated the Excel workbook");
+
+                    document.getElementById("downloadlink1").style = "display:block;";
+                    $("#downloadlink1").attr("href", "ExcelFiles/" + response[0].FileName);
+                    $("#downloadlink1").attr("style", "font-size:20px;font-weight:bolder;color:red;");
+
+                    $("#div_result2").attr("style", "display:none;");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function ViewUserActivityFullList() {
+            //alert("Please be patient, showing the view");
+            document.getElementById("downloadlink1").style = "display:none;";
+
+            var img2 = "<img src='clock.gif' style='width:100px;height:100px;'> ";
+            
+            $("#div_result2").attr("style", "display:block;padding-left:1000px;");
+            $("#div_result2").html(img2);
+            //alert(img2);
+            
+            var myval = $("#txtUserName").val();
+            $.ajax({
+                type: "POST",
+                url: "/API/ViewActivityMPlayerAllFields",
+                data: JSON.stringify({ "value": myval }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //alert(response.length);
+                    var maxrec = response.length;
+                    var txt = "<table border=1 style='border-style:solid; border-color:grey; border-width:1px;'>";
+                    txt = txt + "<tr>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>##</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>Source</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>ID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UserName</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UpdateDate</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CreateDate</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>LotteryInfoName</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CurrentPeriod</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>SelectedNums</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>DiscountPrice</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>Price</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>Qty</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>IsWin</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>ShowResultDate</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>WinMoney</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>WinMoneyWithCapital</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>SecondMPlayerID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>MemberID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>GameDealerMemberID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>LotteryInfoID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CompanyID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>IsAfter</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>IsWinStop</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>ManualBet</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>Multiple</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>RebatePro</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>RebateProMoney</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>ReferralPayType</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CashRebatePayType</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CashBackRebatePayType</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>IsReferralWriteReport</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>IsCashRebateWriteReport</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>IsCashBackWriteReport</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>IsReset</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>CreateID</td>";
+                    txt = txt + "<td style='background:grey;color:white;font-weight:bold;'>UpdateID</td>";
+                    txt = txt + "</tr>";
+
+
+                    for (let i = 0; i < maxrec; i++) {
+                        txt = txt + "<tr>";
+                        txt = txt + "<td>" + (i + 1) + "</td>";
+                        txt = txt + "<td>" + response[i].Source + "</td>";
+                        txt = txt + "<td>" + response[i].ID + "</td>";
+                        txt = txt + "<td>" + response[i].UserName + "</td>";
+                        txt = txt + "<td>" + response[i].UpdateDate + "</td>";
+                        txt = txt + "<td>" + response[i].CreateDate + "</td>";
+                        txt = txt + "<td>" + response[i].LotteryInfoName + "</td>";
+                        txt = txt + "<td>" + response[i].CurrentPeriod + "</td>";
+                        txt = txt + "<td>" + response[i].SelectedNums + "</td>";
+                        txt = txt + "<td>" + response[i].DiscountPrice + "</td>";
+                        txt = txt + "<td>" + response[i].Price + "</td>";
+                        txt = txt + "<td>" + response[i].Qty + "</td>";
+                        txt = txt + "<td>" + response[i].IsWin + "</td>";
+                        txt = txt + "<td>" + response[i].ShowResultDate + "</td>";
+                        txt = txt + "<td>" + response[i].WinMoney + "</td>";
+                        txt = txt + "<td>" + response[i].WinMoneyWithCapital + "</td>";
+                        txt = txt + "<td>" + response[i].SecondMPlayerID + "</td>";
+                        txt = txt + "<td>" + response[i].MemberID + "</td>";
+                        txt = txt + "<td>" + response[i].GameDealerMemberID + "</td>";
+                        txt = txt + "<td>" + response[i].LotteryInfoID + "</td>";
+                        txt = txt + "<td>" + response[i].CompanyID + "</td>";
+                        txt = txt + "<td>" + response[i].IsAfter + "</td>";
+                        txt = txt + "<td>" + response[i].IsWinStop + "</td>";
+                        txt = txt + "<td>" + response[i].ManualBet + "</td>";
+                        txt = txt + "<td>" + response[i].Multiple + "</td>";
+                        txt = txt + "<td>" + response[i].RebatePro + "</td>";
+                        txt = txt + "<td>" + response[i].RebateProMoney + "</td>";
+                        txt = txt + "<td>" + response[i].ReferralPayType + "</td>";
+                        txt = txt + "<td>" + response[i].CashRebatePayType + "</td>";
+                        txt = txt + "<td>" + response[i].CashBackRebatePayType + "</td>";
+                        txt = txt + "<td>" + response[i].IsReferralWriteReport + "</td>";
+                        txt = txt + "<td>" + response[i].IsCashRebateWriteReport + "</td>";
+                        txt = txt + "<td>" + response[i].IsCashBackWriteReport + "</td>";
+                        txt = txt + "<td>" + response[i].IsReset + "</td>";
+                        txt = txt + "<td>" + response[i].CreateID + "</td>";
+                        txt = txt + "<td>" + response[i].UpdateID + "</td>";
+                        txt = txt + "</tr>";
+                    }
+                    txt = txt + "</table>";
+                    $("#div_result2").html(txt);
+                    $("#div_result2").attr("style", "font-size:12px;paddint-left:50px;");
+                    
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+            
+        }
+    </script>
+
+    <script>
+        function GenerateUserActivityList(data) {
+            document.getElementById("ReportJSON").innerText = JSON.stringify(data);
+
+            var rownum = 0;
+            var mydata = JSON.parse(document.getElementById("ReportJSON").innerText);
+            
+            rownum = mydata.length;
+            $("#TotalRows").val(rownum);
+
+            var txt = "";
+            txt = txt + "<table border='1' style='border-style:solid;border-color:grey;border-width:1px;'>";
+            txt = txt + "<tr class='tblhd'><td colspan='7' valign='left' style='text-align:left;'><button onclick='SelectAll()'>Select All</button><button onclick='UncheckAll()'>Uncheck All</button></td></tr>";
+            txt = txt + "<tr class='tblhd'>";
+            txt = txt + "<td align='center'></td>";
+            txt = txt + "<td align='left'>Current Period</td>";
+            txt = txt + "<td align='left'>User Name</td>";
+            txt = txt + "<td align='center'>Win Recs</td>";
+            txt = txt + "<td align='center'>Lose Recs</td>";
+            txt = txt + "<td align='center'>Pending Recs</td>";
+            txt = txt + "<td align='center'></td>";
+            txt = txt + "</tr>";
+
+            for (i = 0; i < rownum; i++) {
+                console.log(mydata[i].PendingRecs);
+
+                txt = txt + "<tr >";
+                txt = txt + "<td align='center'><input type='checkbox' id='rec" + i + "' onclick='DisableButtons(this.id)'></td>";
+                txt = txt + "<td align='left'>" + mydata[i].CurrentPeriod + "</td>";
+                txt = txt + "<td align='left'>" + mydata[i].UserName + "</td>";
+                txt = txt + "<td align='center'>" + mydata[i].WinRecs + "</td>";
+                txt = txt + "<td align='center'>" + mydata[i].LoseRecs + "</td>";
+                txt = txt + "<td align='center'>" + mydata[i].PendingRecs + "</td>";
+                txt = txt + "<td align='center'><button id='but-" + i + "' data-CurrentPeriod='" + mydata[i].CurrentPeriod + "' data-UserName='" + mydata[i].UserName + "' style='background:#999999;'>Gen Excel</button></td>";
+                txt = txt + "</tr>";
+            }
+            txt = txt + "</table>";
+
+            $("#div_result").html(txt);
+            //$("#div_result").attr("style", "text-align:center;color:red;padding-left:100px;")
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <span class="TitleText">User Activity Listing</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 col-md-3" style="text-align: left;">
+            </div>
+
+            <div class="col-sm-6 col-md-6" style="text-align: right;">
+                <label>TicketNo (Current Period)</label>
+                <input type="text" id="txtCurrentPeriod" value="" /><br />
+                <label>User Name (Account)</label>&nbsp;<input type="text" id="txtUserName" value="" />
+                <button onclick="ViewUserActivityFullList()" style="font-size:18px;font-weight:bolder;background:#87cbed;">View Activities by UserName</button>
+                <button onclick="GenerateUserActivityFullList()" style="font-size:18px;font-weight:bolder;">Generate Activities Excel by UserName</button>
+                <br />
+                <a id="downloadlink1" href="" target="_blank" download="" style="display:none;font-size:20px;font-weight:bold;color:red;">Download Excel File</a>
+                <br />
+                <button id="btnFindList" onclick="GetUserActivityList()" style="font-size:18px;font-weight:bolder;">Generate List</button>
+                <button id="btnGenAll" onclick="ProcessAllButtons()" style="font-size:18px;font-weight:bolder;">Process Selected</button>
+            </div>
+
+            <div class="col-sm-3 col-md-3" style="text-align: left;">
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12" id="div_result">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12" id="div_result2" style="display:none;">
+            </div>
+        </div>
+
+        <div id="ReportJSON" style="display:none;"></div>
+        <div style="display:none">
+            <input type="text" id="TotalRecs" value="" />
+            <input type="text" id="TotalRows" value="" />
+        </div>
+    </div>
+</body>
+</html>
