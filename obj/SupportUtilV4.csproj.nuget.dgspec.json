@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\source_codes\\SupportUtilV4\\SupportUtilV4.csproj": {}
+    "C:\\source_codes\\new\\SupportUtilV4.csproj": {}
   },
   "projects": {
-    "C:\\source_codes\\SupportUtilV4\\SupportUtilV4.csproj": {
+    "C:\\source_codes\\new\\SupportUtilV4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\source_codes\\SupportUtilV4\\SupportUtilV4.csproj",
+        "projectUniqueName": "C:\\source_codes\\new\\SupportUtilV4.csproj",
         "projectName": "SupportUtilV4",
-        "projectPath": "C:\\source_codes\\SupportUtilV4\\SupportUtilV4.csproj",
+        "projectPath": "C:\\source_codes\\new\\SupportUtilV4.csproj",
         "packagesPath": "C:\\Users\\kamye\\.nuget\\packages\\",
-        "outputPath": "C:\\source_codes\\SupportUtilV4\\obj\\",
+        "outputPath": "C:\\source_codes\\new\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

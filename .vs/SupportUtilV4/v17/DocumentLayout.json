@@ -1,0 +1,79 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\source_codes\\new\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dbutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\dbutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dbs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\dbs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DBUtil.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
+              "RelativeDocumentMoniker": "Classes\\DBUtil.cs",
+              "ToolTip": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
+              "RelativeToolTip": "Classes\\DBUtil.cs",
+              "ViewState": "AQIAAJEEAAAAAAAAAAAAAKkEAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-27T13:28:22.778Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "APIController.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Controllers\\APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\APIController.cs",
+              "ToolTip": "C:\\source_codes\\new\\Controllers\\APIController.cs",
+              "RelativeToolTip": "Controllers\\APIController.cs",
+              "ViewState": "AQIAAAcDAAAAAAAAAAAAADADAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-27T13:23:04.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DBs.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBs.cs",
+              "RelativeDocumentMoniker": "Classes\\DBs.cs",
+              "ToolTip": "C:\\source_codes\\new\\Classes\\DBs.cs",
+              "RelativeToolTip": "Classes\\DBs.cs",
+              "ViewState": "AQIAAHEAAAAAAAAAAAA7wAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-26T16:55:53.627Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

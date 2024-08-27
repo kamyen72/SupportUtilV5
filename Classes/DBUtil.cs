@@ -1,4 +1,5 @@
-﻿using DupRecRemoval.Classes;
+﻿using DocumentFormat.OpenXml.InkML;
+using DupRecRemoval.Classes;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using SupportUtilV3.Classes;
@@ -903,10 +904,6 @@ namespace SupportUtil.Classes
             return myRoots;
         }
 
-
-
-        
-
         //----------------------------------------------------------------------------------------------------------------
         public string GetMenuRootButtons()
         {
@@ -1009,6 +1006,237 @@ namespace SupportUtil.Classes
             }
             output = output + "</div>";
             
+
+            return output;
+        }
+
+        // ----------------------------------------------------------------------------------------
+        public string GetPendingRecsAllDBbyTicketNo(string ticketNo) {
+            string output = "";
+
+            string starttime = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";
+            string endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            string sql = "";
+            sql = sql + "drop table if exists #tempCheckNull ";
+            sql = sql + "create table #tempCheckNull ( ";
+            sql = sql + "id int identity(1, 1) ";
+            sql = sql + ", CurrentPeriod nvarchar(max) null ";
+            sql = sql + ", IsOpen bit null ";
+            sql = sql + ", RealCloseTime datetime null ";
+            sql = sql + ", Server nvarchar(max) null ";
+            sql = sql + ", tm_p_M_Rec int null ";
+            sql = sql + ", tm_p_GD_Rec int null ";
+            sql = sql + ", tm2_p_M_Rec int null ";
+            sql = sql + ", tm2_p_GD_Rec int null ";
+            sql = sql + ", tm3_p_M_Rec int null ";
+            sql = sql + ", tm3_p_GD_Rec int null ";
+            sql = sql + ", ghl_p_M_Rec int null ";
+            sql = sql + ", ghl_p_GD_Rec int null ";
+            sql = sql + ", bv_p_M_Rec int null ";
+            sql = sql + ", bv_p_GD_Rec int null ";
+            sql = sql + ", wl_p_M_Rec int null ";
+            sql = sql + ", wl_p_GD_Rec int null ";
+            sql = sql + ", ace99_p_M_Rec int null ";
+            sql = sql + ", ace99_p_GD_Rec int null ";
+            sql = sql + ", king4d_p_M_Rec int null ";
+            sql = sql + ", king4d_p_GD_Rec int null ";
+            sql = sql + ", togelking_p_M_Rec int null ";
+            sql = sql + ", togelking_p_GD_Rec int null ";
+            sql = sql + ") ";
+            sql = sql + "insert into #tempCheckNull (CurrentPeriod, IsOpen, RealCloseTime) ";
+            sql = sql + "select distinct CurrentPeriod, IsOpen, RealCloseTime ";
+            sql = sql + "FROM openrowset('SQLOLEDB', '192.82.60.31'; 'GHLUser'; '@golden85092212', [GHL].[dbo].[oLottery]) where IsOpen = 1  ";
+            sql = sql + "and RealCloseTime >= '@dbStartTime' ";
+            sql = sql + "and RealCloseTime <= '@dbEndTime' ";
+            sql = sql + "update #tempCheckNull ";
+            sql = sql + "set tm_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", tm_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", tm2_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM2].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", tm2_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM2].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", tm3_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM3].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", tm3_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM3].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", ghl_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ghl].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", ghl_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ghl].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", bv_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [bv].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", bv_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [bv].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", wl_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [wl].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", wl_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [wl].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", ace99_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [ace99].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", ace99_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [ace99].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", king4d_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [king4d].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", king4d_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [king4d].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", togelking_p_m_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [togelking].[dbo].[MPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + ", togelking_p_gd_rec = (  ";
+            sql = sql + "select count(*)  ";
+            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [togelking].[dbo].[GameDealerMPlayer])  ";
+            sql = sql + "where iswin is null  ";
+            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
+            sql = sql + ") ";
+            sql = sql + "from #tempCheckNull x ";
+            sql = sql + "where CURRENTPERIOD = '@dbCurrentPeriod' ";
+            sql = sql + "select * from #tempCheckNull where CurrentPeriod = '@dbCurrentPeriod' ";
+
+            string sql2 = sql.Replace("@dbStartTime", starttime)
+                             .Replace("@dbEndTime", endtime)
+                             .Replace("@dbCurrentPeriod", ticketNo);
+
+            SqlConnection connection = new SqlConnection(db_local.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql2, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            int mx = myDataRows.Rows.Count;
+            output = "<table border=1>";
+            string coltxt = "<tr style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>";
+            //coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>id</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>CurrentPeriod</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>IsOpen</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>RealCloseTime</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>Server</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm2_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm2_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm3_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm3_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ghl_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ghl_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>bv_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>bv_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>wl_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>wl_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ace99_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ace99_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>king4d_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>king4d_p_GD_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>togelking_p_M_Rec</td>";
+            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>togelking_p_GD_Rec</td>";
+            coltxt = coltxt + "</tr>";
+
+            output = output + coltxt;
+            for (int i = 0; i < mx; i++)
+            {
+                DataRow row = myDataRows.Rows[i];
+
+                coltxt = "<tr  style='font-size:11px;'>";
+                //coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["id"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["CurrentPeriod"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["IsOpen"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["RealCloseTime"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["Server"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm2_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm2_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm3_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm3_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ghl_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ghl_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["bv_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["bv_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["wl_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["wl_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ace99_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ace99_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["king4d_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["king4d_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["togelking_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["togelking_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "</tr>";
+
+                output = output + coltxt;
+            }
+            output = output + "</table>";
 
             return output;
         }

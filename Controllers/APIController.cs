@@ -801,5 +801,22 @@ namespace DupRecRemoval.Controllers
             return Ok(rJason);
         }
 
+
+        [EnableCors("AllowAll")]
+        [Route("CheckPendingRecsInAllDBs")]
+        [HttpPost]
+        public IActionResult CheckPendingRecsInAllDBs([FromBody] InputModel model)
+        {
+            DBUtil dbu = new DBUtil();
+
+            var CurrentPeriod = model.InputText;
+
+            string rt = dbu.GetPendingRecsAllDBbyTicketNo(CurrentPeriod);
+
+            ReturnModel rm = new ReturnModel();
+            rm.ReturnText = rt;
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
     }
 }
