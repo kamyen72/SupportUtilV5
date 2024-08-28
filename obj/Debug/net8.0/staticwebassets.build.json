@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "YoTNh9v1q5ZBguHwh7FZDIPEJjN3a62RRdFO/4NvvUg=",
+  "Hash": "lhxpeYLlMB+fLamg3yNS2Dgg5oBor/A7usl5OyinyqE=",
   "Source": "SupportUtilV4",
   "BasePath": "_content/SupportUtilV4",
   "Mode": "Default",
@@ -1402,6 +1402,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\TestCharacters.html"
+    },
+    {
+      "Identity": "C:\\source_codes\\new\\wwwroot\\TestCurrentPeriodCheck.html",
+      "SourceId": "SupportUtilV4",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\source_codes\\new\\wwwroot\\",
+      "BasePath": "_content/SupportUtilV4",
+      "RelativePath": "TestCurrentPeriodCheck.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\TestCurrentPeriodCheck.html"
     },
     {
       "Identity": "C:\\source_codes\\new\\wwwroot\\UserActivityListing.html",

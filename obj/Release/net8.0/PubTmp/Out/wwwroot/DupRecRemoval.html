@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Duplicate Record Removal Utility</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        .TitleText {
+            text-align: center;
+            font-weight:bolder;
+            font-size: 40px;
+            color: #5C5C5C;
+            text-shadow: -2px -2px 0px #333333, 1px 1px 0px #666666;
+        }
+    </style>
+    <script type="text/javascript">
+        function jsGetCurrentPeriods() {
+            alert("Getting Current Periods");
+
+            console.log($("#StartDate").val());
+
+            console.log(JSON.stringify({ "StartDate": $("#StartDate").val(), "EndDate": $("#EndDate").val() });
+
+            $.ajax({
+                type: "POST",
+                url: "/API/GetCurrentPeriods",
+                data: JSON.stringify({ "StartDate": $("#StartDate").val(), "EndDate": $("#EndDate").val() }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    var mylist = response;
+
+                    var txt = "";
+                    for (let i = 0; i < mylist.length; i++) {
+                        txt = txt + "<option value='" + mylist[i].currentperiod + "'>" + mylist[i].currentperiod + "</option>";
+                    }
+
+                    var select = document.getElementById('SelectedCurrentPeriod');
+                    select.innerHTML = txt;
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+</head>
+<body style="background:orange;">
+    <div id="mainDiv" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <span class="TitleText">Duplicate Record Removal Utility</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <label>Start Date</label><input type="date" id="StartDate" />
+                <label>End Date</label><input type="date" id="EndDate" /><input type="button" onclick="testing()">Get Current Periods</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align: center;">
+                <label>Ticket No (Current Period to Search)</label>
+                <select id="SelectedCurrentPeriod">
+                </select>
+                <button onclick="testing()">Go</button>
+                <button onclick="testing2()">Go 2</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" id="div_result" style="text-align: center;font-size: 16px;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function testing() {
+            alert("ok woh");
+        }
+
+        function testing2() {
+            alert("ok also woh");
+        }
+    </script>
+</body>
+</html>
+        

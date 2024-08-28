@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\TestCharacters.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\TestCurrentPeriodCheck.html" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,16 +3,32 @@
   "WorkspaceRootPath": "C:\\source_codes\\new\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dbutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\dbutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\testcurrentperiodcheck.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\testcurrentperiodcheck.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dbs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\dbs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\useractivitylisting.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\useractivitylisting.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\checkpendingrecsbycurrentperiod.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\checkpendingrecsbycurrentperiod.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\checkmissingmplayer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\checkmissingmplayer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\createnewagent.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\createnewagent.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,41 +51,87 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DBUtil.cs",
-              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
-              "RelativeDocumentMoniker": "Classes\\DBUtil.cs",
-              "ToolTip": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
-              "RelativeToolTip": "Classes\\DBUtil.cs",
-              "ViewState": "AQIAAJEEAAAAAAAAAAAAAKkEAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T13:28:22.778Z",
+              "Title": "RemoveDuplicate.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
+              "RelativeDocumentMoniker": "wwwroot\\RemoveDuplicate.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
+              "RelativeToolTip": "wwwroot\\RemoveDuplicate.html",
+              "ViewState": "AQIAACYBAAAAAAAAAAAAAFMBAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-28T14:58:11.279Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "APIController.cs",
-              "DocumentMoniker": "C:\\source_codes\\new\\Controllers\\APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\APIController.cs",
-              "ToolTip": "C:\\source_codes\\new\\Controllers\\APIController.cs",
-              "RelativeToolTip": "Controllers\\APIController.cs",
-              "ViewState": "AQIAAAcDAAAAAAAAAAAAADADAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T13:23:04.375Z",
-              "EditorCaption": ""
+              "Title": "TestCurrentPeriodCheck.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\TestCurrentPeriodCheck.html",
+              "RelativeDocumentMoniker": "wwwroot\\TestCurrentPeriodCheck.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\TestCurrentPeriodCheck.html",
+              "RelativeToolTip": "wwwroot\\TestCurrentPeriodCheck.html",
+              "ViewState": "AQIAABEAAAAAAAAAAAAAADYAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-28T14:53:50.893Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "DBs.cs",
-              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBs.cs",
-              "RelativeDocumentMoniker": "Classes\\DBs.cs",
-              "ToolTip": "C:\\source_codes\\new\\Classes\\DBs.cs",
-              "RelativeToolTip": "Classes\\DBs.cs",
-              "ViewState": "AQIAAHEAAAAAAAAAAAA7wAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-26T16:55:53.627Z",
-              "EditorCaption": ""
+              "Title": "UserActivityListing.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\UserActivityListing.html",
+              "RelativeDocumentMoniker": "wwwroot\\UserActivityListing.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\UserActivityListing.html",
+              "RelativeToolTip": "wwwroot\\UserActivityListing.html",
+              "ViewState": "AQIAAKoBAAAAAAAAAAAAAPwBAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-28T14:44:27.235Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\source_codes\\new\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\source_codes\\new\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AQIAAJIAAAAAAAAAAAAAAKEAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-28T13:29:41.63Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CreateNewAgent.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\CreateNewAgent.html",
+              "RelativeDocumentMoniker": "wwwroot\\CreateNewAgent.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\CreateNewAgent.html",
+              "RelativeToolTip": "wwwroot\\CreateNewAgent.html",
+              "ViewState": "AQIAALIAAAAAAAAAAAAAAMAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-28T13:23:12.306Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CheckMissingMPlayer.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\CheckMissingMPlayer.html",
+              "RelativeDocumentMoniker": "wwwroot\\CheckMissingMPlayer.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\CheckMissingMPlayer.html",
+              "RelativeToolTip": "wwwroot\\CheckMissingMPlayer.html",
+              "ViewState": "AQIAAKkCAAAAAAAAAAAAALECAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-28T13:11:55.091Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CheckPendingRecsByCurrentPeriod.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\CheckPendingRecsByCurrentPeriod.html",
+              "RelativeDocumentMoniker": "wwwroot\\CheckPendingRecsByCurrentPeriod.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\CheckPendingRecsByCurrentPeriod.html",
+              "RelativeToolTip": "wwwroot\\CheckPendingRecsByCurrentPeriod.html",
+              "ViewState": "AQIAAIwAAAAAAAAAAAAAAKsAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-28T13:11:34.151Z"
             }
           ]
         }

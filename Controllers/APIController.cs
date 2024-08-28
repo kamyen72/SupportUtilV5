@@ -818,5 +818,24 @@ namespace DupRecRemoval.Controllers
             string rJason = JsonConvert.SerializeObject(rm);
             return Ok(rJason);
         }
+
+        [EnableCors("AllowAll")]
+        [Route("TestCurrentPeriodCheck")]
+        [HttpPost]
+        public IActionResult TestCurrentPeriodCheck([FromBody] DateRange model)
+        {
+            DBUtil dbu = new DBUtil();
+
+            var StartDate = model.StartDate;
+            var EndDate = model.EndDate;
+
+            //string rt = dbu.GetPendingRecsAllDBbyTicketNo(CurrentPeriod);
+
+            DateRange rm = new DateRange();
+            rm.StartDate = StartDate;
+            rm.EndDate  = EndDate;
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
     }
 }

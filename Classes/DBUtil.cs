@@ -3,6 +3,7 @@ using DupRecRemoval.Classes;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using SupportUtilV3.Classes;
+using SupportUtilV4.Classes;
 using System.Data;
 using System.Net;
 
@@ -937,13 +938,15 @@ namespace SupportUtil.Classes
 
 
                 //heightpos = heightpos + 80;
-
+                
                 int mychild = 0;
                 output = output + GetMenuItems(drow["ID"].ToString(), leftposition, 250, 1, ref mychild);
 
                 leftposition = leftposition + 255;
 
             }
+
+            //output = output + "<button>hide</button>";
 
             return output;
         }
@@ -1046,9 +1049,9 @@ namespace SupportUtil.Classes
             sql = sql + ") ";
             sql = sql + "insert into #tempCheckNull (CurrentPeriod, IsOpen, RealCloseTime) ";
             sql = sql + "select distinct CurrentPeriod, IsOpen, RealCloseTime ";
-            sql = sql + "FROM openrowset('SQLOLEDB', '192.82.60.31'; 'GHLUser'; '@golden85092212', [GHL].[dbo].[oLottery]) where IsOpen = 1  ";
-            sql = sql + "and RealCloseTime >= '@dbStartTime' ";
-            sql = sql + "and RealCloseTime <= '@dbEndTime' ";
+            sql = sql + "FROM openrowset('SQLOLEDB', '192.82.60.31'; 'GHLUser'; '@golden85092212', [GHL].[dbo].[oLottery]) ";
+            sql = sql + "where CurrentPeriod='@dbCurrentPeriod' ";
+
             sql = sql + "update #tempCheckNull ";
             sql = sql + "set tm_p_m_rec = (  ";
             sql = sql + "select count(*)  ";
@@ -1176,62 +1179,36 @@ namespace SupportUtil.Classes
             connection.Close();
 
             int mx = myDataRows.Rows.Count;
-            output = "<table border=1>";
-            string coltxt = "<tr style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>";
-            //coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>id</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>CurrentPeriod</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>IsOpen</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>RealCloseTime</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>Server</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm2_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm2_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm3_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>tm3_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ghl_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ghl_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>bv_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>bv_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>wl_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>wl_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ace99_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>ace99_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>king4d_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>king4d_p_GD_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>togelking_p_M_Rec</td>";
-            coltxt = coltxt + "<td style='font-size:11px;font-weight:bolder;background:cyan;text-align:center;'>togelking_p_GD_Rec</td>";
-            coltxt = coltxt + "</tr>";
+            output = "<table border=1 style='margin-left:15px;border-style:solid;border-width:3px;border-color:red;'>";
+            string coltxt = "";
 
             output = output + coltxt;
             for (int i = 0; i < mx; i++)
             {
                 DataRow row = myDataRows.Rows[i];
 
-                coltxt = "<tr  style='font-size:11px;'>";
-                //coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["id"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["CurrentPeriod"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["IsOpen"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["RealCloseTime"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["Server"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm2_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm2_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm3_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["tm3_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ghl_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ghl_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["bv_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["bv_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["wl_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["wl_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ace99_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["ace99_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["king4d_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["king4d_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["togelking_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<td style='font-size:11px;text-align:center;'>" + row["togelking_p_GD_Rec"] + "</td>";
+                coltxt = "<tr  style='font-size:12px;'>";
+                coltxt = coltxt + "<td style='font-size:12px;text-align:right;'>Ticket No: </td><td style='font-size:12px;text-align:center;'>" + row["CurrentPeriod"] + "</td></tr>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Is Open: </td><td style='font-size:12px;text-align:center;'>" + row["IsOpen"] + "</td></tr>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Real Close Time: </td><td style='font-size:12px;text-align:center;'>" + row["RealCloseTime"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TM: </td><td style='font-size:12px;text-align:center;'>" + row["tm_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TM: </td><td style='font-size:12px;text-align:center;'>" + row["tm_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TM2: </td><td style='font-size:12px;text-align:center;'>" + row["tm2_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TM2: </td><td style='font-size:12px;text-align:center;'>" + row["tm2_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TM3: </td><td style='font-size:12px;text-align:center;'>" + row["tm3_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TM3: </td><td style='font-size:12px;text-align:center;'>" + row["tm3_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in GHL: </td><td style='font-size:12px;text-align:center;'>" + row["ghl_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in GHL: </td><td style='font-size:12px;text-align:center;'>" + row["ghl_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in BV: </td><td style='font-size:12px;text-align:center;'>" + row["bv_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in BV: </td><td style='font-size:12px;text-align:center;'>" + row["bv_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in WL: </td><td style='font-size:12px;text-align:center;'>" + row["wl_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in WL: </td><td style='font-size:12px;text-align:center;'>" + row["wl_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in ACE99: </td><td style='font-size:12px;text-align:center;'>" + row["ace99_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in ACE99: </td><td style='font-size:12px;text-align:center;'>" + row["ace99_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in King4D: </td><td style='font-size:12px;text-align:center;'>" + row["king4d_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in King4D: </td><td style='font-size:12px;text-align:center;'>" + row["king4d_p_GD_Rec"] + "</td>";
+                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TogelKing: </td><td style='font-size:12px;text-align:center;'>" + row["togelking_p_M_Rec"] + "</td>";
+                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TogelKing: </td><td style='font-size:12px;text-align:center;'>" + row["togelking_p_GD_Rec"] + "</td>";
                 coltxt = coltxt + "</tr>";
 
                 output = output + coltxt;
@@ -1239,6 +1216,35 @@ namespace SupportUtil.Classes
             output = output + "</table>";
 
             return output;
+        }
+
+        public List<MPlayerLight> GetMPlayerLightList(string CurrentPeriod, db myDB)
+        {
+            List<MPlayerLight> outlist = new List<MPlayerLight>();
+
+            string sql = "";
+            sql = sql + "select ";
+            sql = sql + "UserName, ShowResultDate, CurrentPeriod ";
+            sql = sql + ", IsWin = case ";
+            sql = sql + "when iswin is null then 'none' ";
+            sql = sql + "when iswin = 0 then 'zero' ";
+            sql = sql + "when iswin = 1 then 'one' ";
+            sql = sql + "end ";
+            sql = sql + "from [ThirdM].[dbo].[MPlayer] ";
+            sql = sql + "where CurrentPeriod = '@dbCurrentPeriod' ";
+
+            string sql2 = sql.Replace("@dbCurrentPeriod", CurrentPeriod);
+
+            SqlConnection connection = new SqlConnection(myDB.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql2, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            return outlist;
         }
     }
 

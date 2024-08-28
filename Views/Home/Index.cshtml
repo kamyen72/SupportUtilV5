@@ -100,10 +100,15 @@
             if (mycolor != null) {
                 if (mycolor == "rgb(102, 102, 255) none repeat scroll 0% 0% / auto padding-box border-box") {
                     //alert("this is a link");
-                    let mylink = $(me).attr("data-link");
+                    // let mylink = $(me).attr("data-link");
+                    let mylink = me.getAttribute("data-link");
+
+                    // alert(mylink);
                     if (mylink != "") {
-                        let flink = "" + mylink + "";
-                        window.open(flink, '_blank', 'height=' + screen.height + ', width=' + screen.width);
+                        let flink = mylink;
+                        // window.open(flink, '_blank', 'height=' + screen.height + ', width=' + screen.width);
+                        // alert(flink);
+                        window.open(flink);
                     }
                 }
             }
@@ -127,10 +132,34 @@
             $(newname).css('display', 'none');
         }
     </script>
+
+    <script>
+        function hidemenu() {
+            // alert("wooi");
+
+            let s = $("#menubarboss").css("display");
+            // alert(s);
+
+            if (s == "none") {
+                $("#menubarboss").css("display", "block");
+                $("#menubuttdiv").css("left", "560px");
+                $("#menubutt").html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/></svg>');
+            }
+            else {
+                $("#menubarboss").css("display", "none");
+                $("#menubuttdiv").css("left", "10px");
+                $("#menubutt").html('<svg xmlns="http://www.w3.org/2000/svg" width = "16" height = "16" fill = "currentColor" class= "bi bi-arrow-bar-right" viewBox = "0 0 16 16" > <path fill - rule="evenodd" d = "M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5" /> </svg>');
+            }
+        }
+    </script>
     </head>
     <body>
         <div id="mainDiv" class="container-fluid">
-            <div class="row">
+            <div id="menubarboss" class="row" style="display:block;position:absolute;top:10px;border-style:solid;border-width:3px;">
+                <div id="menubar" class="col-sm-12 col-md-12" style="padding: 5px 5px 5px 5px;">
+                </div>
+            </div>
+            <div class="row" style="margin-top:80px;">
                 <div class="col-sm-12 col-md-12" style="text-align:center;">
                     <span class="TitleText">Support Utility V4</span>
                 </div>
@@ -140,10 +169,7 @@
                     <button onclick="GetMenuRootsV3()" style="font-size:26px;background:purple;color:white;font-weight:bold;display:none;">Get Menu Roots V3</button>
                 </div>
             </div>
-            <div class="row" style="display:block;position:absolute;top:100px;border-style:solid;border-width:3px;">
-                <div id="menubar" class="col-sm-12 col-md-12" style="padding: 5px 5px 5px 5px;">
-                </div>
-            </div>
+        <div id="menubuttdiv" style="position:fixed;left:560px;top:65px;display:block;"><button id="menubutt" style="height:30px;border-radius:10px;" onclick="hidemenu()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" /></svg></button></div>
         </div>
         <div id="secret" style="display:none;position:absolute;top:700px;border-style:solid;border-width:3px;" class="row">
             <div class="col-sm-12 col-md-12">
