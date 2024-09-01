@@ -8,6 +8,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="js/menu.js"></script>
+    <link rel="stylesheet" href="css/menu.css">
     <script>
         function ShowAscii() {
             //alert("I will demo the running alphabets");
@@ -67,18 +69,18 @@
                 console.log("Last 2nd Character: " + list2[prev] + " - " + newnum);
             }
             else {
-                for (let z = 0; z < maxlen ; z++) {
+                for (let z = 0; z < maxlen; z++) {
                     list2.push(list[z]);
                 }
             }
 
-            txt = txt + "The next code will be: <table border=1 style='border-style:solid;boder-color:grey;border-width:1px;'>" 
+            txt = txt + "The next code will be: <table border=1 style='border-style:solid;boder-color:grey;border-width:1px;'>"
             let txt2 = "";
             let newcode = "";
             for (let x = 0; x < maxlen; x++) {
                 let thisc = String.fromCharCode(list2[x]);
                 let thiscode = thisc.charCodeAt(0);
-                
+
                 if (x <= (maxlen - 2)) {
                     console.log(x + " - " + thisc + " - " + thiscode);
 
@@ -90,7 +92,7 @@
                     newcode = newcode + thisc;
                 }
                 else if (x == maxlen - 1) {
-                    let thisc = String.fromCharCode(list2[maxlen-1] + 1);
+                    let thisc = String.fromCharCode(list2[maxlen - 1] + 1);
                     let thiscode = thisc.charCodeAt(0);
 
                     console.log(x + " - " + thisc + " - " + thiscode);
@@ -102,7 +104,7 @@
 
                     newcode = newcode + thisc;
                 }
-                
+
             }
             txt2 = txt2 + "</table><br><br>";
             txt = txt + txt2;

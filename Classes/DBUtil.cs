@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Wordprocessing;
 using DupRecRemoval.Classes;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
@@ -761,7 +762,7 @@ namespace SupportUtil.Classes
                 sql = sql + "insert into #tempGDMPlayer (dbname, GDMP_ID, MemberID, SelectedNums, UpdateDate, CurrentPeriod) ";
                 sql = sql + "select '@dbName', ID, MemberID, SelectedNums, UpdateDate, CurrentPeriod ";
                 sql = sql + "from GameDealerMPlayer ";
-                sql = sql + "where CurrentPeriod = @CurrentPeriod and MemberID <> 0 and MemberID is not null and isWin is null";
+                sql = sql + "where CurrentPeriod = @CurrentPeriod and MemberID <> 0 and MemberID is not null and isWin is null ";
                 sql = sql + "Update #tempGDMPlayer ";
                 sql = sql + "set UserName = (select top 1 UserName from Mplayer where GamedealerMemberID = a.MemberID) ";
                 sql = sql + "from #tempGDMPlayer a ";
@@ -1020,218 +1021,219 @@ namespace SupportUtil.Classes
             string starttime = DateTime.Now.ToString("yyyy-MM-dd") + " 00:00:00";
             string endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            string sql = "";
-            sql = sql + "drop table if exists #tempCheckNull ";
-            sql = sql + "create table #tempCheckNull ( ";
-            sql = sql + "id int identity(1, 1) ";
-            sql = sql + ", CurrentPeriod nvarchar(max) null ";
-            sql = sql + ", IsOpen bit null ";
-            sql = sql + ", RealCloseTime datetime null ";
-            sql = sql + ", Server nvarchar(max) null ";
-            sql = sql + ", tm_p_M_Rec int null ";
-            sql = sql + ", tm_p_GD_Rec int null ";
-            sql = sql + ", tm2_p_M_Rec int null ";
-            sql = sql + ", tm2_p_GD_Rec int null ";
-            sql = sql + ", tm3_p_M_Rec int null ";
-            sql = sql + ", tm3_p_GD_Rec int null ";
-            sql = sql + ", ghl_p_M_Rec int null ";
-            sql = sql + ", ghl_p_GD_Rec int null ";
-            sql = sql + ", bv_p_M_Rec int null ";
-            sql = sql + ", bv_p_GD_Rec int null ";
-            sql = sql + ", wl_p_M_Rec int null ";
-            sql = sql + ", wl_p_GD_Rec int null ";
-            sql = sql + ", ace99_p_M_Rec int null ";
-            sql = sql + ", ace99_p_GD_Rec int null ";
-            sql = sql + ", king4d_p_M_Rec int null ";
-            sql = sql + ", king4d_p_GD_Rec int null ";
-            sql = sql + ", togelking_p_M_Rec int null ";
-            sql = sql + ", togelking_p_GD_Rec int null ";
-            sql = sql + ") ";
-            sql = sql + "insert into #tempCheckNull (CurrentPeriod, IsOpen, RealCloseTime) ";
-            sql = sql + "select distinct CurrentPeriod, IsOpen, RealCloseTime ";
-            sql = sql + "FROM openrowset('SQLOLEDB', '192.82.60.31'; 'GHLUser'; '@golden85092212', [GHL].[dbo].[oLottery]) ";
-            sql = sql + "where CurrentPeriod='@dbCurrentPeriod' ";
+            DBUtil dbu = new DBUtil();
+            
+            // ---- prepare all 9 dbs for being checked -------
 
-            sql = sql + "update #tempCheckNull ";
-            sql = sql + "set tm_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", tm_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", tm2_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM2].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", tm2_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM2].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", tm3_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM3].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", tm3_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ThirdM3].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", ghl_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ghl].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", ghl_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [ghl].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", bv_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [bv].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", bv_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [bv].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", wl_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [wl].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", wl_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.55'; 'sa'; 'p@ssw0rd', [wl].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", ace99_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [ace99].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", ace99_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [ace99].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", king4d_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [king4d].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", king4d_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [king4d].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", togelking_p_m_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [togelking].[dbo].[MPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + ", togelking_p_gd_rec = (  ";
-            sql = sql + "select count(*)  ";
-            sql = sql + "from openrowset('SQLOLEDB', '192.82.60.149'; 'sa'; 'p@ssw0rd', [togelking].[dbo].[GameDealerMPlayer])  ";
-            sql = sql + "where iswin is null  ";
-            sql = sql + "and CurrentPeriod = x.CurrentPeriod ";
-            sql = sql + ") ";
-            sql = sql + "from #tempCheckNull x ";
-            sql = sql + "where CURRENTPERIOD = '@dbCurrentPeriod' ";
-            sql = sql + "select * from #tempCheckNull where CurrentPeriod = '@dbCurrentPeriod' ";
+            List<db> dbs = new List<db>();
 
-            string sql2 = sql.Replace("@dbStartTime", starttime)
-                             .Replace("@dbEndTime", endtime)
-                             .Replace("@dbCurrentPeriod", ticketNo);
+            db db = new db();
+            db.connStr = db_ace99.connStr;
+            db.MyID = db_ace99.MyID;
+            dbs.Add(db);
 
-            SqlConnection connection = new SqlConnection(db_local.connStr);
-            connection.Open();
-            DataTable myDataRows = new DataTable();
-            SqlCommand command = new SqlCommand(sql2, connection);
-            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(myDataRows);
-            connection.Close();
+            db = new db();
+            db.connStr = db_king4d.connStr;
+            db.MyID = db_king4d.MyID;
+            dbs.Add(db);
 
-            int mx = myDataRows.Rows.Count;
-            output = "<table border=1 style='margin-left:15px;border-style:solid;border-width:3px;border-color:red;'>";
-            string coltxt = "";
+            db = new db();
+            db.connStr = db_togelking.connStr;
+            db.MyID = db_togelking.MyID;
+            dbs.Add(db);
 
-            output = output + coltxt;
-            for (int i = 0; i < mx; i++)
+            db = new db();
+            db.connStr = db_ghl55.connStr;
+            db.MyID = db_ghl55.MyID;
+            dbs.Add(db);
+
+            db = new db();
+            db.connStr = db_tm.connStr;
+            db.MyID = db_tm.MyID;
+            dbs.Add(db);
+
+            db = new db();
+            db.connStr = db_tm2.connStr;
+            db.MyID = db_tm2.MyID;
+            dbs.Add(db);
+
+            db = new db();
+            db.connStr = db_tm3.connStr;
+            db.MyID=db_tm3.MyID;
+            dbs.Add(db);
+
+            db = new db();
+            db.connStr = db_bv.connStr;
+            db.MyID = db_bv.MyID;
+            dbs.Add(db);
+
+            db = new db();
+            db.connStr = db_wl.connStr;
+            db.MyID = db_wl.MyID;
+            dbs.Add(db);
+
+            int mx = dbs.Count;
+
+            CurrentPeriodLight cpl = new CurrentPeriodLight();
+
+            cpl = dbu.GetCurrentPeriodLight(ticketNo);
+
+            for (int x = 0; x < mx; x++)
             {
-                DataRow row = myDataRows.Rows[i];
+                db thisdb = dbs[x];
 
-                coltxt = "<tr  style='font-size:12px;'>";
-                coltxt = coltxt + "<td style='font-size:12px;text-align:right;'>Ticket No: </td><td style='font-size:12px;text-align:center;'>" + row["CurrentPeriod"] + "</td></tr>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Is Open: </td><td style='font-size:12px;text-align:center;'>" + row["IsOpen"] + "</td></tr>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Real Close Time: </td><td style='font-size:12px;text-align:center;'>" + row["RealCloseTime"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TM: </td><td style='font-size:12px;text-align:center;'>" + row["tm_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TM: </td><td style='font-size:12px;text-align:center;'>" + row["tm_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TM2: </td><td style='font-size:12px;text-align:center;'>" + row["tm2_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TM2: </td><td style='font-size:12px;text-align:center;'>" + row["tm2_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TM3: </td><td style='font-size:12px;text-align:center;'>" + row["tm3_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TM3: </td><td style='font-size:12px;text-align:center;'>" + row["tm3_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in GHL: </td><td style='font-size:12px;text-align:center;'>" + row["ghl_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in GHL: </td><td style='font-size:12px;text-align:center;'>" + row["ghl_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in BV: </td><td style='font-size:12px;text-align:center;'>" + row["bv_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in BV: </td><td style='font-size:12px;text-align:center;'>" + row["bv_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in WL: </td><td style='font-size:12px;text-align:center;'>" + row["wl_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in WL: </td><td style='font-size:12px;text-align:center;'>" + row["wl_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in ACE99: </td><td style='font-size:12px;text-align:center;'>" + row["ace99_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in ACE99: </td><td style='font-size:12px;text-align:center;'>" + row["ace99_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in King4D: </td><td style='font-size:12px;text-align:center;'>" + row["king4d_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in King4D: </td><td style='font-size:12px;text-align:center;'>" + row["king4d_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "<tr style='background:lightblue;font-size:12px;text-align:right;'><td style='font-size:12px;text-align:right;'>Pend Rec in MPlayer in TogelKing: </td><td style='font-size:12px;text-align:center;'>" + row["togelking_p_M_Rec"] + "</td>";
-                coltxt = coltxt + "<tr><td style='font-size:12px;text-align:right;'>Pend Rec in GDMPlayer in TogelKing: </td><td style='font-size:12px;text-align:center;'>" + row["togelking_p_GD_Rec"] + "</td>";
-                coltxt = coltxt + "</tr>";
+                switch (thisdb.MyID) {
+                    case "db_ace99":
+                        List<MPlayerLight> listace99 = new List<MPlayerLight>();
+                        listace99 = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.ace99_m = listace99.Count;
 
-                output = output + coltxt;
+                        List<GameDealerMPlayerLight> listgd_ace99 = new List<GameDealerMPlayerLight>();
+                        listgd_ace99 = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.ace99_g = listgd_ace99.Count;
+                        break;
+
+                    case "db_king4d":
+                        List<MPlayerLight> listdb_king4d = new List<MPlayerLight>();
+                        listdb_king4d = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.king4d_m = listdb_king4d.Count;
+
+                        List<GameDealerMPlayerLight> listgd_king4d = new List<GameDealerMPlayerLight>();
+                        listgd_king4d = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.king4d_g = listgd_king4d.Count;
+                        break;
+
+                    case "db_togelking":
+                        List<MPlayerLight> listdb_togelking = new List<MPlayerLight>();
+                        listdb_togelking = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.togelking_m = listdb_togelking.Count;
+
+                        List<GameDealerMPlayerLight> listgd_togelking = new List<GameDealerMPlayerLight>();
+                        listgd_togelking = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.togelking_g = listgd_togelking.Count;
+                        break;
+
+                    case "db_ghl55":
+                        List<MPlayerLight> listdb_ghl55 = new List<MPlayerLight>();
+                        listdb_ghl55 = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.ghl55_m = listdb_ghl55.Count;
+
+                        List<GameDealerMPlayerLight> listgd_ghl55 = new List<GameDealerMPlayerLight>();
+                        listgd_ghl55 = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.ghl55_g = listgd_ghl55.Count;
+                        break;
+
+                    case "db_tm":
+                        List<MPlayerLight> listdb_tm = new List<MPlayerLight>();
+                        listdb_tm = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.tm_m = listdb_tm.Count;
+
+                        List<GameDealerMPlayerLight> listgd_tm = new List<GameDealerMPlayerLight>();
+                        listgd_tm = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.tm_g = listgd_tm.Count;
+                        break;
+
+                    case "db_tm2":
+                        List<MPlayerLight> listdb_tm2 = new List<MPlayerLight>();
+                        listdb_tm2 = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.tm2_m = listdb_tm2.Count;
+
+                        List<GameDealerMPlayerLight> listgd_tm2 = new List<GameDealerMPlayerLight>();
+                        listgd_tm2 = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.tm2_g = listgd_tm2.Count;
+                        break;
+
+                    case "db_tm3":
+                        List<MPlayerLight> listdb_tm3 = new List<MPlayerLight>();
+                        listdb_tm3 = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.tm3_m = listdb_tm3.Count;
+
+                        List<GameDealerMPlayerLight> listgd_tm3 = new List<GameDealerMPlayerLight>();
+                        listgd_tm3 = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.tm3_g = listgd_tm3.Count;
+                        break;
+
+                    case "db_bv":
+                        List<MPlayerLight> listdb_bv = new List<MPlayerLight>();
+                        listdb_bv = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.bv_m = listdb_bv.Count;
+
+                        List<GameDealerMPlayerLight> listgd_bv = new List<GameDealerMPlayerLight>();
+                        listgd_bv = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.bv_g = listgd_bv.Count;
+                        break;
+
+                    case "db_wl":
+                        List<MPlayerLight> listdb_wl = new List<MPlayerLight>();
+                        listdb_wl = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.wl_m = listdb_wl.Count;
+
+                        List<GameDealerMPlayerLight> listgd_wl = new List<GameDealerMPlayerLight>();
+                        listgd_wl = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.wl_g = listgd_wl.Count;
+                        break;
+                }
+
+                cpl.m_total = cpl.ace99_m + cpl.king4d_m + cpl.togelking_m + cpl.bv_m + cpl.wl_m + cpl.tm_m + cpl.tm2_m + cpl.tm3_m + cpl.ghl55_m;
+                cpl.g_total = cpl.ace99_g + cpl.king4d_g + cpl.togelking_g + cpl.bv_g + cpl.wl_g + cpl.tm_g + cpl.tm2_g + cpl.tm3_g + cpl.ghl55_g;
             }
+
+            output = "<table border=1 style='border-style:solid;boder-color:grey;border-width:3px;'>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TicketNo</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.CurrentPeriod + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Real Close Time</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.RealCloseTime.ToString() + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Is Open</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.IsOpen.ToString() + "</td></tr>";
+            output = output + "<tr><td colspan='2'><label style='opacity:0;display:block;height:20px;'> </label></td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>ACE99 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>King4D MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.king4d_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TogelKing MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.togelking_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>GHL 55 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ghl55_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM2 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm2_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_m + "</td></tr>";
+            output = output + "<tr><td colspan='2'><label style='opacity:0;display:block;height:20px;'> </label></td></tr>";
+
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>ACE99 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>King4D GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.king4d_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TogelKing GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.togelking_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>GHL 55 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ghl55_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM2 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm2_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_g + "</td></tr>";
+
             output = output + "</table>";
 
             return output;
         }
 
-        public List<MPlayerLight> GetMPlayerLightList(string CurrentPeriod, db myDB)
+        public List<MPlayerLight> GetMPlayerLightList(string CurrentPeriod, string isWinType, db myDB)
         {
             List<MPlayerLight> outlist = new List<MPlayerLight>();
 
             string sql = "";
             sql = sql + "select ";
-            sql = sql + "UserName, ShowResultDate, CurrentPeriod ";
+            sql = sql + "ID, ";
+            sql = sql + "UserName,  ";
+            sql = sql + "ShowResultDate ";
+            sql = sql + ", CurrentPeriod ";
             sql = sql + ", IsWin = case ";
-            sql = sql + "when iswin is null then 'none' ";
-            sql = sql + "when iswin = 0 then 'zero' ";
-            sql = sql + "when iswin = 1 then 'one' ";
+            sql = sql + "when iswin is null then '' ";
+            sql = sql + "when iswin = 0 then '0' ";
+            sql = sql + "when iswin = 1 then '1' ";
             sql = sql + "end ";
-            sql = sql + "from [ThirdM].[dbo].[MPlayer] ";
+            sql = sql + "from Mplayer ";
             sql = sql + "where CurrentPeriod = '@dbCurrentPeriod' ";
+            if (isWinType == "")
+            {
+                sql = sql + "and IsWin is null ";
+            }
+            else
+            {
+                sql = sql + "and IsWin is not null ";
+            }
 
             string sql2 = sql.Replace("@dbCurrentPeriod", CurrentPeriod);
 
@@ -1243,6 +1245,124 @@ namespace SupportUtil.Classes
             SqlDataAdapter adapter = new SqlDataAdapter(command);
             adapter.Fill(myDataRows);
             connection.Close();
+
+            outlist = myDataRows.ToList<MPlayerLight>();
+
+            return outlist;
+        }
+
+        public List<GameDealerMPlayerLight> GetGameDealerMPlayerLightList(string CurrentPeriod, string isWinType, db myDB)
+        {
+            List<GameDealerMPlayerLight> outlist = new List<GameDealerMPlayerLight>();
+
+            string sql = "";
+            sql = sql + "select ";
+            sql = sql + "ID ";
+            //sql = sql + "UserName,  ";
+            //sql = sql + "ShowResultDate ";
+            sql = sql + ", CurrentPeriod ";
+            sql = sql + ", IsWin = case ";
+            sql = sql + "when iswin is null then '' ";
+            sql = sql + "when iswin = 0 then '0' ";
+            sql = sql + "when iswin = 1 then '1' ";
+            sql = sql + "end ";
+            sql = sql + "from GamedealerMplayer ";
+            sql = sql + "where CurrentPeriod = '@dbCurrentPeriod' ";
+            if (isWinType == "")
+            {
+                sql = sql + "and IsWin is null ";
+            }
+            else
+            {
+                sql = sql + "and IsWin is not null ";
+            }
+
+            string sql2 = sql.Replace("@dbCurrentPeriod", CurrentPeriod);
+
+            SqlConnection connection = new SqlConnection(myDB.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql2, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            outlist = myDataRows.ToList<GameDealerMPlayerLight>();
+
+            return outlist;
+        }
+
+        public CurrentPeriodLight GetCurrentPeriodLight(string CurrentPeriod)
+        {
+            CurrentPeriodLight cpl = new CurrentPeriodLight();
+
+            string sql = "";
+            sql = sql + "select distinct ";
+            sql = sql + "CurrentPeriod ";
+            sql = sql + ", RealCloseTime ";
+            sql = sql + ", IsOpen = case ";
+            sql = sql + "when isopen is null then '' ";
+            sql = sql + "when isopen = 1 then '1' ";
+            sql = sql + "when isopen = 0 then '0' ";
+            sql = sql + "end ";
+            sql = sql + "from OLottery ";
+            sql = sql + "where CurrentPeriod = '@dbCurrentPeriod' ";
+
+            string sql2 = sql.Replace("@dbCurrentPeriod", CurrentPeriod);
+
+            SqlConnection connection = new SqlConnection(db_ghl33.connStr); // we always take from server 31 for olottery info
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql2, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            int mx = myDataRows.Rows.Count;
+
+            for (int i = 0; i < mx; i++)
+            {
+                DataRow row = myDataRows.Rows[i];
+                cpl.CurrentPeriod = row["CurrentPeriod"].ToString();
+                cpl.RealCloseTime = DateTime.Parse(row["RealCloseTime"].ToString());
+                cpl.IsOpen = row["IsOpen"].ToString();
+            }
+
+            return cpl;
+        }
+
+        public List<CurrentPeriodLight> GetCurrentPeriodLightListByDates(string StartDate, string EndDate)
+        {
+            List<CurrentPeriodLight> outlist = new List<CurrentPeriodLight>();
+
+            string sql = "";
+            sql = sql + "select distinct ";
+            sql = sql + "CurrentPeriod ";
+            sql = sql + ", RealCloseTime ";
+            sql = sql + ", IsOpen = case ";
+            sql = sql + "when isopen is null then '' ";
+            sql = sql + "when isopen = 1 then '1' ";
+            sql = sql + "when isopen = 0 then '0' ";
+            sql = sql + "end ";
+            sql = sql + "from OLottery ";
+            sql = sql + "where RealCloseTime >= '@dbStartDate' ";
+            sql = sql + "and RealCloseTime <= '@dbEndDate' ";
+
+            string sql2 = sql.Replace("@dbStartDate", StartDate)
+                             .Replace("@dbEndDate", EndDate);
+
+            SqlConnection connection = new SqlConnection(db_ghl33.connStr); // we always take from server 31 for olottery info
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql2, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            outlist = myDataRows.ToList<CurrentPeriodLight>();
 
             return outlist;
         }

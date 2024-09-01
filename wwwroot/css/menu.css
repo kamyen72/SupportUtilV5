@@ -1,0 +1,17 @@
+﻿button {
+    background-color: #6666ff;
+    border-radius: 15px;
+    color: white;
+    font-weight: bold;
+    /*margin: 36px;*/
+    /*padding: .5em 2em;*/
+    position: inherit;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px #444;
+    font-size: 12px;
+}
+
+#menubuttdiv {
+    left:815px;
+}

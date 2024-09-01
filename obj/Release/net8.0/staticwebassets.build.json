@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rgNGNSbereUC7LHd+yHZHo+YQ0c31jqD4NuU07QczK4=",
+  "Hash": "InuQ3ncvTZe1rak2YCccBqcr+zLBpQ+pMWj7gWWAXUw=",
   "Source": "SupportUtilV4",
   "BasePath": "_content/SupportUtilV4",
   "Mode": "Default",
@@ -131,6 +131,25 @@
       "OriginalItemSpec": "wwwroot\\CreateNewAgent.html"
     },
     {
+      "Identity": "C:\\source_codes\\new\\wwwroot\\css\\menu.css",
+      "SourceId": "SupportUtilV4",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\source_codes\\new\\wwwroot\\",
+      "BasePath": "_content/SupportUtilV4",
+      "RelativePath": "css/menu.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\menu.css"
+    },
+    {
       "Identity": "C:\\source_codes\\new\\wwwroot\\css\\site.css",
       "SourceId": "SupportUtilV4",
       "SourceType": "Discovered",
@@ -243,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\source_codes\\new\\wwwroot\\js\\menu.js",
+      "SourceId": "SupportUtilV4",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\source_codes\\new\\wwwroot\\",
+      "BasePath": "_content/SupportUtilV4",
+      "RelativePath": "js/menu.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\menu.js"
     },
     {
       "Identity": "C:\\source_codes\\new\\wwwroot\\js\\site.js",

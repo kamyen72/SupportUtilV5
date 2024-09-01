@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>User Activity Listing</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <meta charset="utf-8" />
+    <title>User Activity Listing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="js/menu.js"></script>
 
-	<style type="text/css">
+    <style type="text/css">
         .TitleText {
             text-align: center;
             font-weight: bolder;
@@ -53,74 +54,14 @@
             text-shadow: 0 1px 1px #444;
             font-size: 12px;
         }
-	</style>
+    </style>
 
-	<script>
-		$(document).ready(function () {
-			GetMenuRootsV3();
+    <script>
+        $(document).ready(function () {
+            GetMenuRootsV3();
         });
-	</script>
+    </script>
 
-	<script>
-		function GetMenuRootsV3() {
-			//alert("V3 is coming!!");
-
-			$.ajax({
-				type: "POST",
-				url: "/API/GetMenuV3",
-				data: JSON.stringify({ "InputText": "" }),
-				contentType: "application/json; charset=utf-8",
-				dataType: "json",
-				success: function (response) {
-					let txt = response.ReturnText;
-					$("#menubar").html(txt);
-					//document.getElementById("menuRootsJson").innerText = txt;
-				},
-				failure: function (response) {
-				},
-				error: function (response, status) {
-				}
-			});
-		}
-	</script>
-
-	<script>
-        function showdiv(myname, me) {
-            let nname = "#" + myname;
-			let state = $(nname).css("display");
-
-			let mytop = $(me).css("top");
-            let mycolor = $(me).css("background");
-			if (mycolor != null) {
-				if (mycolor == "rgb(102, 102, 255) none repeat scroll 0% 0% / auto padding-box border-box") {
-					//alert("this is a link");
-					let mylink = $(me).attr("data-link");
-					if (mylink != "") {
-						let flink = "" + mylink + "";
-                        window.open(flink, '_blank', 'height=' + screen.height + ', width=' + screen.width);
-					}
-				}
-			}
-
-            if (state == "none") {
-                $(".l2").css("display", "none");
-				let state = $(nname).css("display", "block");
-                $(nname).css("top", mytop);
-            }
-            else {
-                $(".l2").css("display", "none");
-				let state = $(nname).css("display", "none");
-                $(nname).css("top", mytop);
-            }
-        }
-	</script>
-
-	<script>
-		function hidediv(me) {
-			var newname = "#" + me;
-			$(newname).css('display', 'none');
-		}
-	</script>
 </head>
 <body>
 	<div id="mainDiv" class="container-fluid">

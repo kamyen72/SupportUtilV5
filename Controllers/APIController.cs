@@ -20,6 +20,7 @@ using SupportUtil.Classes;
 using SupportUtilV2.Classes;
 using SupportUtilV3.Classes;
 using DocumentFormat.OpenXml.Spreadsheet;
+using SupportUtilV4.Classes;
 
 namespace DupRecRemoval.Controllers
 {
@@ -830,6 +831,30 @@ namespace DupRecRemoval.Controllers
             var EndDate = model.EndDate;
 
             //string rt = dbu.GetPendingRecsAllDBbyTicketNo(CurrentPeriod);
+
+            List<CurrentPeriodLight> cplight = dbu.GetCurrentPeriodLightListByDates(StartDate, EndDate);
+
+            var mycount = cplight.Count;
+            var ttest = 0;
+            for (int i = 0; i < mycount; i++)
+            {
+                CurrentPeriodLight lp = cplight[i];
+
+                db dbtm = new db();
+                dbtm.connStr = db_tm.connStr;
+                dbtm.ip = db_tm.ip;
+                dbtm.userId = db_tm.userId;
+                dbtm.password = db_tm.password;
+                dbtm.dbfullname = db_tm.dbfullname;
+                dbtm.MyID = db_tm.MyID;
+                List<MPlayerLight> ls = dbu.GetMPlayerLightList(lp.CurrentPeriod, "", dbtm);
+
+                var tt = ls.Count;
+                lp.tm_m = tt;
+
+            }
+
+            var final = cplight[ttest].tm_m;
 
             DateRange rm = new DateRange();
             rm.StartDate = StartDate;

@@ -4,10 +4,12 @@
     <meta charset="utf-8" />
     <title>User Activity Listing</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/menu.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="js/menu.js"></script>
     <style>
         .TitleText {
             text-align: center;
@@ -17,9 +19,9 @@
             text-shadow: -2px -2px 0px #333333, 1px 1px 0px #666666;
         }
 
-        .tblhd 
-        {
-            background: #ade3ef; font-weight:bolder;
+        .tblhd {
+            background: #ade3ef;
+            font-weight: bolder;
         }
 
         #div_result {
@@ -27,13 +29,14 @@
             color: blue;
             font-size: 16px;
             padding-left: 700px;
-            padding-top:30px;
+            padding-top: 30px;
         }
 
         td {
-            padding-left:5px;
+            padding-left: 5px;
             padding-right: 5px;
         }
+
     </style>
 
     <script>
@@ -144,15 +147,15 @@
         function UncheckAll() {
             //alert("All unselected");
             var MaxRec = document.getElementById("TotalRows").value;
-            
+
             var TotalRec = MaxRec;
-            
+
 
             for (i = 0; i < MaxRec; i++) {
                 var nm = "rec" + i;
                 document.getElementById(nm).checked = false;
-                
-                
+
+
             }
             $("#TotalRecs").val(0);
             //ProcessAllButtons();
@@ -246,11 +249,11 @@
             document.getElementById("downloadlink1").style = "display:none;";
 
             var img2 = "<img src='clock.gif' style='width:100px;height:100px;'> ";
-            
+
             $("#div_result2").attr("style", "display:block;padding-left:1000px;");
             $("#div_result2").html(img2);
             //alert(img2);
-            
+
             var myval = $("#txtUserName").val();
             $.ajax({
                 type: "POST",
@@ -345,7 +348,7 @@
                     txt = txt + "</table>";
                     $("#div_result2").html(txt);
                     $("#div_result2").attr("style", "font-size:12px;paddint-left:50px;");
-                    
+
                 },
                 failure: function (response) {
                     alert(response.responseText);
@@ -355,7 +358,7 @@
                     $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
                 }
             });
-            
+
         }
     </script>
 
@@ -365,7 +368,7 @@
 
             var rownum = 0;
             var mydata = JSON.parse(document.getElementById("ReportJSON").innerText);
-            
+
             rownum = mydata.length;
             $("#TotalRows").val(rownum);
 
@@ -401,10 +404,23 @@
             //$("#div_result").attr("style", "text-align:center;color:red;padding-left:100px;")
         }
     </script>
+
+    <script>
+        $(document).ready(function () {
+            GetMenuRootsV3();
+        });
+    </script>
+
+
 </head>
 <body>
     <div id="mainDiv" class="container-fluid">
-        <div class="row">
+        <div id="menubarboss" class="row" style="margin-left:10px;display:block;position:absolute;top:10px;border-style:solid;border-width:3px;">
+            <div id="menubar" class="col-sm-12 col-md-12" style="padding: 5px 5px 5px 5px;">
+            </div>
+        </div>
+        <div id="menubuttdiv" style="position:fixed;left:560px;top:65px;display:block;"><button id="menubutt" style="height:30px;border-radius:10px;" onclick="hidemenu()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" /></svg></button></div>
+        <div class="row" style="margin-top: 100px;">
             <div class="col-sm-12 col-md-12" style="text-align:center;">
                 <span class="TitleText">User Activity Listing</span>
             </div>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "lhxpeYLlMB+fLamg3yNS2Dgg5oBor/A7usl5OyinyqE=",
+  "Hash": "EHm4oGwxYTbnnnbNAWedURxfgq3yc4lijzY6hfSDiQo=",
   "Source": "SupportUtilV4",
   "BasePath": "_content/SupportUtilV4",
   "Mode": "Default",
@@ -131,6 +131,25 @@
       "OriginalItemSpec": "wwwroot\\CreateNewAgent.html"
     },
     {
+      "Identity": "C:\\source_codes\\new\\wwwroot\\css\\menu.css",
+      "SourceId": "SupportUtilV4",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\source_codes\\new\\wwwroot\\",
+      "BasePath": "_content/SupportUtilV4",
+      "RelativePath": "css/menu.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\menu.css"
+    },
+    {
       "Identity": "C:\\source_codes\\new\\wwwroot\\css\\site.css",
       "SourceId": "SupportUtilV4",
       "SourceType": "Discovered",
@@ -243,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\source_codes\\new\\wwwroot\\js\\menu.js",
+      "SourceId": "SupportUtilV4",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\source_codes\\new\\wwwroot\\",
+      "BasePath": "_content/SupportUtilV4",
+      "RelativePath": "js/menu.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\menu.js"
     },
     {
       "Identity": "C:\\source_codes\\new\\wwwroot\\js\\site.js",
@@ -1440,6 +1478,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\UserActivityListing.html"
+    },
+    {
+      "Identity": "C:\\source_codes\\new\\wwwroot\\winLoseReportByGame.html",
+      "SourceId": "SupportUtilV4",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\source_codes\\new\\wwwroot\\",
+      "BasePath": "_content/SupportUtilV4",
+      "RelativePath": "winLoseReportByGame.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\winLoseReportByGame.html"
     }
   ]
 }

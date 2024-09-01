@@ -53,12 +53,20 @@
       "PackagePath": "staticwebassets\\clock.gif"
     },
     {
+      "Id": "C:\\source_codes\\new\\wwwroot\\css\\menu.css",
+      "PackagePath": "staticwebassets\\css\\menu.css"
+    },
+    {
       "Id": "C:\\source_codes\\new\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "C:\\source_codes\\new\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\js\\menu.js",
+      "PackagePath": "staticwebassets\\js\\menu.js"
     },
     {
       "Id": "C:\\source_codes\\new\\wwwroot\\js\\site.js",

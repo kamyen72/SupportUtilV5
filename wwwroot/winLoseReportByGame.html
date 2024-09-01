@@ -1,0 +1,2302 @@
+﻿<h3>
+    <a href="javascript:void(0)" ng-click="dataSource.pageStatus='SearchView'" ng-if="dataSource.pageStatus != 'SearchView'">
+        {{dataSource.gameType.LotteryTypeName}}
+    </a>
+</h3>
+
+<input type="text" id="OverallReady" value="" style="display: none;">
+<div ng-if="dataSource.pageStatus === 'SearchView'">
+    <div class="col-md-12 col-sm-12 col-xs-12 p-0">
+        <div class="panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ 'SearchCondition' | translate }}</h3>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12 p-0 bgPink PadTop">
+            <div class="row">
+                <div class="col-md-9 col-sm-8">
+                    <div class="row PadLeftRight PadTop">
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <label class="control-label BigLabel">{{ 'DateS' | translate }}:</label>
+                            <input id="dtDateS" type="date" placeholder="" class="SmallDDB" ng-model="dataSource.searchCondition.DateS">
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <label class="control-label BigLabel" style="margin-right: 18px;">{{ 'DateE' | translate }}:</label>
+                            <input id="dtDateE" type="date" placeholder="" class="SmallDDB" ng-model="dataSource.searchCondition.DateE">
+                            <button onclick="GenOverallReport()" id="btnOverall"><img src='http://localhost:5106/report.png' style="width: 20px;height: 20px;"></button>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row PadLeftRight"><!-- row two in search area -->
+                        <div class="row PadLeftRight">
+                            <div class="col-md-4 col-sm-12 col-xs-12 PadLeft">
+                                <label class="control-label BigLabel">{{ 'Ticket' | translate }}:</label>
+                                <button onclick="anything()" id="btnTicket"><i class="fa fa-binoculars" style="font-size:14px;color:red"></i></button>
+                                <label class="control-label BigLabel">{{ 'Selected' | translate }}:</label>
+                                <input type="text" id="selected_ticket" value="" class="BigTextBox">
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label class="control-label BigLabel">{{ 'Account' | translate }}:</label>
+                                <button onclick="ShowAccounts()" id="btnAccounts"><i class="fa fa-binoculars" style="font-size:14px;color:red"></i></button>
+                                <label class="control-label BigLabel">{{ 'Selected' | translate }}:</label>
+                                <input type="text" id="selected_account" value="" class="BigTextBox">
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <label class="control-label BigLabel">{{ 'Bet Type' | translate }}:</label>
+                                <button onclick="ShowBetTypes()" id="btnBetTypes"><i class="fa fa-binoculars" style="font-size:14px;color:red"></i></button>
+                                <label class="control-label BigLabel" >{{ 'Selected' | translate }}:</label>
+                                <input type="text" id="selected_BetType" value="" class="BigTextBox" style="width: 250px; ">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4">
+                    <div class="btn_area ">
+                        <div class="row ">
+                            <div class="col-sm-12 bgGreen BigPage" style="padding-right: 10px;">
+                                <table width="100%" >
+                                    <tr style="height: 15px;">
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <ul class="text-left">
+                                                <li><input type="button" class="btn btn-default btn-block bgWhite" value="{{ 'Today' | translate }}" ng-click="dateSearch(0,0)" /></li>
+                                                <li>
+                                                    <input type="button" class="btn btn-default btn-block bgWhite" value="{{ 'Yesterday' | translate }}" ng-click="dateSearch(-1,-1)" />
+                                                </li>
+                                                <li>
+                                                    <input type="button" class="btn btn-default btn-block bgWhite" value="{{ 'Last7Days' | translate }}"
+                                                           ng-click="dateSearch(-7,0)" />
+                                                </li>
+                                                <li>
+                                                    <input type="button" class="btn btn-default btn-block bgWhite" value="{{ 'Last14Days' | translate }}"
+                                                           ng-click="dateSearch(-14,0)" />
+                                                </li>
+
+                                                <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" onclick="SearchWithFilter()"  /></li>
+                                                <!-- <li><input type="button" class="btn btn-primary btn-block" value="{{ 'Search' | translate }}" ng-click="search()" /></li> -->
+                                                <!-- <li><input type="button" class="btn btn-primary btn-block bgPink" value="{{ 'Test' | translate }}" ng-click="Test()" /></li> -->
+                                                <!-- <li><input type="button" class="btn bgPink" value="{{ 'Test' | translate }}" ng-click="Test()" /></li> -->
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div style="display:none;">
+        <button class="btn btn-success" ng-click="copy()">Copy</button>
+        <button class="btn btn-success" ng-click="excel()">Excel</button>
+        <button class="btn btn-success" ng-click="print()">Print</button>
+    </div>
+
+    <br />
+    <div class="css_table">
+        </div>
+        <div id="ReportTitleRow" class="table-responsive">
+            <table id="SearchView" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'WinLostReportByGame_TypeName' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_TOver' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_Pending' | translate }}</th>
+                        <!--<th>{{ 'BetHistory_BetAmount' | translate }}</th>-->
+                        <th>{{ 'WinLostReportByGame_MemberTotalWinLose' | translate }}</th>
+                        <th ng-if="dataSource.memberInfo.AgentLevelSCID <= 31">{{ 'WinLostReportByGame_AGTotalWinLose' | translate }}</th>
+                        <th ng-if="dataSource.memberInfo.AgentLevelSCID <= 30">{{ 'WinLostReportByGame_MTotalWinLose' | translate }}</th>
+                        <th ng-if="dataSource.memberInfo.AgentLevelSCID <= 29">{{ 'WinLostReportByGame_SMTotalWinLose' | translate }}</th>
+                        <th ng-if="dataSource.memberInfo.AgentLevelSCID <= 28">{{ 'WinLostReportByGame_CTotalWinLose' | translate }}</th>
+                        <th ng-if="dataSource.memberInfo.AgentLevelSCID != 28">{{ 'WinLostReportByGame_Upper' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="dataSource.showListData.length === 0">
+                        <td colspan="4">{{ 'NoData' | translate }}</td>
+                    </tr>
+                    <tr ng-repeat="report in dataSource.listData">
+                        <td ng-if="report.LotteryTypeName != 'Total'"><a ng-click="showMemberDetail(report)">{{report.LotteryTypeName}}</a></td>
+                        <td ng-if="report.LotteryTypeName == 'Total'">{{report.LotteryTypeName}}</td>
+                        <td>{{report.TurnOver | currency : "" : 2}}</td>
+                        <td>{{report.TotalPending | currency : "" : 2}}</td>
+
+                        <!--<td>{{report.TotalBet | currency : "" : 2}}</td>-->
+                        <td ng-class="{'text-red':report.TotalWinLose < 0}">{{report.TotalWinLose | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.memberInfo.AgentLevelSCID <= 31" ng-class="{'text-red':report.AGTotalWinLose < 0}">{{report.AGTotalWinLose | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.memberInfo.AgentLevelSCID <= 30" ng-class="{'text-red':report.MTotalWinLose < 0}">{{report.MTotalWinLose | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.memberInfo.AgentLevelSCID <= 29" ng-class="{'text-red':report.SMTotalWinLose < 0}">{{report.SMTotalWinLose | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.memberInfo.AgentLevelSCID <= 28" ng-class="{'text-red':report.CTotalWinLose < 0}">{{report.CTotalWinLose | currency : "" : 2}}</td>
+                        <td ng-if="dataSource.memberInfo.AgentLevelSCID != 28" ng-class="{'text-red':report.UpperWinLose < 0}">{{report.UpperWinLose | currency : "" : 2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+            </div>-->
+    </div>
+</div>
+
+<div ng-if="dataSource.pageStatus === 'DetailView'">
+    <!--<div>
+        <div class="col-lg-1 col-lg-offset-11 col-md-2 col-md-offset-10 col-sm-3 col-xs-6 mb-10">
+            <div class="row">
+                <input type="button" class="btn btn-primary btn-block" value="{{ 'Cancel' | translate }}" ng-click="dataSource.pageStatus = 'SearchView'" />
+            </div>
+        </div>
+    </div>
+    <br>-->
+    <div>
+        <button class="btn btn-success" ng-click="copy()">Copy</button>
+        <button class="btn btn-success" ng-click="excel()">Excel</button>
+        <button class="btn btn-success" ng-click="print()">Print</button>
+    </div>
+    <br />
+    <div class="css_table">
+        <div class="table-responsive">
+            <table id="DetailView" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'ID' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_TypeName' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_InfoName' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_TOver' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_Win' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_Lose' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_Pending' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="detail in dataSource.detailListData">
+                        <td>{{detail.ID}}</td>
+                        <td>{{detail.LotteryTypeName}}</td>
+                        <td>
+                            <a ng-click="showMemberDetail(detail)">
+                                <span ng-if="detail.LotteryTypeID == 11">
+                                    [{{detail.SelectedTxt.split('|')[1]}}]
+                                </span>
+                                <span ng-if="detail.LotteryTypeID != 11">
+                                    <span ng-if="detail.SelectedTxt.split('|')[1] == '4D/3D/2D'">
+                                        {{detail.SelectedTxt.split('|')[1]}}
+                                    </span>
+                                    <span translate="FamliyID{{detail.LotteryTypeID}}{{detail.SelectedTxt.split('|')[1]}}"></span>
+                                </span>
+                            </a>
+                        </td>
+                        <td>{{detail.TurnOver | currency : "" : 2}}</td>
+                        <td ng-class="{'text-red':detail.TotalWin < 0}">{{detail.TotalWin | currency : "" : 2}}</td>
+                        <td ng-class="{'text-red':detail.TotalLose < 0}">{{detail.TotalLose | currency : "" : 2}}</td>
+                        <td>{{detail.TotalPending | currency : "" : 2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+            </div>-->
+    </div>
+</div>
+
+<div ng-if="dataSource.pageStatus === 'MemberView'">
+    <div>
+        <div class="col-lg-1 col-lg-offset-11 col-md-2 col-md-offset-10 col-sm-3 col-xs-6 mb-10">
+            <div class="row">
+                <input type="button" class="btn btn-primary btn-block" value="{{ 'Cancel' | translate }}" ng-click="dataSource.pageStatus = 'SearchView'" />
+            </div>
+        </div>
+    </div>
+    <br>
+    <div>
+        <button class="btn btn-success" ng-click="copy()">Copy</button>
+        <button class="btn btn-success" ng-click="excel()">Excel</button>
+        <button class="btn btn-success" ng-click="print()">Print</button>
+    </div>
+    <br />
+    <div class="css_table">
+        <div class="table-responsive">
+            <table id="MemberView" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>{{ 'UserName' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_TOver' | translate }}</th>
+                        <!--<th>{{ 'WinLostReportByGame_TotalBet' | translate }}</th>-->
+                        <th>{{ 'WinLostReportByGame_Win' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_Lose' | translate }}</th>
+                        <th>{{ 'WinLostReportByGame_Pending' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="detail in dataSource.memberListData">
+                        <td><a ng-click="searchBetDetail(detail)">{{detail.UserName | userName}}</a></td>
+                        <td>{{detail.TurnOver | currency : "" : 2}}</td>
+                        <!--<td>{{detail.TotalBet | currency : "" : 2}}</td>-->
+                        <td ng-class="{'text-red':detail.TotalWin < 0}">{{detail.TotalWin | currency : "" : 2}}</td>
+                        <td ng-class="{'text-red':detail.TotalLose < 0}">{{detail.TotalLose | currency : "" : 2}}</td>
+                        <td>{{detail.TotalPending | currency : "" : 2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--<div style="margin:0px auto;">
+                <pagination options="dataSource.PagerObj" page-changed="PageChanged(dataSource.PagerObj.CurrentPage)"></pagination>
+            </div>-->
+    </div>
+</div>
+
+<!--顯示報表明細視窗-->
+<button id="ShowDetailDialog" class="btn btn-primary btn-block" data-toggle="modal" data-target="#DetailDialog"
+        style="display:none"></button>
+<div class="modal fade" id="DetailDialog" tabindex="-1" role="dialog" aria-labelledby="DetailDialogTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{ 'WinLostReportByGame_ReportDetail' | translate }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_TypeName' | translate }}:</span>
+                    {{dataSource.selDetailReport.LotteryTypeName}}
+                </div>
+                <!--<div class="col-md-12 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_InfoName' | translate }}:</span>
+                    {{dataSource.selDetailReport.LotteryInfoName}}
+                </div>-->
+                <br />
+                <div class="clearfix"></div>
+
+                <div class="row-form">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'WinLostReportByGame_BillNo' | translate }}</th>
+                                    <th>{{ 'WinLostReportByGame_OpenningTime' | translate }}</th>
+                                    <th>{{ 'WinLostReportByGame_TOver' | translate }}</th>
+                                    <!--<th>{{ 'BetHistory_BetAmount' | translate }}</th>-->
+                                    <th>{{ 'WinLostReportByGame_WinLose' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="period in dataSource.mPlayerObj">
+                                    <td><a ng-click="showBetDetail(period)">{{period.CurrentPeriod}}</a></td>
+                                    <td>{{period.OpenTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>{{period.TurnOver | currency : "" : 2}}</td>
+                                    <!--<td>{{period.BetAmount | currency : "" : 2}}</td>-->
+                                    <td ng-class="{'text-red':period.WinLose < 0}">{{period.WinLose | currency : "" : 2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn rectangle-btn" data-dismiss="modal" ng-click="modalMsgConfirmEvent(false)">Cancel</button>-->
+                <button type="button" class="btn rectangle-btn" data-dismiss="modal">
+                    {{ 'Confirm' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<button id="ShowReceiptModal" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ReceiptModal"
+        style="display:none"></button>
+<div id="ReceiptModal" class="modal fade bet_area" tabindex="-1" role="dialog" aria-labelledby="ReceiptModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times text-white" aria-hidden="true"></i>
+                </button>
+                <h5 class="modal-title">{{ 'BetHistory_BetDetail' | translate }}</h5>
+            </div>
+            <div class="modal-body" ng-if="dataSource.mPlayerDetail.vwMPlayers.length > 0">
+                <div class="col-md-12 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_BillNo' | translate }}:</span>
+                    {{dataSource.mPlayerDetail.CurrentPeriod}}
+                </div>
+                <div class="col-md-6 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_BetType' | translate }}:</span>
+                    {{dataSource.mPlayerDetail.LotteryTypeName}}
+                </div>
+                <div class="col-md-6 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_OpenningTime' | translate }}:</span>
+                    {{dataSource.mPlayerDetail.OpenTime | date : "yyyy/MM/dd HH:mm:ss"}}
+                </div>
+                <div class="col-md-12 nopadding bet_text text-yellow">
+                    <span>{{ 'BetHistory_Result' | translate }}:</span>
+                    Prize_1:{{dataSource.mPlayerDetail.oLottery.SequenceResultList[0]}},
+                    Prize_2:{{dataSource.mPlayerDetail.oLottery.SequenceResultList[1]}},
+                    Prize_3:{{dataSource.mPlayerDetail.oLottery.SequenceResultList[2]}}
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="real_table">
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>{{ 'BetHistory_BetTime' | translate }}</th>
+                            <th class="hidden-sm hidden-xs">{{ 'BetHistory_Bet' | translate }}</th>
+                            <th>{{ 'BetHistory_BetAmount' | translate }}</th>
+                            <th>{{ 'BetHistory_WinLose' | translate }}</th>
+                        </tr>
+                        <tr ng-repeat="mPlayer in dataSource.mPlayerDetail.vwMPlayers">
+                            <td>
+                                {{mPlayer.CreateDate | date : "yyyy/MM/dd HH:mm:ss"}}
+                            </td>
+                            <td class="hidden-sm hidden-xs">
+                                [{{mPlayer.SelectedTxt.split('|')[0]}}]
+                                <span ng-if="(mPlayer.LotteryTypeID >= 1 && mPlayer.LotteryTypeID <= 6)">
+                                    [{{ FamliyID{{mPlayer.SelectedTxt.split('|')[1]}} | translate }}]
+                                </span>
+                                <span ng-if="mPlayer.LotteryTypeID == 11">
+                                    [{{mPlayer.SelectedTxt.split('|')[1]}}]
+                                </span>
+                                <span ng-if="mPlayer.LotteryTypeID == 16">
+                                    [<span ng-if="mPlayer.SelectedTxt.split('|')[1] == '4D/3D/2D'">
+                                        {{mPlayer.SelectedTxt.split('|')[1]}}
+                                    </span>
+                                    <span ng-if="mPlayer.SelectedTxt.split('|')[1] != '4D/3D/2D'" translate="FamliyID{{mPlayer.LotteryTypeID}}{{mPlayer.SelectedTxt.split('|')[1]}}"></span>
+                                    ]
+                                </span>
+                                [{{mPlayer.SelectedTxt.split('|')[2]}}]
+                            </td>
+                            <td>
+                                ${{mPlayer.Price | number:2}}
+                            </td>
+                            <td>
+                                <p ng-if="mPlayer.IsWin == null">-</p>
+                                <p ng-if="mPlayer.IsWin == true">${{mPlayer.WinMoney | number:2}}</p>
+                                <p ng-if="mPlayer.IsWin == false" class="text-red">${{ - mPlayer.Price | number:2}}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="ButtonsBar" class="container-fluid" style="display: none;">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+                <button id='ExcelButton1' onclick='GenExcel()'><img src='http://localhost:5106/excel.jpg' style='width:25px;height:25px;' /></button>
+                <a id="downloadlink" href="" target="_blank" style="display:none;">
+                    <img src="http://localhost:5106/red_download.jpg" style="width:30px;height:30px;border-style: solid; border-width: 1px; border-color:grey;">
+                </a>
+        </div>
+    </div>
+</div>
+<div id="Report"></div>
+<div id="ReportJSON"></div>
+<div id="HistoryL1"></div>
+<div id="HistoryL1HD"></div>
+<div id="HistoryL2"></div>
+<div id="HistoryL2HD"></div>
+<div id="HistoryL3"></div>
+<div id="HistoryL3HD"></div>
+
+<div id="pop01" style="display:none;"></div>
+<div id="div_result" style="display:none;"></div>
+<div id="div_result_header" style="display:none;"></div>
+<div id="curPeriods" style="display:none;"></div>
+<div id="closebutt" style="display:none;"><button style="font-size:24px; float:right;" onclick="closePop()"><i class="fa fa-close"></i></button></div>
+<div id="Report2" class="col-md-11 col-sm-11"></div>
+<div id="pop02" style="display:none;"></div>
+<div style="display: none;" id="closebutt2"></div>
+<div id="reportHD"></div>
+<div id="jsondata" style="display:none;"></div>
+<div id="jsondataL2" style="display:none;"></div>
+<div id="jsondataL3" style="display:none;"></div>
+<div id="jsondataL4" style="display:none;"></div>
+<button id="closebutton2" style="display: none; font-size:26px; float:right;" onclick="closePop2()"><i class="fa fa-close"></i></button>
+<button id="excelbutton2" style="width: 20px; height: 20px; display: none;" onclick='GenOverall_Excel_L1()'><img id='excelimg' src='http://localhost:5106/excel.jpg' style="width: 20px; height: 20px;" /></button>
+<button id="excelbuttonL2" style="width: 20px; height: 20px; display: none;" onclick='GenOverall_Excel_L2()'><img id='excelimg' src='http://localhost:5106/excel.jpg' style="width: 20px; height: 20px;" /></button>
+<button id="excelbuttonL3" style="width: 20px; height: 20px; display: none;" onclick='GenOverall_Excel_L3()'><img id='excelimg' src='http://localhost:5106/excel.jpg' style="width: 20px; height: 20px;" /></button>
+<button id="excelbuttonL4" style="width: 20px; height: 20px; display: none;" onclick='GenOverall_Excel_L4()'><img id='excelimg' src='http://localhost:5106/excel.jpg' style="width: 20px; height: 20px;" /></button>
+<a id="downloadlink2" href="" target="_blank" style="display:none;" download>
+    <img src="http://localhost:5106/red_download.jpg" style="width:30px;height:30px;border-style: solid; border-width: 1px; border-color:grey;">
+</a>
+<button id="prevbuttonL2" style="display: none; font-size:26px; float:right;" onclick="ShowPrevPageL2()"><img id='excelimg' src='http://localhost:5106/prev.png' style="width: 20px; height: 20px;" /></button>
+<button id="prevbuttonL3" style="display: none; font-size:26px; float:right;" onclick="ShowPrevPageL3()"><img id='excelimg' src='http://localhost:5106/prev.png' style="width: 20px; height: 20px;" /></button>
+<button id="prevbuttonL4" style="display: none; font-size:26px; float:right;" onclick="ShowPrevPageL4()"><img id='excelimg' src='http://localhost:5106/prev.png' style="width: 20px; height: 20px;" /></button>
+<br />
+<div id="ReportJSON2"></div>
+<input type="text" id="TempPrice" value="" style='display:none;' /><input type="text" id="TempDiscPrice" value="" style='display:none;' /><input type="text" id="TempWinMoney" value="" style='display:none;' />
+
+
+<script>
+    function anything() {
+        processing();
+        console.log("anything()");
+        // document.getElementById("ReportTitleRow").style = "display: none";
+        var StartDate = $("#dtDateS").val();
+        var EndDate = $("#dtDateE").val();
+        
+        console.log(JSON.stringify({"StartDate" : StartDate, "EndDate" : EndDate}));
+
+        $.ajax({
+                type: "POST",
+                url: "http://localhost:5106/API/GetCurrentPeriodPrefixs",
+                data: JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                crossDomain:true,
+                success: function (response) {
+                    console.log("success");
+                    var rownum = response.length;
+                    txt = "<table width='530px' style='font-size:16px;'>";
+                    for (i = 0; i < rownum; i++) {
+                        if (i == 0) {
+                            txt = txt + "<tr><td class='bckPeal' style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'>Prefix</td><td class='bckPeal' style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align: center;'>Recs</td></tr>";
+                        }
+
+                        txt = txt + "<tr>";
+                        txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:left;'><button style='width:100px;' data-val='" + response[i].Prefix + "' onclick='DrillMe(this)'>" + response[i].Prefix + "</button></td>";
+                        txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue;text-align: center;'><button style='width:100px;' data-val='" + response[i].Prefix + "' onclick='DrillMe(this)'>" + response[i].Recs + "</button></td>";
+                        txt = txt + "</tr>";
+                    }
+                    txt = txt + "</table>";
+
+                    PrepareTwoColumns();
+
+                    document.getElementById("Content_Col_01").innerHTML = txt;
+                    document.getElementById("Content_Col_02").innerHTML = "";
+                    document.getElementById("Content_Col_03").innerHTML = "";
+                    configureContentScrollbar();
+                    EnableButtons();
+                    var browsername = GetBrowserName();
+                    if (browsername == "Firefox") {
+                        document.getElementById("Col_01_HD").innerHTML = txt;
+                        document.getElementById("Col_01_HD").style = "position: absolute; display: block; overflow: hidden; height: 28px; left: 15px; top: 0px;";
+                    }
+                    else {
+                        document.getElementById("Col_01_HD").innerHTML = txt;
+                        document.getElementById("Col_01_HD").style = "position: absolute; display: block; overflow: hidden; height: 28px; left: 15px; top: 0px;";
+
+                    }
+                },
+                failure: function (response) {
+                    console.log("failure");
+                },
+                error: function (response, status) {
+                    console.log("error");
+                }
+        });
+
+        console.log("done");
+    }
+</script>
+
+
+<script>
+    function DrillMe(me) {
+        var id = $(me).attr("data-val");
+        var StartDate = $("#dtDateS").val();
+        var EndDate = $("#dtDateE").val();
+        Col2Processing();
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetCurrentPeriods",
+            data: JSON.stringify({ "Prefix": id, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                var rownum = response.length;
+                txt = "<table border='1' width='600px' style='font-size:16px;'>";
+                txt = txt + "<tr class='bckPeal' style='font-weight: bolder;'><td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'>##</td><td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'>Ticket No</td>";
+                txt = txt + "<td class='bckPeal' style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'>Account</td>"
+                txt = txt + "<td class='bckPeal' style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:center;'>Records</td>"
+                txt = txt + "</tr>";
+
+                var TotalCount = 0;
+
+                for (i = 0; i < rownum; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td>" + ( i + 1) + "</td>";
+                    txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:left;'><button style='min-width:150px;' onclick='TakeMe(this)' data-val='" + response[i].CurrentPeriod + "'>" + response[i].CurrentPeriod + "</button></td>";
+                    txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:left;'><button style='min-width:380px;' onclick='TakeMe2(this)' data-val='" + response[i].UserName + "'>" + response[i].UserName + "</button></td>";
+                    txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:center;'>" + response[i].Recs + "</td>";
+                    txt = txt + "</tr>";
+
+                    TotalCount = TotalCount + parseInt(response[i].Recs);
+                    console.log(parseInt(response[i].Recs));
+                }
+                // summary row
+                txt = txt + "<tr style='background: lightblue; font-weight: bolder;'><td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'>##</td><td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'></td>";
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'></td>"
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:center;'>" + TotalCount + "</td>"
+                txt = txt + "</tr>";
+
+                console.log(TotalCount);
+
+                txt = txt + "</table>";
+
+                document.getElementById("Content_Col_02").innerHTML = txt;
+                document.getElementById("Content_Col_03").innerHTML = " ";
+                document.getElementById("Content_Col_03").style = "overflow: hidden;";
+                configureContentScrollbar();
+                EnableButtons();
+                var browsername = GetBrowserName();
+                if (browsername == "Firefox") {
+                    document.getElementById("Col_02_HD").innerHTML = txt;
+                    document.getElementById("Col_02_HD").style = "position: absolute; display: block; overflow: hidden; height: 28px; left: 643px; top: 0px;";
+                }
+                else if (browsername == "Chrome") {
+                    document.getElementById("Col_02_HD").innerHTML = txt;
+                    document.getElementById("Col_02_HD").style = "position: absolute; display: block; overflow: hidden; height: 28px; left: 631px; top: 0px;";
+                }
+                else {
+                    document.getElementById("Col_02_HD").innerHTML = txt;
+                    document.getElementById("Col_02_HD").style = "position: absolute; display: block; overflow: hidden; height: 28px; left: 633px; top: 0px;";
+                }
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+</script>
+
+<script>
+    function TakeMe(me) {
+        // alert($(me).attr("data-val"));
+        $("#selected_ticket").val($(me).attr("data-val"));
+    }
+</script>
+
+<script>
+    function TakeMe2(me) {
+        // alert($(me).attr("data-val"));
+        $("#selected_account").val($(me).attr("data-val"));
+    }
+</script>
+
+<script>
+    function TakeMe5(me) {
+        // alert($(me).attr("data-val"));
+        $("#selected_BetType").val($(me).attr("data-val"));
+        document.getElementById("pop01").style = "display:none";
+    }
+</script>
+
+
+<script>
+    function ShowAccounts() {
+        console.log("Showing Accounts");
+        processing();
+        var StartDate = $("#dtDateS").val();
+        var EndDate = $("#dtDateE").val();
+        console.log(JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate }));
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetAccountPrefixs",
+            data: JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                var rownum = response.length;
+                txt = "<table width='400px' style='font-size:16px;'>";
+                txt = txt + "<tr><td class='bckPeal' style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'>Prefix</td><td class='bckPeal' style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align: center;'>Recs</td></tr>";
+                for (i = 0; i < rownum; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:left;'><button style='width:220px;' data-val='" + response[i].Prefix + "' onclick='DrillMe2(this)'>" + response[i].Prefix + "</button></td>";
+                    txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue;text-align: center;'><button style='width:220px;' data-val='" + response[i].Prefix + "' onclick='DrillMe2(this)'>" + response[i].Recs + "</button></td>";
+                    txt = txt + "</tr>";
+                }
+                txt = txt + "</table>";
+
+                PrepareTwoColumns();
+                document.getElementById("Content_Col_01").innerHTML = txt;
+                document.getElementById("Content_Col_02").innerHTML = "";
+                document.getElementById("Content_Col_03").innerHTML = "";
+                configureContentScrollbar();
+                EnableButtons();
+
+                document.getElementById("Col_01_HD").innerHTML = txt;
+                document.getElementById("Col_01_HD").style = "display: block; position: absolute; left: 15px; top: 0px; height: 28px; width: 450px; overflow: hidden;";
+
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+</script>
+
+<script>
+    function ShowBetTypes() {
+        console.log("ShowBetTypes");
+        processing();
+        var StartDate = $("#dtDateS").val();
+        var EndDate = $("#dtDateE").val();
+        console.log(JSON.stringify({"StartDate" : StartDate, "EndDate" : EndDate}));
+
+        $.ajax({
+                type: "POST",
+                url: "http://localhost:5106/API/GetBetTypes",
+                data: JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                crossDomain:true,
+                success: function (response) {
+                    console.log("success");
+                    var rownum = response.length;
+                    txt = "<table width='auto;' style='font-size:16px;'>";
+                    txt = txt + "<tr style='background: lightblue;'>";
+                    txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'>Bet Type</td>";
+                    txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align: center;'>Recs</td>";
+                    txt = txt + "</tr>";
+                    for (i = 0; i < rownum; i++) {
+                        if (i == 0) {
+                            
+                        }
+
+                        txt = txt + "<tr>";
+                        txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:left;'><button style='min-width:300px;text-align:left;' data-val='" + response[i].BetType + "' onclick='TakeMe5(this)'>" + response[i].BetType + "</button></td>";
+                        txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue;text-align: center;'><button style='min-width:100px;text-align:center;' data-val='" + response[i].BetType + "' onclick='TakeMe5(this)'>" + response[i].Recs + "</button></td>";
+                        txt = txt + "</tr>";
+                    }
+                    txt = txt + "</table>";
+
+                    PrepareTwoColumns();
+                    document.getElementById("Content_Col_01").innerHTML = txt;
+                    document.getElementById("Content_Col_02").innerHTML = "";
+                    configureContentScrollbar();
+                    EnableButtons();
+                    document.getElementById("Col_01_HD").innerHTML = txt;
+                    document.getElementById("Col_01_HD").style = "position: absolute; display: block; overflow: hidden; height: 28px; left: 15px; top: 0px;";
+                },
+                failure: function (response) {
+                    console.log("failure");
+                },
+                error: function (response, status) {
+                    console.log("error");
+                }
+        });
+
+        console.log("done");
+    }
+</script>
+
+<script>
+    function DrillMe2(me) {
+        console.log("wait ah");
+        var id = $(me).attr("data-val");
+        var StartDate = $("#dtDateS").val();
+        var EndDate = $("#dtDateE").val();
+
+        Col2Processing();
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetAccounts",
+            data: JSON.stringify({ "Prefix": id, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                var rownum = response.length;
+                txt = "<table border='1' style='width:800px;font-size:14px;' id='resulttable'>";
+                txt = txt + "<tr style='background:lightblue;'>"
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:center;'>##</td>"
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;width: 350px;'>Account</td>";
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:center;width: auto;'>Records</td>";
+                txt = txt + "</tr>";
+
+                var TotalCount = 0;
+
+                for (i = 0; i < rownum; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td style='text-align: center; border-style:solid; border-width:2px; border-color:blue; '>" + (i + 1) + "</td>";
+                    txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:left;'><button onclick='TakeMe2(this)' data-val='" + response[i].UserName + "' style='min-width:200px;height:30px;'>" + response[i].UserName + "</button>";
+                    txt = txt + "<button onclick='ShowReport1(this)' style='background: lightblue; width: 50px; height:30px; style='font-size: 20px;' data-val='" + response[i].UserName + "'><img src='http://localhost:5106/report.png' style='width:25px;height:25px;' /> </button>";
+                    txt = txt + "</td>";
+                    txt = txt + "<td style='border-style:solid; border-width:2px; border-color:blue; text-align:center;'>" + response[i].Recs + "</td>";
+                    txt = txt + "</tr>";
+                    TotalCount = TotalCount + parseInt(response[i].Recs);
+                    console.log(parseInt(response[i].Recs));
+                }
+
+                txt = txt + "<tr style='background:lightblue;'>"
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;'></td>"
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:left;width: 250px;'></td>";
+                txt = txt + "<td style='font-weight:bolder;border-style:solid; border-width:2px; border-color:blue; text-align:center;width: auto;'>" + TotalCount + "</td>";
+                txt = txt + "</tr>";
+                txt = txt + "</table>";
+                document.getElementById("Content_Col_02").innerHTML = txt;
+                configureContentScrollbar();
+                EnableButtons();
+                document.getElementById("Col_02_HD").innerHTML = txt;
+                document.getElementById("Col_02_HD").style = "display: block; position: absolute; overflow: hidden; height: 28px; left: 632px; top: 0px;";
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+</script>
+
+<script>
+    function DrillMe3(me) {
+        console.log($(me).attr("data-val"));
+        document.getElementById("selected_BetType").value = $(me).attr("data-val");
+        document.getElementById("pop01").style = "opacity:1;background:white;border-style: solid; border-width=5px; border-color:black;border-radius:15px;display:block; padding-left: 310px; position:absolute; top: 200px;left:50px; width:1800px;";
+    }
+</script>
+
+<script>
+    function ShowReport1(me) {
+        console.log("Preparing report now");
+        var StartDate = $("#dtDateS").val();
+        var EndDate = $("#dtDateE").val();
+        var SelectedUserName = $(me).attr("data-val");
+        processing();
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetReportByUserName",
+            data: JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate, "UserName": SelectedUserName }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                var rownum = response.length;
+                console.log("Total Rows in Report: " + rownum);
+                txt = "<table border=1 style='font-size:14px; width:1600px;'>";
+                txt = txt + "<tr >";
+                txt = txt + "<td class='cellborder'>Account</td>";
+                txt = txt + "<td class='cellborder'>UpdateDate</td>";
+                txt = txt + "<td class='cellborder'>Bet Type</td>";
+                txt = txt + "<td class='cellborder'>Ticket No</td>";
+                txt = txt + "<td class='cellborder cellcenter' >Detail Rows</td>";
+                txt = txt + "<td class='cellborder cellcenter' >Turn Over</td>";
+                txt = txt + "<td class='cellborder cellcenter' >Bet Amount</td>";
+                txt = txt + "<td class='cellborder cellcenter' >Win Money</td>";
+                txt = txt + "<td class='cellborder cellcenter' >TWL All Lost</td>";
+                txt = txt + "<td class='cellborder cellcenter' >TWL All 4D Wins</td>";
+                txt = txt + "<td class='cellborder cellcenter' >TWL All Non 4D Wins</td>";
+                txt = txt + "<td class='cellborder cellcenter' >Total Win Loss</td>";
+                txt = txt + "</tr>";
+
+                console.log(txt);
+
+                var Total_Recs = 0;
+                var Total_TOver = 0;
+                var Total_BetAmount = 0;
+                var Total_WinMoney = 0;
+                var Total_Sum_winlose_AllLOST = 0;
+                var Total_Sum_winlose_AllWIN_4d = 0;
+                var Total_Sum_winlose_AllWIN_NOT4d = 0;
+                var Total_Win_Lose = 0;
+
+
+                for (i = 0; i < rownum; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata'>" + response[i].UserName + "</td>";
+                    txt = txt + "<td class='celldata'>" + response[i].UpdateDate + "</td>";
+                    txt = txt + "<td class='celldata'>" + response[i].BET_TYPE + "</td>";
+                    txt = txt + "<td class='celldata'><button onclick='ShowTicketDetails(this)' class='bckPeal' data-ticket='" + response[i].Bill_No_Ticket + "' data-user='" + response[i].UserName + "'>" + response[i].Bill_No_Ticket + "</button></td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].Recs.toString()).toFixed(0) + "</td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].TOver.toString()).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].BetAmount.toString()).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].WinMoney.toString()).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].Sum_winlose_AllLOST.toString()).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].Sum_winlose_AllWIN_4d.toString()).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].Sum_winlose_AllWIN_NOT4d.toString()).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellcenter' >" + Number(response[i].Win_Lose.toString()).toFixed(4) + "</td>";
+                    txt = txt + "</tr>";
+
+                    Total_Recs = Total_Recs + Number(response[i].Recs.toString());
+                    Total_TOver = Total_TOver + Number(response[i].TOver.toString());
+                    Total_BetAmount = Total_BetAmount + Number(response[i].BetAmount.toString());
+                    Total_WinMoney = Total_WinMoney + Number(response[i].WinMoney.toString());
+                    Total_Sum_winlose_AllLOST = Total_Sum_winlose_AllLOST + Number(response[i].Sum_winlose_AllLOST.toString());
+                    Total_Sum_winlose_AllWIN_4d = Total_Sum_winlose_AllWIN_4d + Number(response[i].Sum_winlose_AllWIN_4d.toString());
+                    Total_Sum_winlose_AllWIN_NOT4d = Total_Sum_winlose_AllWIN_NOT4d + Number(response[i].Sum_winlose_AllWIN_NOT4d.toString());
+                    Total_Win_Lose = Total_Win_Lose + Number(response[i].Win_Lose.toString());
+                }
+
+                txt = txt + "<tr >";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_Recs.toFixed(0) + "</td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_TOver.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_BetAmount.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_WinMoney.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_Sum_winlose_AllLOST.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_Sum_winlose_AllWIN_4d.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_Sum_winlose_AllWIN_NOT4d.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellcenter' >" + Total_Win_Lose.toFixed(4) + "</td>";
+                txt = txt + "</tr>";
+                txt = txt + "</table><br>";
+
+                document.getElementById("ReportContent").innerHTML = txt;
+                configureContentScrollbar();
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        // console.log("done");
+        // document.getElementById("pop01").style = "display:none; padding-left: 310px;";        
+    }
+</script>
+
+<script>
+    function GenExcel() {
+        console.log("Testing Excel");
+
+        // var jstring = "[{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 8 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO SINGAPOREPOOL 4D","Bill_No_Ticket":"SGP4D_0393","Recs":8,"TOver":1347,"BetAmount":515.38,"WinMoney":0,"Sum_winlose_AllLOST":-515.38,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-515.38},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 14 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0923","Recs":31,"TOver":38000,"BetAmount":38000,"WinMoney":190000,"Sum_winlose_AllLOST":-36000,"Sum_winlose_AllWIN_4d":188000,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":152000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 14 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO KING4D","Bill_No_Ticket":"KING_0923","Recs":31,"TOver":34636,"BetAmount":34636,"WinMoney":95000,"Sum_winlose_AllLOST":-33636,"Sum_winlose_AllWIN_4d":94000,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":60364},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 14 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO SHANGHAI HERO","Bill_No_Ticket":"SHGH_0923","Recs":120,"TOver":72000,"BetAmount":72000,"WinMoney":0,"Sum_winlose_AllLOST":-72000,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-72000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 15 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0924","Recs":86,"TOver":33300,"BetAmount":33300,"WinMoney":0,"Sum_winlose_AllLOST":-33300,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-33300},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 15 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO MALAYSIA TOTO","Bill_No_Ticket":"MMTO_0432","Recs":60,"TOver":18000,"BetAmount":18000,"WinMoney":0,"Sum_winlose_AllLOST":-18000,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-18000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 19 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0928","Recs":1,"TOver":190,"BetAmount":190,"WinMoney":0,"Sum_winlose_AllLOST":-190,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-190},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 24 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0933","Recs":60,"TOver":6000,"BetAmount":6000,"WinMoney":0,"Sum_winlose_AllLOST":-6000,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-6000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 25 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO SHANGHAI HERO","Bill_No_Ticket":"SHGH_0934","Recs":31,"TOver":3100,"BetAmount":3100,"WinMoney":0,"Sum_winlose_AllLOST":-3100,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-3100},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 26 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO AMAZON","Bill_No_Ticket":"AMAZ_0935","Recs":3,"TOver":1801,"BetAmount":1801,"WinMoney":0,"Sum_winlose_AllLOST":-1801,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-1801},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 26 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0935","Recs":34,"TOver":18650,"BetAmount":18650,"WinMoney":0,"Sum_winlose_AllLOST":-18650,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-18650}]";
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/TestExcel",
+            data: JSON.stringify({ "InputText": document.getElementById("ReportJSON").innerText }),
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                console.log(response[0].FileName);
+
+                var converted = JSON.parse(response);
+
+                document.getElementById("downloadlink").style = "display: none";
+                document.getElementById("downloadlink").href = "http://localhost:5106/" + converted[0].FolderName + "/" + converted[0].FileName;
+                document.getElementById("downloadlink").style = "display:inline";
+                document.getElementById("downloadlink").style = "position:relative";
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+</script>
+
+<script>
+    function ShowTicketDetails(me) {
+        console.log("Drill ticket ...");
+        var myticket = me.getAttribute("data-ticket");
+        var myuser = me.getAttribute("data-user");
+        console.log(myticket + "\n" + myuser);
+        processing();
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/GetBetDetails",
+            data: JSON.stringify({ "UserName": myuser, "CurrentPeriod" : myticket }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                var mylist = JSON.parse(response);
+                var rownum = mylist.length;
+                console.log("Total Rows in Report (xyz): " + rownum);
+                txt = "<table border='1' style='font-size:14px; width:1300px;'>";
+                txt = txt + "<tr style='position: sticky;'>";
+                txt = txt + "<td class='cellborder'>##</td>";
+                txt = txt + "<td class='cellborder'>Ticket No</td>";
+                txt = txt + "<td class='cellborder'>Create Date</td>";
+                txt = txt + "<td class='cellborder'>User Name</td>";
+                txt = txt + "<td class='cellborder'>Agent Parent Map</td>";
+                txt = txt + "<td class='cellborder'>Bet</td>";
+                txt = txt + "<td class='cellborder cellright' >Price</td>";
+                txt = txt + "<td class='cellborder cellright' >Discount Price</td>";
+                txt = txt + "<td class='cellborder cellright' >Win Money</td>";
+                txt = txt + "<td class='cellborder cellright' >Is Win</td>";
+                txt = txt + "<td class='cellborder cellright' >Win/Lose</td>";
+                txt = txt + "</tr>";
+                var TotalPrice = 0;
+                var TotalDiscountPrice = 0;
+                var TotalWinMoney = 0;
+                var TotalWinLose = 0;
+                for (let i = 0; i < rownum; i++) {
+                    txt = txt + "<tr >";
+                    txt = txt + "<td class='cellborder'>" + (i + 1) + "</td>";
+                    txt = txt + "<td class='celldata'>" + mylist[i].CurrentPeriod + "</td>";
+                    txt = txt + "<td class='celldata' style='min-width: 180px;'>" + mylist[i].CreateDate + "</td>";
+                    txt = txt + "<td class='celldata'>" + mylist[i].UserName + "</td>";
+                    txt = txt + "<td class='celldata'>" + mylist[i].AgentParentMap + "</td>";
+                    txt = txt + "<td class='celldata' style='min-width: 160px;'>" + mylist[i].FamilyBigID + " " + mylist[i].SelectedNums + "</td>";
+                    txt = txt + "<td class='celldata cellright' >" + Number(mylist[i].Price).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellright' >" + Number(mylist[i].DiscountPrice).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellright' >" + Number(mylist[i].WinMoney).toFixed(4) + "</td>";
+                    txt = txt + "<td class='celldata cellright' >" + mylist[i].IsWin + "</td>";
+                    if (Number(mylist[i].WinLose) > 0) {
+                        txt = txt + "<td class='celldata cellright' >" + Number(mylist[i].WinLose).toFixed(4) + "</td>";
+                    }
+                    else
+                    {
+                        txt = txt + "<td class='negativecell cellright' >" + Number(mylist[i].WinLose).toFixed(4) + "</td>";
+                    }
+                    txt = txt + "</tr>";
+
+                    TotalPrice = TotalPrice + Number(mylist[i].Price);
+                    TotalDiscountPrice = TotalDiscountPrice + Number(mylist[i].DiscountPrice);
+                    TotalWinMoney = TotalWinMoney + Number(mylist[i].WinMoney);
+                    TotalWinLose = TotalWinLose + Number(mylist[i].WinLose);
+                }
+
+                txt = txt + "<tr >";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder cellright' >" + TotalPrice.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellright' >" + TotalDiscountPrice.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellright' >" + TotalWinMoney.toFixed(4) + "</td>";
+                txt = txt + "<td class='cellborder cellright' ></td>";
+                if (TotalWinLose > 0) {
+                    txt = txt + "<td class='cellborder cellright' >" + TotalWinLose.toFixed(4) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='isnegative cellright' >" + TotalWinLose.toFixed(4) + "</td>";
+                }
+                txt = txt + "</tr>";
+                txt = txt + "</table>";
+                document.getElementById("ReportContent").innerHTML = txt;
+                configureContentScrollbar();
+                EnableButtons();
+                document.getElementById("closebutton2").style = "z-index:22239999999; position: absolute; left:1370px; top: 150px; display: block;";
+                document.getElementById("excelbutton2").style = "z-index:22239999999; position: absolute; left:1356px; top: 170px; display: block;";
+                console.log("Report 2 done");
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+    }
+</script>
+
+<script>
+    function finalize() {
+        document.getElementById("fTotalPrice").value = document.getElementById("TempPrice").value;
+        document.getElementById("fDiscPrice").value = document.getElementById("TempDiscPrice").value;
+        document.getElementById("fTotalWinMoney").value = document.getElementById("TempWinMoney").value;
+    }
+</script>
+
+<script>
+    function closePop() {
+        console.log("closePop() called");
+    }
+</script>
+
+
+<script>
+    function closePop2() {
+        document.getElementById("ReportContent").style = "display: none;"
+        document.getElementById("Report").style = "display: none;"
+        document.getElementById("reportHD").style = "display: none;"
+        document.getElementById("closebutton2").style = "display: none;"
+        document.getElementById("excelbutton2").style = "display: none;"
+        document.getElementById("excelbuttonL2").style = "display: none;"
+        document.getElementById("downloadlink2").style = "display: none;"
+        document.getElementById("HistoryL1").style = "display:none;";
+        document.getElementById("HistoryL2").style = "display:none;";
+        document.getElementById("HistoryL3").style = "display:none;";
+    }
+</script>
+
+<script>
+    function GenExcel2() {
+        console.log("Generating the second Excel");
+
+        // var jstring = "[{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 8 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO SINGAPOREPOOL 4D","Bill_No_Ticket":"SGP4D_0393","Recs":8,"TOver":1347,"BetAmount":515.38,"WinMoney":0,"Sum_winlose_AllLOST":-515.38,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-515.38},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 14 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0923","Recs":31,"TOver":38000,"BetAmount":38000,"WinMoney":190000,"Sum_winlose_AllLOST":-36000,"Sum_winlose_AllWIN_4d":188000,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":152000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 14 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO KING4D","Bill_No_Ticket":"KING_0923","Recs":31,"TOver":34636,"BetAmount":34636,"WinMoney":95000,"Sum_winlose_AllLOST":-33636,"Sum_winlose_AllWIN_4d":94000,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":60364},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 14 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO SHANGHAI HERO","Bill_No_Ticket":"SHGH_0923","Recs":120,"TOver":72000,"BetAmount":72000,"WinMoney":0,"Sum_winlose_AllLOST":-72000,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-72000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 15 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0924","Recs":86,"TOver":33300,"BetAmount":33300,"WinMoney":0,"Sum_winlose_AllLOST":-33300,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-33300},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 15 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO MALAYSIA TOTO","Bill_No_Ticket":"MMTO_0432","Recs":60,"TOver":18000,"BetAmount":18000,"WinMoney":0,"Sum_winlose_AllLOST":-18000,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-18000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 19 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0928","Recs":1,"TOver":190,"BetAmount":190,"WinMoney":0,"Sum_winlose_AllLOST":-190,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-190},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 24 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0933","Recs":60,"TOver":6000,"BetAmount":6000,"WinMoney":0,"Sum_winlose_AllLOST":-6000,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-6000},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 25 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO SHANGHAI HERO","Bill_No_Ticket":"SHGH_0934","Recs":31,"TOver":3100,"BetAmount":3100,"WinMoney":0,"Sum_winlose_AllLOST":-3100,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-3100},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 26 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO AMAZON","Bill_No_Ticket":"AMAZ_0935","Recs":3,"TOver":1801,"BetAmount":1801,"WinMoney":0,"Sum_winlose_AllLOST":-1801,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-1801},{"UserName":"HL_B77ACAA07KD","UpdateDate":"5 / 26 / 2024 12:00:00 AM","BET_TYPE":"4D LOTTO HONGKONG GRAND","Bill_No_Ticket":"HKGR_0935","Recs":34,"TOver":18650,"BetAmount":18650,"WinMoney":0,"Sum_winlose_AllLOST":-18650,"Sum_winlose_AllWIN_4d":0,"Sum_winlose_AllWIN_NOT4d":0,"Win_Lose":-18650}]";
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/GenExcelBetDetails",
+            data: JSON.stringify({ "InputText": document.getElementById("ReportJSON2").innerText }),
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                console.log(response[0].FileName);
+
+                var converted = JSON.parse(response);
+
+                document.getElementById("downloadlink2").href = "http://localhost:5106/" + converted[0].FolderName + "/" + converted[0].FileName;
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        // document.getElementById("excelbutton2").style = "display: block";
+        // document.getElementById("excelbutton2").style = "display:block";
+        document.getElementById("downloadlink2").style = "z-index:22229999999; position: absolute; left:1538px; top: 210px; display: block;";
+        document.getElementById("closebutton2").style = "z-index:22229999999; position: absolute; left:1550px; top: 160px; display: block;";
+        document.getElementById("excelbutton2").style = "z-index:22229999999; position: absolute; left:1538px; top: 180px; display: block;";
+        
+    }
+</script>
+
+<script>
+    function formatcomma(mynum) {
+        if (mynum == "null" || mynum == null) {
+            console.log("Null value found here!!!");
+        }
+
+        var numstr = mynum.toString();
+
+        var negfactor = -1;
+        var isnegative = numstr.indexOf("-");
+        if (isnegative == -1) {
+            negfactor = 1;
+        }
+        numstr = numstr.replaceAll("-", "");
+
+        var numlen = numstr.length;
+        numstr = numstr.replaceAll(" ", "");
+        var decimalpoint = numstr.indexOf(".");
+        if (decimalpoint == -1) {
+            numstr = numstr + ".00";
+            decimalpoint = numstr.indexOf(".");
+        }
+        // console.log("Do I have decimal points? " + decimalpoint);
+
+        
+        numlen = numstr.length;
+        //decimalpoint = numstr.indexOf(".");
+
+        var newstr = "";
+        var decstr = numstr.substr(decimalpoint, numlen);
+        var intpart = numstr.substr(0, decimalpoint);
+
+        // console.log(intpart);
+
+        var balstr = "";
+        var outstr = "";
+        var threelen = 0;
+        var outstr = ""
+        var tail = "";
+        var head = "";
+        var oritail = "";
+        var ballen = 0;
+        var headlen = 0;
+        var demostr = "";
+
+        oritail = tail;
+        outstr = head + "--" + oritail;
+        balstr = head;
+
+        // console.log("decimal point: " + decimalpoint);
+        // console.log("int part: " + intpart);
+
+        for (let i = 0; i < 20; i++) {
+            if (decimalpoint == -1) {
+                // console.log("am here ...");
+                oritail = numstr;
+                break;
+            }
+            else if (decimalpoint != -1 && intpart.length <= 3) {
+                // console.log("small number ...");
+                oritail = numstr;
+                break;
+            }
+            else if (decimalpoint != -1 && intpart.length > 3) {
+                decimalpoint = numlen;
+            }
+
+            if (i == 0) {
+                //head = numstr.substr(0, decimalpoint);
+                head = intpart;
+                tail = decstr;
+                balstr = head;
+                oritail = numstr.substr(decimalpoint, numlen);
+                demostr = "[" + head + "][" + tail + "][" + oritail + "]"
+                // console.log(i + ": " + demostr);
+                ballen = balstr.length;
+                // console.log(i + ": ballen = " + ballen);
+            }
+            else if (i == 0 && numstr.length <= 3) {
+                oritail = intpart + decstr;
+                break;
+            }
+
+            else {
+                // console.log(i + ": balstr: " + balstr + " + " + oritail);
+                headlen = balstr.length - 3;
+                ballen = 3;
+                numlen = balstr.length;
+
+                if (headlen >= 3) {
+                    head = balstr.substr(0, headlen);
+                    tail = balstr.substr(headlen, numlen); // cheah modi here
+                    oritail = padfront(",", tail) + oritail;
+                    balstr = head;
+                }
+
+                else if (headlen < 3 && headlen != 0) {
+                    // console.log("at" + i + ", The headlen is only: " + headlen);
+                    head = balstr.substr(0, headlen);
+                    tail = balstr.substr(headlen, numlen);
+                    demostr = "[" + head + "][" + tail + "][" + oritail + "]"
+                    // console.log(demostr);
+                    oritail = head + padfront(",", tail) + oritail;
+                    break;
+                }
+
+                else {
+                    // console.log("at" + i + ", The headlen is only: " + headlen);
+                    head = balstr.substr(0, headlen);
+                    tail = balstr.substr(headlen, numlen);
+                    demostr = "[" + head + "][" + tail + "][" + oritail + "]"
+                    // console.log(demostr);
+                    oritail = head + tail + oritail;
+                    break;
+                }
+
+                // console.log(i + "New Head: " + head);
+                // console.log(i + "New Tail: " + tail);
+                // console.log(i + "New Oritail: " + oritail);
+                
+            }
+        }
+
+        // console.log("Before I return: " + oritail);
+
+        if (oritail.indexOf(".") != -1) {
+            outstr = oritail;
+        }
+        else {
+            outstr = oritail + decstr;
+        }
+        if (negfactor == -1) {
+            outstr = "-" + outstr;
+        }
+        return outstr;
+    }
+</script>
+
+<script>
+    function padfront(_new, me) {
+        var outstr = _new + me;
+        return outstr;
+    }
+</script>
+
+<script>
+    function ShowExcelButtons() {
+        document.getElementById("closebutton2").style = "position: absolute; top: 150px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("excelbutton2").style = "position: absolute; top: 185px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("downloadlink2").disabled = true;
+        document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: none; height: 35px; width: 35px;"
+        $("#downloadlink2").html("<img src='http://localhost:5106/red_download.png' />");
+        $("#downloadlink2").attr("disabled","disabled");
+        // $("#downloadlink2").style("position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;");
+    }
+</script>
+
+<script>
+    function ShowExcelButtonsL2() {
+        document.getElementById("closebutton2").style = "position: absolute; top: 150px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("excelbuttonL2").style = "position: absolute; top: 185px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("downloadlink2").disabled = true;
+        document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: none; height: 35px; width: 35px;"
+        document.getElementById("prevbuttonL2").style = "position: absolute; top: 255px; left: 1700px; display: block; height: 35px; width: 35px;"
+        $("#downloadlink2").html("<img src='http://localhost:5106/red_download.png' />");
+        $("#downloadlink2").attr("disabled","disabled");
+        // $("#downloadlink2").style("position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;");
+    }
+</script>
+
+<script>
+    function ShowExcelButtonsL3() {
+        document.getElementById("closebutton2").style = "position: absolute; top: 150px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("excelbuttonL3").style = "position: absolute; top: 185px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("excelbuttonL2").style = "display: none;"
+        document.getElementById("downloadlink2").disabled = true;
+        document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: none; height: 35px; width: 35px;"
+        document.getElementById("prevbuttonL3").style = "position: absolute; top: 255px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("prevbuttonL2").style = "display: none;"
+        $("#downloadlink2").html("<img src='http://localhost:5106/red_download.png' />");
+        $("#downloadlink2").attr("disabled","disabled");
+        // $("#downloadlink2").style("position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;");
+    }
+</script>
+
+<script>
+    function ShowExcelButtonsL4() {
+        document.getElementById("closebutton2").style = "position: absolute; top: 150px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("excelbuttonL4").style = "position: absolute; top: 185px; left: 1700px; display: block; height: 35px; width: 35px;"
+        document.getElementById("excelbuttonL3").style = "display: none;";
+        document.getElementById("downloadlink2").disabled = true;
+        document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: none; height: 35px; width: 35px;"
+        document.getElementById("prevbuttonL4").style = "position: absolute; top: 255px; left: 1700px; display: block; height: 35px; width: 35px;"
+        $("#downloadlink2").html("<img src='http://localhost:5106/red_download.png' />");
+        $("#downloadlink2").attr("disabled","disabled");
+        // $("#downloadlink2").style("position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;");
+    }
+</script>
+
+<script>
+    function HideExcelButtons(){
+        document.getElementById("excelbuttonL2").style = "position: absolute; top: 185px; left: 1700px; display: none; height: 35px; width: 35px;"
+        document.getElementById("excelbuttonL3").style = "position: absolute; top: 185px; left: 1700px; display: none; height: 35px; width: 35px;"
+        document.getElementById("excelbuttonL4").style = "position: absolute; top: 185px; left: 1700px; display: none; height: 35px; width: 35px;"
+        document.getElementById("downloadlink2").disabled = true;
+        document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: none; height: 35px; width: 35px;"
+        document.getElementById("prevbuttonL2").style = "display: none;";
+        document.getElementById("prevbuttonL3").style = "display: none;";
+        document.getElementById("prevbuttonL4").style = "display: none;";
+    }
+</script>
+
+<script>
+    function GenOverallReport() {
+        console.log("Am ready to fight now");
+        processing();
+        var StartDate = document.getElementById("dtDateS").value + " 00:00:00";
+        var EndDate = document.getElementById("dtDateE").value + " 23:59:59";
+        console.log(JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate }));
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetOverallReport",
+            data: JSON.stringify({ "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("overall report success");
+                document.getElementById("jsondata").innerText = JSON.stringify(response);
+                var mydata = JSON.parse(document.getElementById("jsondata").innerText);
+                var myrows = mydata.length;
+                console.log("my rows count: " + myrows);
+                var TotalTOver = 0;
+                var TotalPending = 0;
+                var TotalMemberWL = 0;
+                var TotalAgentWL = 0;
+                var TotalComWL = 0;
+                var TotalMAWL = 0;
+                var TotalSMWL = 0;
+                var txt = "<table width='1600px' style='font-size:14px;'>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'>Bet Type</td>";
+                txt = txt + "<td class='cellborder cellright'>Turn Over</td>";
+                txt = txt + "<td class='cellborder cellright'>Pending</td>";
+                txt = txt + "<td class='cellborder cellright'>Member W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>Agent W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>Com W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>MA W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>SM W/L</td>";
+                txt = txt + "</tr>";
+                for (let i = 0; i < myrows; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft'><button class='bckPeal cellleft' style='min-width:260px;font-weight:bold;' onclick='DrillBetType(this)' data-BetType='" + mydata[i].BetType + "'>" + mydata[i].BetType + "</button></td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].TOver).toFixed(4))  + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].Pending).toFixed(4))  + "</td>";
+                    if (Number(mydata[i].MemberWinLose) < 0) {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma(Number(mydata[i].MemberWinLose).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].MemberWinLose).toFixed(4)) + "</td>";
+                    }
+
+                    if (Number(mydata[i].AgentWinLose) >= 0) {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].AgentWinLose).toFixed(4) ) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma( Number(mydata[i].AgentWinLose).toFixed(4) ) + "</td>";
+                    }
+
+                    if (Number(mydata[i].ComWinLose) >= 0) {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].ComWinLose).toFixed(4) ) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma( Number(mydata[i].ComWinLose).toFixed(4) ) + "</td>";
+                    }
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].MAWinLose).toFixed(4) ) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].SMWinLose).toFixed(4) ) + "</td>";
+                    txt = txt + "</tr>";
+                    TotalTOver = TotalTOver + Number(mydata[i].TOver.toString());
+                    TotalPending = TotalPending + Number(mydata[i].Pending.toString());
+                    TotalMemberWL = TotalMemberWL + Number(mydata[i].MemberWinLose.toString());
+                    TotalAgentWL = TotalAgentWL + Number(mydata[i].AgentWinLose.toString());
+                    TotalComWL = TotalComWL + Number(mydata[i].ComWinLose.toString());
+                    TotalMAWL = TotalMAWL + Number(mydata[i].MAWinLose.toString());
+                    TotalSMWL = TotalSMWL + Number(mydata[i].SMWinLose.toString());
+                }
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalTOver.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalPending.toFixed(4)) + "</td>";
+                if (TotalMemberWL < 0) {
+                    txt = txt + "<td class='isnegative cellright'>" + formatcomma(TotalMemberWL.toFixed(4)) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalMemberWL.toFixed(4)) + "</td>";
+                }
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalAgentWL.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalComWL.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalMAWL.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalSMWL.toFixed(4)) + "</td>";
+                txt = txt + "</tr>";
+
+                document.getElementById("jsondata").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Overall View (Level 1)", "Data" : ' + document.getElementById("jsondata").innerText + '}';
+                document.getElementById("ReportContent").innerHTML = txt;
+                configureContentScrollbar();
+                EnableButtons();
+                ShowExcelButtons();
+                document.getElementById("downloadlink2").href = "http://localhost:5106/ExcelFiles/WinLoseReportBetDetails_2024-06-07-11-53-56.xlsx";
+                // document.getElementById("downloadlink2").prop("disabled", false);
+                $("#downloadlink2").attr("disabled", "disabled");
+
+                console.log("JSON: " + document.getElementById("jsondata").innerText);
+                document.getElementById("HistoryL1").innerHTML = txt;
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+</script>
+
+<script>
+    function DrillBetType(me) {
+        console.log("drilling by bet type");
+        processing();
+        var BetType = $(me).attr("data-BetType");
+        var StartDate = document.getElementById("dtDateS").value + " 00:00:00";
+        var EndDate = document.getElementById("dtDateE").value + " 23:59:59";
+        console.log(JSON.stringify({ "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }));
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetOverallByBetType",
+            data: JSON.stringify({ "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                document.getElementById("jsondataL2").innerText = JSON.stringify(response);
+                var mydata = JSON.parse(document.getElementById("jsondataL2").innerText);
+                var myrows = mydata.length;
+                console.log("Number of data rows: " + myrows);
+
+                var ttTOver = 0;
+                var ttTotalWin = 0;
+                var ttTotalLost = 0;
+                var ttPending = 0;
+
+                var txt1 = "<span style='font-size: 16px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + "</span><br>";
+                var txt = "<table style='font-size:14px; width:1600px;'>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'>User Name</td>";
+                txt = txt + "<td class='cellborder cellright'>Turn Over</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Win</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Lost</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Pending</td>";
+                txt = txt + "</tr>";
+
+                for (let i = 0; i < myrows; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft'><button style='min-width: 250px;' onclick='DrillByUserName(this)' class='bckPeal cellleft' data-UserName='" + mydata[i].UserName + "' data-BetType='" + BetType + "'>" + mydata[i].UserName + "</button></td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].TurnOver.toString()).toFixed(4) ) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalWin.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalLost.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalPending.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "</tr>";
+
+                    ttTOver = ttTOver + Number(mydata[i].TurnOver.toString());
+                    ttTotalWin = ttTotalWin + Number(mydata[i].TotalWin.toString());
+                    ttTotalLost = ttTotalLost + Number(mydata[i].TotalLost.toString());
+                    ttPending = ttPending + Number(mydata[i].TotalPending.toString());
+                }
+
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'></td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTOver.toFixed(4) ) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTotalWin.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTotalLost.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttPending.toFixed(4)) + "</td>";
+                txt = txt + "</tr>";
+
+                document.getElementById("ReportContent").innerHTML = txt;
+                ShowStickyHeader();
+                document.getElementById("reportHD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL2HD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL2HD").style = "display: none;";
+                configureContentScrollbar();
+                EnableButtons();
+                HideExcelButtons();
+                
+                document.getElementById("jsondataL2").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ' (Level 2)", "Data" : ' + document.getElementById("jsondataL2").innerText + '}';
+                document.getElementById("HistoryL2").innerHTML = txt;
+                document.getElementById("HistoryL2").style = "display: none;";
+                console.log(document.getElementById("jsondataL2").innerText);
+                // ShowExcelButtonsL3();
+                ShowExcelButtonsL2();
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+</script>
+
+<script>
+    function DrillBetType_wfilter(me) {
+        console.log("drilling by bet type");
+        processing();
+        var BetType = $(me).attr("data-BetType");
+        var StartDate = document.getElementById("dtDateS").value + " 00:00:00";
+        var EndDate = document.getElementById("dtDateE").value + " 23:59:59";
+        var selected_currentperiod = document.getElementById("selected_ticket").value;
+        var selected_account = document.getElementById("selected_account").value;
+        var selected_bettype = document.getElementById("selected_BetType").value;
+        console.log(JSON.stringify({ "TicketNo": selected_currentperiod, "Account": selected_account , "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }));
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetOverallByBetTypeWithFilter",
+            data: JSON.stringify({ "TicketNo": selected_currentperiod, "Account": selected_account , "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                document.getElementById("jsondataL2").innerText = JSON.stringify(response);
+                var mydata = JSON.parse(document.getElementById("jsondataL2").innerText);
+                var myrows = mydata.length;
+                console.log("Number of data rows: " + myrows);
+
+                var ttTOver = 0;
+                var ttTotalWin = 0;
+                var ttTotalLost = 0;
+                var ttPending = 0;
+
+                var txt1 = "<span style='font-size: 16px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + "</span><br>";
+                var txt = "<table style='font-size:14px; width:1600px;'>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'>User Name</td>";
+                txt = txt + "<td class='cellborder cellright'>Turn Over</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Win</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Lost</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Pending</td>";
+                txt = txt + "</tr>";
+
+                for (let i = 0; i < myrows; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft'><button style='min-width: 250px;' onclick='DrillByUserName_wfilter(this)' class='bckPeal cellleft' data-UserName='" + mydata[i].UserName + "' data-BetType='" + BetType + "'>" + mydata[i].UserName + "</button></td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].TurnOver.toString()).toFixed(4) ) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalWin.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalLost.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalPending.toString()).toFixed(4)) + "</td>";
+                    txt = txt + "</tr>";
+
+                    ttTOver = ttTOver + Number(mydata[i].TurnOver.toString());
+                    ttTotalWin = ttTotalWin + Number(mydata[i].TotalWin.toString());
+                    ttTotalLost = ttTotalLost + Number(mydata[i].TotalLost.toString());
+                    ttPending = ttPending + Number(mydata[i].TotalPending.toString());
+                }
+
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'></td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTOver.toFixed(4) ) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTotalWin.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTotalLost.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttPending.toFixed(4)) + "</td>";
+                txt = txt + "</tr>";
+
+                document.getElementById("ReportContent").innerHTML = txt;
+                ShowStickyHeader();
+                document.getElementById("reportHD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL2HD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL2HD").style = "display: none;";
+                configureContentScrollbar();
+                EnableButtons();
+                HideExcelButtons();
+                
+                document.getElementById("jsondataL2").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ' (Level 2)", "Data" : ' + document.getElementById("jsondataL2").innerText + '}';
+                document.getElementById("HistoryL2").innerHTML = txt;
+                document.getElementById("HistoryL2").style = "display: none;";
+                console.log(document.getElementById("jsondataL2").innerText);
+                // ShowExcelButtonsL3();
+                ShowExcelButtonsL2();
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+    
+</script>
+
+<script>
+    function DrillByUserName(me) {
+        processing();
+        var BetType = $(me).attr("data-BetType");
+        var UserName = $(me).attr("data-UserName");
+        var StartDate = document.getElementById("dtDateS").value + " 00:00:00";
+        var EndDate = document.getElementById("dtDateE").value + " 23:59:59";
+
+        console.log(JSON.stringify({ "BetType": BetType, "UserName": UserName, "StartDate": StartDate, "EndDate": EndDate }));
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetOverallByUser",
+            data: JSON.stringify({ "BetType": BetType, "UserName": UserName, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                document.getElementById("jsondataL3").innerText = JSON.stringify(response);
+                var mydata = JSON.parse(document.getElementById("jsondataL3").innerText);
+                var myrows = mydata.length;
+                console.log("Number of data rows: " + myrows);
+
+                var ttTOver = 0;
+                var ttTotalWinLose = 0;
+
+                var txt1 = "<span style='font-size: 16px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + ", User Name: " + UserName + "</span><br>";
+                var txt = "<table style='font-size:14px;width:1600px;'>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'>Ticket No</td>";
+                txt = txt + "<td class='cellborder cellleft'>Opening Time</td>";
+                txt = txt + "<td class='cellborder cellright'>Turn Over</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Win Lose</td>";
+                txt = txt + "</tr>";
+
+                for (let i = 0; i < myrows; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft'><button style='min-width:250px;' onclick='DrillByTicket(this)' class='bckPeal cellleft' data-BetType='" + BetType + "' data-TicketNo='" + mydata[i].TicketNo + "' data-UserName='" + UserName + "'>" + mydata[i].TicketNo + "</button></td>";
+                    txt = txt + "<td class='celldata cellleft'>" + mydata[i].OpeningTime + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TurnOver.toString()).toFixed(4)) + "</td>";
+
+                    if (Number(mydata[i].TotalWinLose.toString()) >= 0) {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalWinLose.toString()).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma(Number(mydata[i].TotalWinLose.toString()).toFixed(4)) + "</td>";
+                    }
+                    txt = txt + "</tr>";
+
+                    ttTOver = ttTOver + Number(mydata[i].TurnOver.toString());
+                    ttTotalWinLose = ttTotalWinLose + Number(mydata[i].TotalWinLose.toString());
+                }
+
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'></td>";
+                txt = txt + "<td class='cellborder cellleft'></td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTOver.toFixed(4)) + "</td>";
+                if (ttTotalWinLose >= 0) {
+                    txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTotalWinLose.toFixed(4)) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='isnegative cellright'>" + formatcomma(ttTotalWinLose.toFixed(4)) + "</td>";
+                }
+                txt = txt + "</tr>";
+
+                document.getElementById("ReportContent").innerHTML = txt;
+                configureContentScrollbar();
+                EnableButtons();
+                ShowStickyHeader();
+                document.getElementById("reportHD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL3HD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL3").innerHTML = txt;
+                document.getElementById("HistoryL3HD").style = "display: none;"
+                document.getElementById("HistoryL3").style = "display: none;"
+                HideExcelButtons();
+                ShowExcelButtonsL3();
+                document.getElementById("jsondataL3").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ', User Name: ' + UserName + ' (Level 3)", "Data" : ' + document.getElementById("jsondataL3").innerText + '}';
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+</script>
+
+<script>
+    function DrillByUserName_wfilter(me) {
+        processing();
+        var BetType = $(me).attr("data-BetType");
+        var UserName = $(me).attr("data-UserName");
+        var StartDate = document.getElementById("dtDateS").value + " 00:00:00";
+        var EndDate = document.getElementById("dtDateE").value + " 23:59:59";
+        var selected_currentperiod = document.getElementById("selected_ticket").value;
+        var selected_account = document.getElementById("selected_account").value;
+        var selected_bettype = document.getElementById("selected_BetType").value;
+        console.log(JSON.stringify({ "TicketNo": selected_currentperiod, "Account": selected_account , "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }));
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetOverallByUserWithFilter",
+            data: JSON.stringify({ "TicketNo": selected_currentperiod, "Account": selected_account , "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                document.getElementById("jsondataL3").innerText = JSON.stringify(response);
+                var mydata = JSON.parse(document.getElementById("jsondataL3").innerText);
+                var myrows = mydata.length;
+                console.log("Number of data rows: " + myrows);
+
+                var ttTOver = 0;
+                var ttTotalWinLose = 0;
+
+                var txt1 = "<span style='font-size: 16px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + ", User Name: " + UserName + "</span><br>";
+                var txt = "<table style='font-size:14px;width:1600px;'>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'>Ticket No</td>";
+                txt = txt + "<td class='cellborder cellleft'>Opening Time</td>";
+                txt = txt + "<td class='cellborder cellright'>Turn Over</td>";
+                txt = txt + "<td class='cellborder cellright'>Total Win Lose</td>";
+                txt = txt + "</tr>";
+
+                for (let i = 0; i < myrows; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft'><button style='min-width:250px;' onclick='DrillByTicket(this)' class='bckPeal cellleft' data-BetType='" + BetType + "' data-TicketNo='" + mydata[i].TicketNo + "' data-UserName='" + UserName + "'>" + mydata[i].TicketNo + "</button></td>";
+                    txt = txt + "<td class='celldata cellleft'>" + mydata[i].OpeningTime + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TurnOver.toString()).toFixed(4)) + "</td>";
+
+                    if (Number(mydata[i].TotalWinLose.toString()) >= 0) {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].TotalWinLose.toString()).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma(Number(mydata[i].TotalWinLose.toString()).toFixed(4)) + "</td>";
+                    }
+                    txt = txt + "</tr>";
+
+                    ttTOver = ttTOver + Number(mydata[i].TurnOver.toString());
+                    ttTotalWinLose = ttTotalWinLose + Number(mydata[i].TotalWinLose.toString());
+                }
+
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'></td>";
+                txt = txt + "<td class='cellborder cellleft'></td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTOver.toFixed(4)) + "</td>";
+                if (ttTotalWinLose >= 0) {
+                    txt = txt + "<td class='cellborder cellright'>" + formatcomma(ttTotalWinLose.toFixed(4)) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='isnegative cellright'>" + formatcomma(ttTotalWinLose.toFixed(4)) + "</td>";
+                }
+                txt = txt + "</tr>";
+
+                document.getElementById("ReportContent").innerHTML = txt;
+                configureContentScrollbar();
+                EnableButtons();
+                ShowStickyHeader();
+                document.getElementById("reportHD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL3HD").innerHTML = txt1 + txt;
+                document.getElementById("HistoryL3").innerHTML = txt;
+                document.getElementById("HistoryL3HD").style = "display: none;"
+                document.getElementById("HistoryL3").style = "display: none;"
+                HideExcelButtons();
+                ShowExcelButtonsL3();
+                document.getElementById("jsondataL3").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ', User Name: ' + UserName + ' (Level 3)", "Data" : ' + document.getElementById("jsondataL3").innerText + '}';
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+</script>
+
+<script>
+    function DrillByTicket(me) {
+        console.log("Preparing report now");
+        processing();
+        var StartDate = $("#dtDateS").val() + " 00:00:00";
+        var EndDate = $("#dtDateE").val() + " 23:59:59";
+        var SelectedUserName = $(me).attr("data-UserName");
+        var TicketNo = $(me).attr("data-TicketNo");
+        var BetType = $(me).attr("data-BetType");
+
+        console.log(JSON.stringify({ "TicketNo": TicketNo, "Account": SelectedUserName, "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }));
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/DrillOverall_Level4",
+            data: JSON.stringify({ "TicketNo": TicketNo, "Account": SelectedUserName, "BetType": BetType, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                document.getElementById("jsondataL4").innerText = JSON.stringify(response);
+                document.getElementById("ReportJSON").innerText = JSON.stringify(response);
+                document.getElementById("ReportJSON").style = "display: none;";
+                console.log(document.getElementById("ReportJSON").innerText);
+                var mydata = JSON.parse(document.getElementById("ReportJSON").innerText);
+                var rownum = mydata.length;
+                console.log("Total Rows in Report: " + rownum);
+                var txt1 = "<span style='font-size: 16px;font-weight:bold;color:red;'>Drill Down on Bet Type: " + BetType + ", User Name: " + SelectedUserName + ", Ticket No: " + TicketNo  + "</span><br>";
+
+                var txt = "<table style='font-size:14px;width:1600px;'>";
+                txt = txt + "<tr >";
+                txt = txt + "<td class='cellborder'>Bet Type</td>";
+                txt = txt + "<td class='cellborder'>Bet Time</td>";
+                txt = txt + "<td class='cellborder'>Bet</td>";
+                txt = txt + "<td class='cellborder cellright' >Bet Amount</td>";
+                txt = txt + "<td class='cellborder cellright' >Win Loss</td>";
+                txt = txt + "</tr>";
+
+                var Total_Recs = 0;
+                var Total_TOver = 0;
+                var Total_BetAmount = 0;
+                var Total_WinMoney = 0;
+                var Total_Sum_winlose_AllLOST = 0;
+                var Total_Sum_winlose_AllWIN_4d = 0;
+                var Total_Sum_winlose_AllWIN_NOT4d = 0;
+                var Total_Win_Lose = 0;
+
+                for (i = 0; i < rownum; i++) {
+                    txt = txt + "<tr >";
+                    txt = txt + "<td class='celldata cellleft'>" + mydata[i].BetType + "</td>";
+                    txt = txt + "<td class='celldata cellleft'>" + mydata[i].BetTime + "</td>";
+                    var tempbet = mydata[i].Bet;
+                    var newbet = tempbet.replaceAll("(", "[");
+                    var newbet = newbet.replaceAll(")", "]");
+                    txt = txt + "<td class='celldata cellleft'>" + newbet + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].BetAmount).toFixed(4)) + "</td>";
+                    if (Number(mydata[i].WinLose) > 0) {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].WinLose).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='celldata cellright negativecell'>" + formatcomma(Number(mydata[i].WinLose).toFixed(4)) + "</td>";
+                    }
+                    txt = txt + "</tr>";
+
+                    Total_BetAmount = Total_BetAmount + Number(mydata[i].BetAmount.toString());
+                    Total_Win_Lose = Total_Win_Lose + Number(mydata[i].WinLose.toString());
+                }
+
+                txt = txt + "<tr >";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder cellright' >" + formatcomma(Total_BetAmount.toFixed(4)) + "</td>";
+                if (Total_Win_Lose > 0) {
+                    txt = txt + "<td class='cellborder cellright' >" + formatcomma(Total_Win_Lose.toFixed(4)) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='cellborder cellright isnegative' >" + formatcomma(Total_Win_Lose.toFixed(4)) + "</td>";
+                }
+                txt = txt + "</tr>";
+
+
+                txt = txt + "</table><br>";
+                HideExcelButtons();
+                document.getElementById("ReportContent").innerHTML = txt;
+                configureContentScrollbar();
+                EnableButtons();
+                ShowStickyHeader();
+                document.getElementById("reportHD").innerHTML = txt1 + txt;
+                ShowExcelButtonsL4();
+
+                document.getElementById("jsondataL4").innerText = '{ "ReportTitle": "Win/Lose Report by Game - Drill Down on Bet Type: ' + BetType + ', User Name: ' + SelectedUserName + ', Ticket No: ' + TicketNo + ' (Level 4)", "Data" : ' + document.getElementById("jsondataL4").innerText + '}';
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+        document.getElementById("btnOverall").disabled = true; 
+        document.getElementById("btnTicket").disabled = true; 
+        document.getElementById("btnAccounts").disabled = true;
+        document.getElementById("btnBetTypes").disabled = true;
+
+        document.getElementById("dtDateS").value = new Date().toISOString().slice(0, 10);
+        document.getElementById("dtDateE").value = new Date().toISOString().slice(0, 10);
+        processing();
+        GenOverallReport();
+    })
+</script>
+
+<script>
+    function processing() {
+        console.log("Processing");
+        var mainstr = "<div class='container-fluid'>";
+        mainstr = mainstr + "<div class='row'>";
+        mainstr = mainstr + "<div class='col-sm-12 col-md-12' id='ReportContent'>";
+        mainstr = mainstr + "<img src='http://localhost:5106/clock.gif' />";
+        mainstr = mainstr + "</div>";
+        mainstr = mainstr + "</div>";
+        mainstr = mainstr + "</div>";
+
+        document.getElementById("btnOverall").disabled = true; 
+        document.getElementById("btnTicket").disabled = true; 
+        document.getElementById("btnAccounts").disabled = true;
+        document.getElementById("btnBetTypes").disabled = true;
+
+        document.getElementById("Report").innerHTML = mainstr;
+        document.getElementById("Report").style = "text-align: center; display: block; position: absolute; top: 150px; left: 0px; height: 700px; width: 1900px; overflow: scroll;";
+        document.getElementById("ReportContent").style = "text-align: center; overflow-y: scroll;scrollbar-color: grey lightblue;"
+        document.getElementById("OverallReady").value = "";
+
+        document.getElementById("reportHD").style = "display:none;";
+        document.getElementById("HistoryL1").style = "display:none;";
+    }
+</script>
+
+<script>
+    function Col2Processing() {
+        document.getElementById("Content_Col_02").innerHTML = "<img src='http://localhost:5106/clock.gif' />";
+    }
+</script>
+
+<script>
+    function configureContentScrollbar() {
+        document.getElementById("ReportContent").style = "display: block; text-align: center; overflow-y: scroll;scrollbar-color: pink lightblue;"
+    }
+</script>
+
+<script>
+    function EnableButtons() {
+        document.getElementById("btnOverall").disabled = false; 
+        document.getElementById("btnTicket").disabled = false; 
+        document.getElementById("btnAccounts").disabled = false;
+        document.getElementById("btnBetTypes").disabled = false;
+    }
+</script>
+
+<script>
+    function PrepareTwoColumns() {
+        var ContentExt = "<div class='row'>";
+        ContentExt = ContentExt + "<div class='col-sm-4 col-md-4' id='Content_Col_01' style='display: block; text-align: left; height: 500px; opacity: 1; background: #ffffff; overflow-y: scroll; scrollbar-color: grey lightblue;'>empty</div>";
+        ContentExt = ContentExt + "<div class='col-sm-7 col-md-7' id='Content_Col_02' style='display: block; text-align: left; padding-left:10px; height: 500px; opacity: 1; background: #ffffff; overflow-y: scroll; scrollbar-color: grey lightblue;'>empty</div>";
+        ContentExt = ContentExt + "<div class='col-sm-1 col-md-1' id='Content_Col_03' style='display: block; text-align: left; padding-left:10px; height: 500px; opacity: 1; background: #ffffff; overflow-y: scroll; scrollbar-color: grey lightblue;'>empty</div>";
+        ContentExt = ContentExt + "</div>";
+        ContentExt = ContentExt + "<div id='Col_01_HD' style='display:none;'>.</div>";
+        ContentExt = ContentExt + "<div id='Col_02_HD' style='display:none;'>.</div>";
+
+        document.getElementById("ReportContent").innerHTML = ContentExt;
+    }
+</script>
+
+<script>
+    function ShowStickyHeader() {
+        document.getElementById("Report").style = "text-align: center; display: block; position: absolute; top: 150px; left: 0px; height: 700px; width: 1900px; overflow: scroll;";
+        document.getElementById("ReportContent").style = "text-align: center; overflow-y: scroll;scrollbar-color: grey lightblue;"
+        document.getElementById("reportHD").style = "display: block; position: absolute; top: 127px; left: 15px; height: 45px; overflow: hidden;";
+    }
+</script>
+
+<script>
+    function SearchWithFilter() {
+        console.log("SearchWithFilter is starting");
+        processing();
+        var StartDate = document.getElementById("dtDateS").value + " 00:00:00";
+        var EndDate = document.getElementById("dtDateE").value + " 23:59:59";
+        var selected_currentperiod = document.getElementById("selected_ticket").value;
+        var selected_account = document.getElementById("selected_account").value;
+        var selected_bettype = document.getElementById("selected_BetType").value;
+
+        console.log("selected CurrentPeriod: " + selected_currentperiod + ", Account: " + selected_account + ", BetType: " + selected_bettype);
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5106/API/GetOverallBy_BetType_Ticket_User",
+            data: JSON.stringify({"TicketNo": selected_currentperiod, "Account": selected_account, "BetType": selected_bettype, "StartDate": StartDate, "EndDate": EndDate }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("overall report success");
+                document.getElementById("jsondata").innerText = JSON.stringify(response);
+                var mydata = JSON.parse(document.getElementById("jsondata").innerText);
+                var myrows = mydata.length;
+                console.log("my rows count: " + myrows);
+                var TotalTOver = 0;
+                var TotalPending = 0;
+                var TotalMemberWL = 0;
+                var TotalAgentWL = 0;
+                var TotalComWL = 0;
+                var TotalMAWL = 0;
+                var TotalSMWL = 0;
+                var txt = "<table width='1600px' style='font-size:14px;'>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder cellleft'>Bet Type</td>";
+                txt = txt + "<td class='cellborder cellleft'>User Name</td>";
+                txt = txt + "<td class='cellborder cellright'>Turn Over</td>";
+                txt = txt + "<td class='cellborder cellright'>Pending</td>";
+                txt = txt + "<td class='cellborder cellright'>Member W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>Agent W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>Com W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>MA W/L</td>";
+                txt = txt + "<td class='cellborder cellright'>SM W/L</td>";
+                txt = txt + "</tr>";
+                for (let i = 0; i < myrows; i++) {
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='celldata cellleft'><button class='bckPeal cellleft' style='min-width:260px;font-weight:bold;' onclick='DrillBetType_wfilter(this)' data-BetType='" + mydata[i].BetType + "'>" + mydata[i].BetType + "</button></td>";
+                    txt = txt + "<td class='celldata cellleft'><button class='bckPeal cellleft' style='min-width:260px;font-weight:bold;' onclick='DrillByUserName_wfilter(this)' data-BetType='" + mydata[i].BetType + "' data-UserName='" + mydata[i].UserName + "'>" + mydata[i].UserName + "</button></td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].TurnOver).toFixed(4))  + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].Pending).toFixed(4))  + "</td>";
+                    if (Number(mydata[i].MemberWinLose) < 0) {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma(Number(mydata[i].MemberWinLose).toFixed(4)) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma(Number(mydata[i].MemberWinLose).toFixed(4)) + "</td>";
+                    }
+
+                    if (Number(mydata[i].AgentWinLose) >= 0) {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].AgentWinLose).toFixed(4) ) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma( Number(mydata[i].AgentWinLose).toFixed(4) ) + "</td>";
+                    }
+
+                    if (Number(mydata[i].ComWinLose) >= 0) {
+                        txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].ComWinLose).toFixed(4) ) + "</td>";
+                    }
+                    else {
+                        txt = txt + "<td class='negativecell cellright'>" + formatcomma( Number(mydata[i].ComWinLose).toFixed(4) ) + "</td>";
+                    }
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].MAWinLose).toFixed(4) ) + "</td>";
+                    txt = txt + "<td class='celldata cellright'>" + formatcomma( Number(mydata[i].SMWinLose).toFixed(4) ) + "</td>";
+                    txt = txt + "</tr>";
+                    TotalTOver = TotalTOver + Number(mydata[i].TurnOver);
+                    TotalPending = TotalPending + Number(mydata[i].Pending);
+                    TotalMemberWL = TotalMemberWL + Number(mydata[i].MemberWinLose);
+                    TotalAgentWL = TotalAgentWL + Number(mydata[i].AgentWinLose);
+                    TotalComWL = TotalComWL + Number(mydata[i].ComWinLose);
+                    TotalMAWL = TotalMAWL + Number(mydata[i].MAWinLose);
+                    TotalSMWL = TotalSMWL + Number(mydata[i].SMWinLose);
+                }
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder'></td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalTOver.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalPending.toFixed(4)) + "</td>";
+                if (TotalMemberWL < 0) {
+                    txt = txt + "<td class='isnegative cellright'>" + formatcomma(TotalMemberWL.toFixed(4)) + "</td>";
+                }
+                else {
+                    txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalMemberWL.toFixed(4)) + "</td>";
+                }
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalAgentWL.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalComWL.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalMAWL.toFixed(4)) + "</td>";
+                txt = txt + "<td class='cellborder cellright'>" + formatcomma(TotalSMWL.toFixed(4)) + "</td>";
+                txt = txt + "</tr>";
+
+                // ShowStickyHeader();
+                document.getElementById("reportHD").innerHTML = txt;
+                document.getElementById("ReportContent").innerHTML = txt;
+                configureContentScrollbar();
+                EnableButtons();
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+    }
+</script>
+
+<script>
+    function GenOverall_Excel_L1() {
+        console.log("Generating Excel for Overall Report Level 1");
+        console.log(document.getElementById("jsondata").innerText);
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/GenExcel_OverallL1",
+            data: JSON.stringify({ "InputText": document.getElementById("jsondata").innerText }),
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                console.log("original file name: " + response);
+
+                var converted = JSON.parse(response);
+                console.log("converted: " + converted[0].FileName);
+
+                document.getElementById("downloadlink2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;"
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+        
+        console.log("done");
+    }
+</script>
+
+<script>
+    function GenOverall_Excel_L2() {
+        console.log("Generating Excel for Overall Report Level 2");
+        console.log(document.getElementById("jsondataL2").innerText);
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/GenExcel_OverallL2",
+            data: JSON.stringify({ "InputText": document.getElementById("jsondataL2").innerText }),
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                console.log("original file name: " + response);
+
+                var converted = JSON.parse(response);
+                console.log("converted: " + converted[0].FileName);
+
+                document.getElementById("downloadlink2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;"
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+        
+        console.log("done");
+    }
+</script>
+
+<script>
+    function GenOverall_Excel_L3() {
+        console.log("Generating Excel for Overall Report Level 3");
+        console.log(document.getElementById("jsondataL3").innerText);
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/GenExcel_OverallL3",
+            data: JSON.stringify({ "InputText": document.getElementById("jsondataL3").innerText }),
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                console.log("original file name: " + response);
+
+                var converted = JSON.parse(response);
+                console.log("converted: " + converted[0].FileName);
+
+                document.getElementById("downloadlink2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;"
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+
+        console.log("done");
+    }
+</script>
+
+<script>
+    function GenOverall_Excel_L4() {
+        console.log("Generating Excel for Overall Report Level 4");
+        console.log(document.getElementById("jsondataL4").innerText);
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            url: "http://localhost:5106/API/GenExcel_OverallL4",
+            data: JSON.stringify({ "InputText": document.getElementById("jsondataL4").innerText }),
+            dataType: "json",
+            crossDomain: true,
+            success: function (response) {
+                console.log("success");
+                console.log("original file name: " + response);
+
+                var converted = JSON.parse(response);
+                console.log("converted: " + converted[0].FileName);
+                // ShowExcelButtonsL4();
+                document.getElementById("downloadlink2").href = "http://localhost:5106/ExcelFiles/" + converted[0].FileName;
+                document.getElementById("downloadlink2").style = "border-style:solid; border-width: 1px; border-color: grey; position: absolute; top: 220px; left: 1700px; display: block; height: 35px; width: 35px;"
+                console.log(document.getElementById("downloadlink2").href);
+            },
+            failure: function (response) {
+                console.log("failure");
+            },
+            error: function (response, status) {
+                console.log("error");
+            }
+        });
+      
+        console.log("done");
+    }
+</script>
+
+<script>
+    function ShowPrevPageL2() {
+        document.getElementById("ReportContent").innerHTML = document.getElementById("HistoryL1").innerHTML;
+        document.getElementById("reportHD").style = "display: none;";
+        HideExcelButtons();
+        ShowExcelButtons();
+    }
+</script>
+
+<script>
+    function ShowPrevPageL3() {
+        console.log("Showing History Page from L3");
+        
+        ShowStickyHeader();
+        configureContentScrollbar();
+        EnableButtons();
+        document.getElementById("ReportContent").innerHTML = "";
+        document.getElementById("ReportContent").innerHTML = document.getElementById("HistoryL2").innerHTML;
+        document.getElementById("reportHD").innerHTML = document.getElementById("HistoryL2HD").innerHTML;
+        HideExcelButtons();
+        ShowExcelButtonsL2();
+    }
+</script>
+
+<script>
+    function ShowPrevPageL4() {
+        console.log("Showing History Page from L4");
+        ShowStickyHeader();
+        configureContentScrollbar();
+        EnableButtons();
+        document.getElementById("ReportContent").innerHTML = document.getElementById("HistoryL3").innerHTML;
+        document.getElementById("reportHD").innerHTML = document.getElementById("HistoryL3HD").innerHTML;
+
+        HideExcelButtons();
+        ShowExcelButtonsL3();
+    }
+</script>
+
+<script>
+    function GetBrowserName(){
+        var browsername = "";
+        if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1) {
+            browsername = "Opera";
+        } else if (navigator.userAgent.indexOf("Edg") != -1) {
+            browsername = "Edge";
+        } else if (navigator.userAgent.indexOf("Chrome") != -1) {
+            browsername = "Chrome";
+        } else if (navigator.userAgent.indexOf("Safari") != -1) {
+            browsername = "Safari";
+        } else if (navigator.userAgent.indexOf("Firefox") != -1) {
+            browsername = "Firefox";
+        } else if ((navigator.userAgent.indexOf("MSIE") != -1) || (!!document.documentMode == true)) //IF IE > 10
+        {
+            browsername = "IE";
+        } else {
+            browsername = "unknown";
+        }
+        return browsername;
+    }
+</script>
