@@ -29,7 +29,14 @@ function showdiv(myname, me) {
 		if (mycolor == "rgb(102, 102, 255) none repeat scroll 0% 0% / auto padding-box border-box") {
 			//alert("this is a link");
 			let mylink = $(me).attr("data-link");
-			if (mylink != "") {
+			if (mylink != null) {
+				let flink = "" + mylink + "";
+				window.open(flink, '_blank', 'height=' + screen.height + ', width=' + screen.width);
+			}
+		}
+		else {
+			let mylink = $(me).attr("data-link");
+			if (mylink != null) {
 				let flink = "" + mylink + "";
 				window.open(flink, '_blank', 'height=' + screen.height + ', width=' + screen.width);
 			}
@@ -61,7 +68,7 @@ function hidemenu() {
 
 	if (s == "none") {
 		$("#menubarboss").css("display", "block");
-		$("#menubuttdiv").css("left", "560px");
+		$("#menubuttdiv").css("left", "810px");
 		$("#menubutt").html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/></svg>');
 	}
 	else {

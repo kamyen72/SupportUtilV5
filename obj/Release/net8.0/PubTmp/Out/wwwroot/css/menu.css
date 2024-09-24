@@ -3,11 +3,156 @@
     border-radius: 15px;
     color: white;
     font-weight: bold;
-    /*margin: 36px;*/
-    /*padding: .5em 2em;*/
     position: inherit;
     text-align: center;
     text-decoration: none;
     text-shadow: 0 1px 1px #444;
     font-size: 12px;
+    cursor: pointer;
+}
+
+.spanbutt {
+    background-color: grey;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    position: inherit;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px #444;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 3px 3px 3px 3px;
+}
+
+.bigbutt {
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    background-color: lightcoral;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    position: inherit;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px #444;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 3px 5px 3px;    
+}
+
+.cell {
+    border-style: solid;
+    border-width: 1px;
+    border-color: blue;
+    text-align: center;
+    padding: 3px 3px 3px 3px;
+}
+
+.hdcell {
+    border-style: solid;
+    border-width: 1px;
+    border-color: blue;
+    text-align: center;
+    padding: 3px 3px 3px 3px;
+    font-weight: bolder;
+    background: lightblue;
+}
+
+.warningcell {
+    background: yellow;
+}
+
+.purplecell {
+    background: purple;
+    color: white;
+}
+
+.pinkcell {
+    background: pink;
+    color: black;
+}
+
+.bluecell {
+    background: darkgreen;
+    color: white;
+}
+
+#menubuttdiv {
+    left: 825px;
+    position: absolute;
+    /*top: 65px;*/
+    display: block;
+    top: 10px;
+}
+
+.TitleText {
+    font-weight: bolder;
+    font-size: 40px;
+    color: #5C5C5C;
+    text-shadow: -2px -2px 0px #333333, 1px 1px 0px #666666;
+    top:110px;
+}
+
+#mainDiv {
+    position: absolute;
+    top:15px;
+    left: 10px;
+    display: block;
+    width: 1920px;
+}
+
+#MainContent {
+    position: absolute;
+    top:100px;
+    left: 10px;
+    display: block;
+    width: 1920px;
+    margin-left: 20px;
+    text-align: center;
+}
+
+#center_table {
+    text-align: center;
+    margin-left: 50px;
+}
+
+#center_table2 {
+    text-align: left;
+    margin-left: 520px;
+}
+
+.normalbutt {
+    background: orange;
+    opacity: 1;
+    border-style: none;
+    cursor: pointer;
+    border-radius:10px;
+    height: 50px;
+    width: 50px;
+}
+
+i {
+    font-size: 80px;
+    cursor: pointer;    
+    color:red;
+}
+
+.bottom_td {
+    vertical-align: bottom;
+    padding-top: 20px;
+}
+
+.dateonly {
+    padding-bottom: 13px;
+    padding-top:25px;
+}
+
+.lab {
+    padding-bottom: 13px;
+    padding-top:25px;
+    color:red;
+    font-weight: bolder;
+    font-size: 16px;
 }

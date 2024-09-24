@@ -419,36 +419,24 @@
             <div id="menubar" class="col-sm-12 col-md-12" style="padding: 5px 5px 5px 5px;">
             </div>
         </div>
-        <div id="menubuttdiv" style="position:fixed;left:560px;top:65px;display:block;"><button id="menubutt" style="height:30px;border-radius:10px;" onclick="hidemenu()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" /></svg></button></div>
-        <div class="row" style="margin-top: 100px;">
-            <div class="col-sm-12 col-md-12" style="text-align:center;">
-                <span class="TitleText">User Activity Listing</span>
-            </div>
+        <div id="menubuttdiv" style="position:fixed;top:65px;display:block;"><button id="menubutt" style="height:30px;border-radius:10px;" onclick="hidemenu()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" /></svg></button></div>
+    </div>
+    <div class="row" id="MainContent">
+        <div class="col-sm-12 col-md-12" style="text-align:center;">
+            <span class="TitleText">User Activity Listing</span>
         </div>
-        <div class="row">
-            <div class="col-sm-3 col-md-3" style="text-align: left;">
-            </div>
 
-            <div class="col-sm-6 col-md-6" style="text-align: right;">
-                <label>TicketNo (Current Period)</label>
-                <input type="text" id="txtCurrentPeriod" value="" /><br />
-                <label>User Name (Account)</label>&nbsp;<input type="text" id="txtUserName" value="" />
-                <button onclick="ViewUserActivityFullList()" style="font-size:18px;font-weight:bolder;background:#87cbed;">View Activities by UserName</button>
-                <button onclick="GenerateUserActivityFullList()" style="font-size:18px;font-weight:bolder;">Generate Activities Excel by UserName</button>
-                <br />
-                <a id="downloadlink1" href="" target="_blank" download="" style="display:none;font-size:20px;font-weight:bold;color:red;">Download Excel File</a>
-                <br />
-                <button id="btnFindList" onclick="GetUserActivityList()" style="font-size:18px;font-weight:bolder;">Generate List</button>
-                <button id="btnGenAll" onclick="ProcessAllButtons()" style="font-size:18px;font-weight:bolder;">Process Selected</button>
-            </div>
-
-            <div class="col-sm-3 col-md-3" style="text-align: left;">
-            </div>
-
-            <div class="row">
-                <div class="col-sm-12 col-md-12" id="div_result">
-                </div>
-            </div>
+        <div class="col-sm-12 col-md-12" style="text-align: center;">
+            <label>TicketNo (Current Period)</label>
+            <input type="text" id="txtCurrentPeriod" value="" /><br />
+            <label>User Name (Account)</label>&nbsp;<input type="text" id="txtUserName" value="" />
+            <button onclick="ViewUserActivityFullList()" style="font-size:18px;font-weight:bolder;background:#87cbed;">View Activities by UserName</button>
+            <button onclick="GenerateUserActivityFullList()" style="font-size:18px;font-weight:bolder;">Generate Activities Excel by UserName</button>
+            <br />
+            <a id="downloadlink1" href="" target="_blank" download="" style="display:none;font-size:20px;font-weight:bold;color:red;">Download Excel File</a>
+            <!--<br />
+            <button id="btnFindList" onclick="GetUserActivityList()" style="font-size:18px;font-weight:bolder;">Generate List</button>
+            <button id="btnGenAll" onclick="ProcessAllButtons()" style="font-size:18px;font-weight:bolder;">Process Selected</button>-->
         </div>
 
         <div class="row">

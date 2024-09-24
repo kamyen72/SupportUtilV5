@@ -33,8 +33,16 @@
       "PackagePath": "staticwebassets\\ExcelFiles\\UserActivityListFull_2024-08-26-00-13-08.xlsx"
     },
     {
+      "Id": "C:\\source_codes\\new\\wwwroot\\ExcelFiles\\UserActivityList_2024-09-01-13-23-11.xlsx",
+      "PackagePath": "staticwebassets\\ExcelFiles\\UserActivityList_2024-09-01-13-23-11.xlsx"
+    },
+    {
       "Id": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
       "PackagePath": "staticwebassets\\RemoveDuplicate.html"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\SynchronizePlayers.html",
+      "PackagePath": "staticwebassets\\SynchronizePlayers.html"
     },
     {
       "Id": "C:\\source_codes\\new\\wwwroot\\TestCharacters.html",
@@ -59,6 +67,14 @@
     {
       "Id": "C:\\source_codes\\new\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\download.png",
+      "PackagePath": "staticwebassets\\download.png"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\excel.jpg",
+      "PackagePath": "staticwebassets\\excel.jpg"
     },
     {
       "Id": "C:\\source_codes\\new\\wwwroot\\favicon.ico",
@@ -301,12 +317,32 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\source_codes\\new\\wwwroot\\prev.png",
+      "PackagePath": "staticwebassets\\prev.png"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\quickcheck.html",
+      "PackagePath": "staticwebassets\\quickcheck.html"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\red_download.jpg",
+      "PackagePath": "staticwebassets\\red_download.jpg"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\red_download.png",
+      "PackagePath": "staticwebassets\\red_download.png"
+    },
+    {
+      "Id": "C:\\source_codes\\new\\wwwroot\\report.png",
+      "PackagePath": "staticwebassets\\report.png"
+    },
+    {
       "Id": "C:\\source_codes\\new\\wwwroot\\temp.html",
       "PackagePath": "staticwebassets\\temp.html"
     },
     {
-      "Id": "C:\\source_codes\\new\\wwwroot\\winLoseReportByGame.html",
-      "PackagePath": "staticwebassets\\winLoseReportByGame.html"
+      "Id": "C:\\source_codes\\new\\wwwroot\\winLoseReportByGameV2.html",
+      "PackagePath": "staticwebassets\\winLoseReportByGameV2.html"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.SupportUtilV4.Microsoft.AspNetCore.StaticWebAssets.props",

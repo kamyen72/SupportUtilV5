@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>User Activity Listing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="js/menu.js"></script>
+    <link rel="stylesheet" href="css/menu.css">
+
+    <script>
+        $(document).ready(function () {
+            GetMenuRootsV3();
+        });
+    </script>
+
+    <script>
+        function GetMenuRootsV3() {
+            $.ajax({
+                type: "POST",
+                url: "/API/GetMenuV3",
+                data: JSON.stringify({ "InputText": "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    let txt = response.ReturnText;
+                    $("#menubar").html(txt);
+                    //document.getElementById("menuRootsJson").innerText = txt;
+                },
+                failure: function (response) {
+                },
+                error: function (response, status) {
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function showdiv(myname, me) {
+            let nname = "#" + myname;
+            let state = $(nname).css("display");
+
+            let mytop = $(me).css("top");
+            let mycolor = $(me).css("background");
+            if (mycolor != null) {
+                if (mycolor == "rgb(102, 102, 255) none repeat scroll 0% 0% / auto padding-box border-box") {
+                    //alert("this is a link");
+                    let mylink = $(me).attr("data-link");
+                    if (mylink != "") {
+                        let flink = "" + mylink + "";
+                        window.open(flink);
+                    }
+                }
+            }
+
+            if (state == "none") {
+                $(".l2").css("display", "none");
+                let state = $(nname).css("display", "block");
+                $(nname).css("top", mytop);
+            }
+            else {
+                $(".l2").css("display", "none");
+                let state = $(nname).css("display", "none");
+                $(nname).css("top", mytop);
+            }
+        }
+    </script>
+
+    <script>
+        function hidediv(me) {
+            var newname = "#" + me;
+            $(newname).css('display', 'none');
+        }
+    </script>
+
+
+    <script>
+        function hidemenu() {
+            //alert("wooi");
+
+            let s = $("#menubarboss").css("display");
+            //alert(s);
+
+            if (s == "none") {
+                $("#menubarboss").css("display", "block");
+                $("#menubuttdiv").css("left", "560px");
+                $("#menubutt").html('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/></svg>');
+            }
+            else {
+                $("#menubarboss").css("display", "none");
+                $("#menubuttdiv").css("left", "10px");
+                $("#menubutt").html('<svg xmlns="http://www.w3.org/2000/svg" width = "16" height = "16" fill = "currentColor" class= "bi bi-arrow-bar-right" viewBox = "0 0 16 16" > <path fill - rule="evenodd" d = "M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8m-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5" /> </svg>');
+            }
+        }
+    </script>
+
+    <script>
+        function SynchronizePlayerByDB(myname) {
+            var wait = "<img src='clock.gif'>"
+
+            document.getElementById("div_result2").style.display = "block";
+            document.getElementById("div_result2").style.textAlign = "center";
+            $("#div_result2").html(wait);
+
+            $.ajax({
+                type: "POST",
+                url: "/API/CheckRecordDiffByDB",
+                data: JSON.stringify({ "DBName": myname, "CurrentPeriod":  $("#txtCurrentPeriod").val()}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    // alert("ok ah");
+                    let txt = response.ReturnText;
+                    // alert(txt);
+                    
+                    document.getElementById("div_result2").style.display = "block";
+                    document.getElementById("div_result2").style.textAlign = "center";
+                    document.getElementById("div_result2").style.paddingTop = "10px";
+
+                    document.getElementById("div_result2").style.paddingLeft = ((screen.width / 2) - 650) + "px";
+
+                    $("#div_result2").html(txt);
+                },
+                failure: function (response) {
+                },
+                error: function (response, status) {
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function removedupgdmp(me) {
+            var cp = $(me).attr("data-CurrentPeriod");
+            var sn = $(me).attr("data-SelectedNums");
+            var gi = $(me).attr("data-GameDealerMemberId");
+            var ik = $(me).attr("data-IDtoKeep");
+            var cs = $(me).attr("data-ConnStr");
+
+            // alert(cp + "\n" + sn + "\n" + gi + "\n" + ik + "\n" + cs);
+
+            $.ajax({
+                type: "POST",
+                url: "/API/DeleteDuplicate",
+                data: JSON.stringify({ "ConnStr": cs, "CurrentPeriod": cp, "SelectedNums": sn, "GameDealerMemberID": gi, "IDtoKeep":  ik}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                   alert("Duplicate Records Removed");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+
+        }
+
+    </script>
+
+    <script>
+        function removedupmp(me) {
+            var cp = $(me).attr("data-CurrentPeriod");
+            var sn = $(me).attr("data-SelectedNums");
+            var gi = $(me).attr("data-GameDealerMemberId");
+            var ik = $(me).attr("data-IDtoKeep");
+            var cs = $(me).attr("data-ConnStr");
+
+            // alert(cp + "\n" + sn + "\n" + gi + "\n" + ik + "\n" + cs);
+
+            $.ajax({
+                type: "POST",
+                url: "/API/DeleteExtraMP",
+                data: JSON.stringify({ "ConnStr": cs, "CurrentPeriod": cp, "SelectedNums": sn, "GameDealerMemberID": gi, "IDtoKeep":  ik}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                   alert("Duplicate Records Removed");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+
+        }
+
+    </script>
+
+    <script>
+        function createmp(me) {
+            // alert(me.getAttribute("data-dbname") + " \n " + me.getAttribute("data-AllIDs") );
+
+
+            $.ajax({
+                type: "POST",
+                url: "/API/CreateMissingMPlayerByDB",
+                data: JSON.stringify({ "dbname": me.getAttribute("data-dbname"), "allIDs": me.getAttribute("data-AllIDs") }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert("MPlayer Record Created");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function creategdmp(me) {
+            // alert(me.getAttribute("data-dbname") + " \n " + me.getAttribute("data-AllIDs") );
+
+
+            $.ajax({
+                type: "POST",
+                url: "/API/CreateMissingGDMPByDB",
+                data: JSON.stringify({ "dbname": me.getAttribute("data-dbname"), "allIDs": me.getAttribute("data-AllIDs") }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert("GamedealerMPlayer Record Created");
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response, status) {
+                    //alert(status);
+                    $("#div_result").html("<span style='color:red;'>Error: </span>" + response.responseText);
+                }
+            });
+        }
+    </script>
+
+</head>
+<body>
+    <div id="mainDiv" class="container-fluid">
+        <div id="menubarboss" class="row" style="margin-left:15px;display:block;position:absolute;top:10px;border-style:solid;border-width:3px;">
+            <div id="menubar" class="col-sm-12 col-md-12" style="padding: 5px 5px 5px 5px;">
+            </div>
+        </div>
+        <div id="menubuttdiv" >
+            <button id="menubutt" style="height:30px;border-radius:10px;" onclick="hidemenu()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5" /></svg>
+            </button>
+        </div>
+
+        <div class="row" style="margin-top:150px;">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <span class="TitleText">Synchronize Records in MPlayer and GamedealerMPlayer</span>
+            </div>
+        </div>
+
+        <div class="row" style="display:block;">
+            <div class="col-sm-12 col-md-12" style="text-align:center;">
+                <label style="font-size: 26px;">TicketNo (Current Period)</label>
+                <input type="text" id="txtCurrentPeriod" value="" onkeyup="resetCurrentPeriodColor()" style="font-size: 26px;" />
+            </div>
+        </div>
+        <div class="row" style="padding-top: 50px;">
+            <div class="col-sm-4 col-md-4" style="text-align: center; border-style: solid; border-width: thin; height: 240px; ">
+                <label class="servertitle">Server 55</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_ghl55')">GHL</span>
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_tm')">ThirdM</span>
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_tm2')">ThirdM2</span>
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_tm3')">ThirdM3</span>
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_bv')">BV</span>
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_wl')">WL</span>
+            </div>
+            <div class="col-sm-4 col-md-4" style="text-align: center; border-style: solid; border-width: thin; height: 240px; ">
+                <label class="servertitle">Server 149</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_ace99')">ACE 99</span>
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_king4d')">King 4D</span>
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_togelking')">TogelKing</span>
+            </div>
+            <div class="col-sm-4 col-md-4" style="text-align: center; border-style: solid; border-width: thin; height: 240px; ">
+                <label class="servertitle">Staging Server (118.107.201.247)</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_ghlstaging')">GHL</span>
+                <br /><br />
+
+                <label class="servertitle">Local</label>
+                <hr style="height:5px;border-width:0;color:gray;background-color:gray" />
+                <span class="bigbutt" onclick="SynchronizePlayerByDB('db_local')">ThirdM</span>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12" id="div_result2" style="display:none;">
+            </div>
+        </div>
+
+        <div id="ReportJSON" style="display:none;"></div>
+        <div style="display:none">
+            <input type="text" id="TotalRecs" value="" />
+            <input type="text" id="TotalRows" value="" />
+            <div id="txtIDs"></div>
+            <div id="txtJason"></div>
+        </div>
+    </div>
+
+</body>
+</html>

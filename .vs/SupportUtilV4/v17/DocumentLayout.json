@@ -3,44 +3,8 @@
   "WorkspaceRootPath": "C:\\source_codes\\new\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\checkmissingmplayer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\checkmissingmplayer.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\checkpendingrecsbycurrentperiod.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\checkpendingrecsbycurrentperiod.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\useractivitylisting.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\useractivitylisting.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\testcurrentperiodcheck.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\testcurrentperiodcheck.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\testcharacters.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\testcharacters.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\createnewagent.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\createnewagent.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\css\\menu.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\css\\menu.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\js\\menu.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\js\\menu.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dbutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -49,6 +13,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,159 +38,53 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserActivityListing.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\UserActivityListing.html",
-              "RelativeDocumentMoniker": "wwwroot\\UserActivityListing.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\UserActivityListing.html",
-              "RelativeToolTip": "wwwroot\\UserActivityListing.html",
-              "ViewState": "AQIAAJcBAAAAAAAAAAAAAKUBAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-01T02:49:02.575Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TestCurrentPeriodCheck.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\TestCurrentPeriodCheck.html",
-              "RelativeDocumentMoniker": "wwwroot\\TestCurrentPeriodCheck.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\TestCurrentPeriodCheck.html",
-              "RelativeToolTip": "wwwroot\\TestCurrentPeriodCheck.html",
-              "ViewState": "AQIAAGwAAAAAAAAAAAAAAHgAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-01T02:48:45.775Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TestCharacters.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\TestCharacters.html",
-              "RelativeDocumentMoniker": "wwwroot\\TestCharacters.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\TestCharacters.html",
-              "RelativeToolTip": "wwwroot\\TestCharacters.html",
-              "ViewState": "AQIAAGUAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-01T02:48:40.121Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "RemoveDuplicate.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
-              "RelativeDocumentMoniker": "wwwroot\\RemoveDuplicate.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
-              "RelativeToolTip": "wwwroot\\RemoveDuplicate.html",
-              "ViewState": "AQIAAN4AAAAAAAAAAAAAAPkAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-01T02:48:21.231Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CreateNewAgent.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\CreateNewAgent.html",
-              "RelativeDocumentMoniker": "wwwroot\\CreateNewAgent.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\CreateNewAgent.html",
-              "RelativeToolTip": "wwwroot\\CreateNewAgent.html",
-              "ViewState": "AQIAAFQAAAAAAAAAAAAAAGgAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-01T02:48:06.735Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "CheckPendingRecsByCurrentPeriod.html",
               "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\CheckPendingRecsByCurrentPeriod.html",
               "RelativeDocumentMoniker": "wwwroot\\CheckPendingRecsByCurrentPeriod.html",
               "ToolTip": "C:\\source_codes\\new\\wwwroot\\CheckPendingRecsByCurrentPeriod.html",
               "RelativeToolTip": "wwwroot\\CheckPendingRecsByCurrentPeriod.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAArAAAA",
+              "ViewState": "AQIAAEoAAAAAAAAAAAAiwGwAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-01T02:47:52.879Z",
+              "WhenOpened": "2024-09-23T05:28:09.63Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CheckMissingMPlayer.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\CheckMissingMPlayer.html",
-              "RelativeDocumentMoniker": "wwwroot\\CheckMissingMPlayer.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\CheckMissingMPlayer.html",
-              "RelativeToolTip": "wwwroot\\CheckMissingMPlayer.html",
-              "ViewState": "AQIAAKkCAAAAAAAAAAAAAMMCAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-01T02:47:28.082Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "APIController.cs",
-              "DocumentMoniker": "C:\\source_codes\\new\\Controllers\\APIController.cs",
-              "RelativeDocumentMoniker": "Controllers\\APIController.cs",
-              "ToolTip": "C:\\source_codes\\new\\Controllers\\APIController.cs",
-              "RelativeToolTip": "Controllers\\APIController.cs",
-              "ViewState": "AQIAAPkCAAAAAAAAAAAgwBwDAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-01T02:41:54.415Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 1,
               "Title": "DBUtil.cs",
               "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
               "RelativeDocumentMoniker": "Classes\\DBUtil.cs",
               "ToolTip": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
               "RelativeToolTip": "Classes\\DBUtil.cs",
-              "ViewState": "AQIAAIwDAAAAAAAAAAAnwK0DAAAQAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFwDAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-01T02:37:52.495Z",
+              "WhenOpened": "2024-09-22T08:19:26.63Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\source_codes\\new\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\source_codes\\new\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAADcAAAAAAAAAAAAAAEwAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-01T02:37:20.623Z",
-              "EditorCaption": ""
+              "DocumentIndex": 3,
+              "Title": "RemoveDuplicate.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
+              "RelativeDocumentMoniker": "wwwroot\\RemoveDuplicate.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
+              "RelativeToolTip": "wwwroot\\RemoveDuplicate.html",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAANkAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-09-22T08:15:48.711Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "menu.css",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\css\\menu.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\menu.css",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\css\\menu.css",
-              "RelativeToolTip": "wwwroot\\css\\menu.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-01T02:34:17.762Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "menu.js",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\js\\menu.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\menu.js",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\js\\menu.js",
-              "RelativeToolTip": "wwwroot\\js\\menu.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEYAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-08-31T10:24:45.109Z",
-              "EditorCaption": ""
+              "DocumentIndex": 2,
+              "Title": "APIController.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Controllers\\APIController.cs",
+              "RelativeDocumentMoniker": "Controllers\\APIController.cs",
+              "ToolTip": "C:\\source_codes\\new\\Controllers\\APIController.cs",
+              "RelativeToolTip": "Controllers\\APIController.cs",
+              "ViewState": "AQIAAAACAAAAAAAAAAAYwJUCAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-22T03:50:42.204Z"
             }
           ]
         }

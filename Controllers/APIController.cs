@@ -155,48 +155,66 @@ namespace DupRecRemoval.Controllers
             wrec.SelectedNums = model.SelectedNums;
             wrec.GameDealerMemberID = model.GameDealerMemberID;
             wrec.ConnStr = model.ConnStr;
+            wrec.IDtoKeep = model.IDtoKeep;
 
             string sql = "";
-
-            sql = sql + "select top 1 * from GameDealerMPlayer ";
-            sql = sql + "Where CurrentPeriod = '@dbCurrentPeriod' ";
+            sql = sql + "delete from gamedealermplayer ";
+            sql = sql + "where CurrentPeriod = '@dbCurrentPeriod' ";
             sql = sql + "and SelectedNums = '@dbSelectedNums' ";
-            sql = sql + "and MemberID = @dbGameDealerMemberID ";
-            sql = sql + "order by ID ";
+            sql = sql + "and MemberID = @dbMemberID ";
+            sql = sql + "and Id <> @dbID ";
 
             string sql2 = sql.Replace("@dbCurrentPeriod", wrec.CurrentPeriod)
-                .Replace("@dbSelectedNums", wrec.SelectedNums)
-                .Replace("@dbGameDealerMemberID", wrec.GameDealerMemberID);
-
-            SqlConnection connection = new SqlConnection(wrec.ConnStr);
-            DataTable myDataRows = new DataTable();
-            SqlCommand command = new SqlCommand(sql2, connection);
-            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            adapter.Fill(myDataRows);
-            connection.Close();
-
-            int maxrows = myDataRows.Rows.Count;
-            for (int i = 0; i < maxrows; i++)
-            {
-                DataRow row = myDataRows.Rows[i];
-                wrec.IDtoKeep = int.Parse(row["ID"].ToString());
-            }
-
-            string sql3 = "delete from GameDealerMPlayer ";
-            sql3 = sql3 + "Where CurrentPeriod = '@dbCurrentPeriod' ";
-            sql3 = sql3 + "and SelectedNums = '@dbSelectedNums' ";
-            sql3 = sql3 + "and MemberID = @dbGameDealerMemberID ";
-            sql3 = sql3 + "and ID <> @dbIDtokeep ";
-            
-
-            string sql4 = sql3.Replace("@dbCurrentPeriod", wrec.CurrentPeriod)
             .Replace("@dbSelectedNums", wrec.SelectedNums)
-            .Replace("@dbIDtokeep", wrec.IDtoKeep.ToString())
-            .Replace("@dbGameDealerMemberID", wrec.GameDealerMemberID);
+            .Replace("@dbID", wrec.IDtoKeep.ToString())
+            .Replace("@dbMemberID", wrec.GameDealerMemberID);
 
             SqlConnection connection2 = new SqlConnection(wrec.ConnStr);
-            SqlCommand command2 = new SqlCommand(sql4, connection2);
+            SqlCommand command2 = new SqlCommand(sql2, connection2);
+            connection2.Open();
+            command2.ExecuteNonQuery();
+            connection2.Close();
+
+            ReturnModel rt = new ReturnModel();
+            rt.ReturnText = "Success";
+
+            string rJason = JsonConvert.SerializeObject(rt);
+
+            return Ok(rJason);
+        }
+
+
+        [EnableCors("AllowAll")]
+        [Route("DeleteExtraMP")]
+        [HttpPost]
+        public IActionResult DeleteExtraMP([FromBody] WrongGDMPlayer model)
+        {
+            if (model == null)
+            {
+                return BadRequest("Input text is required.");
+            }
+
+            WrongGDMPlayer wrec = new WrongGDMPlayer();
+            wrec.CurrentPeriod = model.CurrentPeriod;
+            wrec.SelectedNums = model.SelectedNums;
+            wrec.GameDealerMemberID = model.GameDealerMemberID;
+            wrec.ConnStr = model.ConnStr;
+            wrec.IDtoKeep = model.IDtoKeep;
+
+            string sql = "";
+            sql = sql + "delete from mplayer ";
+            sql = sql + "where CurrentPeriod = '@dbCurrentPeriod' ";
+            sql = sql + "and SelectedNums = '@dbSelectedNums' ";
+            sql = sql + "and GameDealerMemberID = @dbMemberID ";
+            sql = sql + "and Id <> @dbID ";
+
+            string sql2 = sql.Replace("@dbCurrentPeriod", wrec.CurrentPeriod)
+            .Replace("@dbSelectedNums", wrec.SelectedNums)
+            .Replace("@dbID", wrec.IDtoKeep.ToString())
+            .Replace("@dbMemberID", wrec.GameDealerMemberID);
+
+            SqlConnection connection2 = new SqlConnection(wrec.ConnStr);
+            SqlCommand command2 = new SqlCommand(sql2, connection2);
             connection2.Open();
             command2.ExecuteNonQuery();
             connection2.Close();
@@ -637,6 +655,22 @@ namespace DupRecRemoval.Controllers
         }
 
         [EnableCors("AllowAll")]
+        [Route("CreateMissingGDMPByDB")]
+        [HttpPost]
+        public IActionResult CreateMissingGDMPByDB([FromBody] CreateMPlayerInput model)
+        {
+            string AllIDs = model.allIDs;
+            string dbName = model.dbname;
+
+            DBUtil dBUtil = new DBUtil();
+            dBUtil.CreateMissingGDMPlayerByDB(dbName, AllIDs);
+
+            ReturnModel rJason = new ReturnModel();
+            rJason.ReturnText = "Done Creation of MPlayer Records";
+            return Ok(rJason);
+        }
+
+        [EnableCors("AllowAll")]
         [Route("CheckMissingMPlayerByDB")]
         [HttpPost]
         public IActionResult CheckMissingMPlayerByDB([FromBody] MissingMPlayerInput model)
@@ -862,5 +896,35 @@ namespace DupRecRemoval.Controllers
             string rJason = JsonConvert.SerializeObject(rm);
             return Ok(rJason);
         }
+
+        [EnableCors("AllowAll")]
+        [Route("GetLastAgentCode")]
+        [HttpPost]
+        public IActionResult GetLastAgentCode()
+        {
+            DBUtil dbu = new DBUtil();
+
+            ReturnModel rm = new ReturnModel();
+            rm.ReturnText = dbu.GetLastAgentCode();
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
+
+        [EnableCors("AllowAll")]
+        [Route("CheckRecordDiffByDB")]
+        [HttpPost]
+        public IActionResult CheckRecordDiffByDB([FromBody] CheckRec_Input model)
+        {
+            var mydb = model.DBName;
+            var curp = model.CurrentPeriod;
+
+            DBUtil dbu = new DBUtil();
+
+            ReturnModel rm = new ReturnModel();
+            rm.ReturnText = dbu.GetRecordDifferenceByDB(mydb, curp);
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
+
     }
 }

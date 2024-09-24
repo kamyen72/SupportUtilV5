@@ -7,6 +7,7 @@ using SupportUtilV3.Classes;
 using SupportUtilV4.Classes;
 using System.Data;
 using System.Net;
+using System.Xml.Linq;
 
 namespace SupportUtil.Classes
 {
@@ -857,13 +858,93 @@ namespace SupportUtil.Classes
             if (localconnstr != null && localconnstr != "")
             {
                 string sql = "";
-                sql = sql + "INSERT INTO MPlayer ";
+                sql = sql + "INSERT INTO [dbo].[MPlayer] ([SecondMPlayerID],[MemberID],[GameDealerMemberID],[UserName],[LotteryInfoID],[CompanyID],[CurrentPeriod],[LotteryInfoName],[SelectedNums],[IsAfter],[IsWinStop],[ManualBet],[Multiple],[DiscountPrice],[Price],[Qty],[IsWin],[ShowResultDate],[RebatePro],[RebateProMoney],[WinMoney],[WinMoneyWithCapital],[ReferralPayType],[CashRebatePayType],[CashBackRebatePayType],[IsReferralWriteReport],[IsCashRebateWriteReport],[IsCashBackWriteReport],[IsReset],[CreateID],[CreateDate],[UpdateID],[UpdateDate])";
                 sql = sql + "SELECT null,0,gm.MemberID,gp.UserName,[LotteryInfoID],gm.[CompanyID],[CurrentPeriod],[LotteryInfoName] ";
                 sql = sql + ",[SelectedNums],[IsAfter],[IsWinStop],[ManualBet],[Multiple],[DiscountPrice],[Price],[Qty],[IsWin],getdate() ";
                 sql = sql + ",[RebatePro],[RebateProMoney],[WinMoney],[WinMoneyWithCapital],0,0,0,0,0,0,0,[CreateID],gm.[CreateDate],[UpdateID],gm.[UpdateDate] ";
                 sql = sql + "FROM GameDealerMPlayer gm ";
                 sql = sql + "LEFT JOIN GameDealerMemberShip gp on gm.MemberID = gp.MemberID ";
                 sql = sql + "WHERE gm.ID in ( @dbAllIDs ) ";
+
+                string sql2 = sql.Replace("@dbAllIDs", allIDs);
+                SqlConnection connection = new SqlConnection(localconnstr);
+                connection.Open();
+                SqlCommand command = new SqlCommand(sql2, connection);
+                command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
+        public void CreateMissingGDMPlayerByDB(string dbname, string allIDs)
+        {
+            DBList alldbs = new DBList();
+            int mx = alldbs.dbs.Count;
+            db thisdb = new db();
+            for (int i = 0; i < mx; i++)
+            {
+                thisdb = alldbs.dbs[i];
+                if (thisdb.MyID == dbname)
+                {
+                    break;
+                }
+            }
+
+            string localconnstr = thisdb.connStr;
+
+            if (localconnstr != null && localconnstr != "")
+            {
+                string sql = "";
+                sql = sql + "INSERT INTO [dbo].[GameDealerMPlayer] ";
+                sql = sql + "([MemberID] ";
+                sql = sql + ",[LotteryInfoID] ";
+                sql = sql + ",[CompanyID] ";
+                sql = sql + ",[CurrentPeriod] ";
+                sql = sql + ",[LotteryInfoName] ";
+                sql = sql + ",[SelectedNums] ";
+                sql = sql + ",[IsAfter] ";
+                sql = sql + ",[IsWinStop] ";
+                sql = sql + ",[ManualBet] ";
+                sql = sql + ",[Multiple] ";
+                sql = sql + ",[DiscountPrice] ";
+                sql = sql + ",[Price] ";
+                sql = sql + ",[Qty] ";
+                sql = sql + ",[IsWin] ";
+                sql = sql + ",[RebatePro] ";
+                sql = sql + ",[RebateProMoney] ";
+                sql = sql + ",[WinMoney] ";
+                sql = sql + ",[WinMoneyWithCapital] ";
+                sql = sql + ",[IsWriteReport] ";
+                sql = sql + ",[CreateID] ";
+                sql = sql + ",[CreateDate] ";
+                sql = sql + ",[UpdateID] ";
+                sql = sql + ",[UpdateDate]) ";
+                sql = sql + "select ";
+                sql = sql + "GameDealerMemberID ";
+                sql = sql + ", LotteryInfoID ";
+                sql = sql + ", CompanyID ";
+                sql = sql + ", CurrentPeriod ";
+                sql = sql + ", LotteryInfoName ";
+                sql = sql + ", SelectedNums ";
+                sql = sql + ", IsAfter ";
+                sql = sql + ", IsWinStop ";
+                sql = sql + ", ManualBet ";
+                sql = sql + ", Multiple ";
+                sql = sql + ", DiscountPrice ";
+                sql = sql + ", Price ";
+                sql = sql + ", Qty ";
+                sql = sql + ", IsWin ";
+                sql = sql + ", RebatePro ";
+                sql = sql + ", RebateProMoney ";
+                sql = sql + ", WinMoney ";
+                sql = sql + ", WinMoneyWithCapital ";
+                sql = sql + ", 0 ";
+                sql = sql + ", CreateID ";
+                sql = sql + ", CreateDate ";
+                sql = sql + ", UpdateID ";
+                sql = sql + ", UpdateDate ";
+                sql = sql + "from mplayer ";
+                sql = sql + "where id in ( @dbAllIDs ) ";
 
                 string sql2 = sql.Replace("@dbAllIDs", allIDs);
                 SqlConnection connection = new SqlConnection(localconnstr);
@@ -1072,6 +1153,11 @@ namespace SupportUtil.Classes
             db.MyID = db_wl.MyID;
             dbs.Add(db);
 
+            db = new db();
+            db.connStr = db_local.connStr;
+            db.MyID = db_local.MyID;
+            dbs.Add(db);
+
             int mx = dbs.Count;
 
             CurrentPeriodLight cpl = new CurrentPeriodLight();
@@ -1172,10 +1258,25 @@ namespace SupportUtil.Classes
                         listgd_wl = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
                         cpl.wl_g = listgd_wl.Count;
                         break;
+
+                    case "db_local":
+                        List<MPlayerLight> listdb_local = new List<MPlayerLight>();
+                        listdb_local = dbu.GetMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.local_m = listdb_local.Count;
+
+                        List<GameDealerMPlayerLight> listgd_local = new List<GameDealerMPlayerLight>();
+                        listgd_local = dbu.GetGameDealerMPlayerLightList(ticketNo, "", thisdb);
+                        cpl.local_g = listgd_local.Count;
+                        break;
                 }
 
-                cpl.m_total = cpl.ace99_m + cpl.king4d_m + cpl.togelking_m + cpl.bv_m + cpl.wl_m + cpl.tm_m + cpl.tm2_m + cpl.tm3_m + cpl.ghl55_m;
-                cpl.g_total = cpl.ace99_g + cpl.king4d_g + cpl.togelking_g + cpl.bv_g + cpl.wl_g + cpl.tm_g + cpl.tm2_g + cpl.tm3_g + cpl.ghl55_g;
+                cpl.m_total = cpl.ace99_m + cpl.king4d_m + cpl.togelking_m + cpl.bv_m + cpl.wl_m + cpl.tm_m + cpl.tm2_m + cpl.tm3_m + cpl.ghl55_m + cpl.local_m;
+                cpl.g_total = cpl.ace99_g + cpl.king4d_g + cpl.togelking_g + cpl.bv_g + cpl.wl_g + cpl.tm_g + cpl.tm2_g + cpl.tm3_g + cpl.ghl55_g + cpl.local_g;
+            }
+
+            if (cpl.IsOpen == null)
+            {
+                cpl.IsOpen = "";
             }
 
             output = "<table border=1 style='border-style:solid;boder-color:grey;border-width:3px;'>";
@@ -1192,6 +1293,7 @@ namespace SupportUtil.Classes
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_m + "</td></tr>";
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_m + "</td></tr>";
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_m + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Local MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.local_m + "</td></tr>";
             output = output + "<tr><td colspan='2'><label style='opacity:0;display:block;height:20px;'> </label></td></tr>";
 
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>ACE99 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_g + "</td></tr>";
@@ -1203,6 +1305,7 @@ namespace SupportUtil.Classes
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_g + "</td></tr>";
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_g + "</td></tr>";
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_g + "</td></tr>";
+            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Local GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.local_g + "</td></tr>";
 
             output = output + "</table>";
 
@@ -1365,6 +1468,239 @@ namespace SupportUtil.Classes
             outlist = myDataRows.ToList<CurrentPeriodLight>();
 
             return outlist;
+        }
+
+        public string GetLastAgentCode()
+        {
+            string result = "";
+            string sql = "select val from settings where id = 1";
+
+            SqlConnection connection = new SqlConnection(db_local_support.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            int mx = myDataRows.Rows.Count;
+            for (int i = 0; i < mx; i++)
+            {
+                DataRow drow = myDataRows.Rows[i];
+
+                result = drow["val"].ToString();
+            }
+
+            return result;
+        }
+
+        public string GetRecordDifferenceByDB(string dbname, string CurrentPeriod)
+        {
+            DBList alldbs = new DBList();
+            int mx = alldbs.dbs.Count;
+            db thisdb = new db();
+            for (int i = 0; i < mx; i++)
+            {
+                thisdb = alldbs.dbs[i];
+                if (thisdb.MyID == dbname)
+                {
+                    break;
+                }
+            }
+
+            string localconnstr = thisdb.connStr;
+
+            string txt = "";
+
+            if (localconnstr != null && localconnstr != "")
+            {
+                string sql = "";
+                sql = sql + "declare @currentPeriod nvarchar(max) ";
+                sql = sql + "set @currentPeriod = '@dbCurrentPeriod' ";
+                sql = sql + "drop table if exists #tempcompare ";
+                sql = sql + "create table #tempcompare ";
+                sql = sql + "( ";
+                sql = sql + "rowid int identity(1,1) not null ";
+                sql = sql + ", CurrentPeriod nvarchar(max) null ";
+                sql = sql + ", UserName nvarchar(max) null ";
+                sql = sql + ", SelectedNums nvarchar(max) null ";
+                sql = sql + ", GameDealerMemberID int null ";
+                sql = sql + ", MP_rec int null ";
+                sql = sql + ", GDMP_rec int null ";
+                sql = sql + ", mp_id int null ";
+                sql = sql + ", gdmp_id int null ";
+                sql = sql + ") ";
+                sql = sql + "insert into #tempcompare (CurrentPeriod, UserName, SelectedNums, GameDealerMemberID) ";
+                sql = sql + "select CurrentPeriod, UserName, SelectedNums, GamedealerMemberID ";
+                sql = sql + "from ( ";
+                sql = sql + "select CurrentPeriod, UserName, SelectedNums, GamedealerMemberID ";
+                sql = sql + "from mplayer ";
+                sql = sql + "where currentperiod = @currentPeriod ";
+                sql = sql + "group by CurrentPeriod, UserName, SelectedNums, GamedealerMemberID ";
+                sql = sql + "union ";
+                sql = sql + "select CurrentPeriod, UserName, SelectedNums, a.MemberID as GameDealerMemberID ";
+                sql = sql + "from gamedealermplayer a ";
+                sql = sql + "left join GameDealerMemberShip b on a.MemberID = b.MemberID ";
+                sql = sql + "where currentperiod = @currentPeriod ";
+                sql = sql + "group by CurrentPeriod, UserName, SelectedNums, a.MemberID ";
+                sql = sql + ") x ";
+                sql = sql + "group by CurrentPeriod, UserName, SelectedNums, GamedealerMemberID ";
+                sql = sql + "drop table if exists #tempgdmp ";
+                sql = sql + "create table #tempgdmp ( ";
+                sql = sql + "Id int null ";
+                sql = sql + ", CurrentPeriod nvarchar(max) null ";
+                sql = sql + ", SelectedNums nvarchar(max) null ";
+                sql = sql + ", MemberID int null ";
+                sql = sql + ") ";
+                sql = sql + "insert into #tempgdmp (id, CurrentPeriod, SelectedNums, memberid) ";
+                sql = sql + "select id, CurrentPeriod, SelectedNums, MemberID from gamedealermplayer where currentperiod = @currentPeriod ";
+                sql = sql + "drop table if exists #tempmplayer  ";
+                sql = sql + "create table #tempmplayer ";
+                sql = sql + "( ";
+                sql = sql + "ID int null ";
+                sql = sql + ", CurrentPeriod nvarchar(max) null ";
+                sql = sql + ", SelectedNums nvarchar(max) null ";
+                sql = sql + ", GamedealerMemberID int null ";
+                sql = sql + ") ";
+                sql = sql + "insert into #tempmplayer (CurrentPeriod, SelectedNums, GamedealerMemberID, id) ";
+                sql = sql + "select CurrentPeriod, SelectedNums, GamedealerMemberID, id ";
+                sql = sql + "from mplayer where CurrentPeriod = @currentPeriod ";
+                sql = sql + "update #tempcompare ";
+                sql = sql + "set mp_rec = (select count(*) from #tempmplayer where CurrentPeriod = x.CurrentPeriod and SelectedNums = x.SelectedNums and GameDealerMemberID = x.GameDealerMemberID) ";
+                sql = sql + ", GDMP_rec = (select count(*) from #tempgdmp where CurrentPeriod = x.CurrentPeriod and SelectedNums = x.SelectedNums and MemberID = x.GameDealerMemberID) ";
+                sql = sql + "from #tempcompare x ";
+                sql = sql + "update #tempcompare ";
+                sql = sql + "set mp_id = isnull((select top 1 id from #tempmplayer where CurrentPeriod = a.currentPeriod and SelectedNums = a.selectedNums and GameDealerMemberID = a.GameDealerMemberID order by id asc), 0) ";
+                sql = sql + "from #tempcompare a ";
+                sql = sql + "update #tempcompare ";
+                sql = sql + "set gdmp_id = isnull((select top 1 id from #tempgdmp where CurrentPeriod = a.currentPeriod and SelectedNums = a.selectedNums and MemberID = a.GameDealerMemberID order by id asc), 0) ";
+                sql = sql + "from #tempcompare a ";
+                sql = sql + "select * from #tempcompare  ";
+
+                string sql2 = sql.Replace("@dbCurrentPeriod", CurrentPeriod);
+                SqlConnection connection = new SqlConnection(localconnstr);
+                connection.Open();
+                DataTable myDataRows = new DataTable();
+                SqlCommand command = new SqlCommand(sql2, connection);
+                command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(myDataRows);
+                //command.ExecuteNonQuery();
+                connection.Close();
+
+                var mx2 = myDataRows.Rows.Count;
+
+                txt = "<table cellspacing=0 cellpadding=0>";
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cell hdcell'>##</td>";
+                txt = txt + "<td class='cell hdcell'>Current Period</td>";
+                txt = txt + "<td class='cell hdcell'>User Name</td>";
+                txt = txt + "<td class='cell hdcell'>Selected Nums</td>";
+                txt = txt + "<td class='cell hdcell'>GamedealerMemberId</td>";
+                txt = txt + "<td class='cell hdcell'>Mplayer Rec</td>";
+                txt = txt + "<td class='cell hdcell'>GamedealerMplayer Rec</td>";
+                txt = txt + "<td class='cell hdcell'>MPlayer ID to Keep</td>";
+                txt = txt + "<td class='cell hdcell'>GDMP ID to Keep</td>";
+                txt = txt + "<td class='cell hdcell'>Action</td>";
+                txt = txt + "</tr>";
+
+                for (int i = 0; i < mx2; i++)
+                {
+                    var thisrow = myDataRows.Rows[i];
+
+                    int mprec = int.Parse(thisrow["MP_rec"].ToString());
+                    int gdmprec = int.Parse(thisrow["GDMP_rec"].ToString());
+
+                    var highlight = "";
+                    var buttext = "";
+                    if (mprec - gdmprec > 0 && gdmprec != 0)
+                    {
+                        highlight = "warningcell";
+                        buttext = "Remove Dup MP";
+                    }
+                    else if (mprec - gdmprec < 0 && mprec != 0)
+                    {
+                        highlight = "bluecell"; // darkgreen
+                        buttext = "Remove Dup GDMP";
+                    }
+                    else if (mprec - gdmprec > 0 && gdmprec == 0)
+                    {
+                        highlight = "purplecell";
+                        buttext = "Create GDMP";
+                    }
+                    else if (mprec - gdmprec < 0 && mprec == 0)
+                    {
+                        highlight = "pinkcell";
+                        buttext = "Create MP";
+                    }
+                    txt = txt + "<tr>";
+                    txt = txt + "<td class='cell " + highlight + "'>" + thisrow["rowid"].ToString() + "</td>";
+                    txt = txt + "<td class='cell " + highlight+ "'>" + thisrow["CurrentPeriod"].ToString() + "</td>";
+                    txt = txt + "<td class='cell " + highlight+ "'>" + thisrow["UserName"].ToString() + "</td>";
+
+                    var rowid = thisrow["rowid"].ToString();
+                    var selnum = thisrow["SelectedNums"].ToString();
+
+                    txt = txt + "<td class='cell " + highlight + "'>" + thisrow["SelectedNums"].ToString() + "</td>";
+                    txt = txt + "<td class='cell "+ highlight+"'>" + thisrow["GamedealerMemberId"].ToString() + "</td>";
+                    txt = txt + "<td class='cell "+ highlight + "'>" + thisrow["MP_rec"].ToString() + "</td>";
+                    txt = txt + "<td class='cell "+ highlight + "'>" + thisrow["GDMP_rec"].ToString() + "</td>";
+                    txt = txt + "<td class='cell " + highlight+ "'>" + thisrow["mp_id"].ToString() + "</td>";
+                    txt = txt + "<td class='cell "+ highlight + "'>" + thisrow["gdmp_id"].ToString() + "</td>";
+
+                    if (buttext != "")
+                    {
+                        if (buttext == "Remove Dup GDMP")
+                        {
+                            txt = txt + "<td class='cell " + highlight + "'><span class='spanbutt' onclick='removedupgdmp(this)' ";
+                            txt = txt + "data-CurrentPeriod='" + thisrow["CurrentPeriod"].ToString() + "' ";
+                            txt = txt + "data-SelectedNums='" + thisrow["SelectedNums"].ToString() + "' ";
+                            txt = txt + "data-GameDealerMemberId='" + thisrow["GamedealerMemberId"].ToString() + "' ";
+                            txt = txt + "data-IDtoKeep='" + thisrow["gdmp_id"].ToString() + "' ";
+                            txt = txt + "data-ConnStr='" + thisdb.connStr + "' ";
+                            txt = txt + ">" + buttext + "</span></td>";
+                        }
+                        else if (buttext == "Remove Dup MP")
+                        {
+                            txt = txt + "<td class='cell " + highlight + "'><span class='spanbutt' onclick='removedupmp(this)' ";
+                            txt = txt + "data-CurrentPeriod='" + thisrow["CurrentPeriod"].ToString() + "' ";
+                            txt = txt + "data-SelectedNums='" + thisrow["SelectedNums"].ToString() + "' ";
+                            txt = txt + "data-GameDealerMemberId='" + thisrow["GamedealerMemberId"].ToString() + "' ";
+                            txt = txt + "data-IDtoKeep='" + thisrow["mp_id"].ToString() + "' ";
+                            txt = txt + "data-ConnStr='" + thisdb.connStr + "' ";
+                            txt = txt + ">" + buttext + "</span></td>";
+                        }
+                        else if (buttext == "Create MP")
+                        {
+                            txt = txt + "<td class='cell " + highlight + "'><span class='spanbutt' onclick='createmp(this)' ";
+                            txt = txt + "data-AllIDs='" + thisrow["gdmp_id"].ToString() + "' ";
+                            txt = txt + "data-dbname='" + thisdb.MyID + "' ";
+                            txt = txt + ">" + buttext + "</span></td>";
+                        }
+                        else if (buttext == "Create GDMP")
+                        {
+                            txt = txt + "<td class='cell " + highlight + "'><span class='spanbutt' onclick='creategdmp(this)' ";
+                            txt = txt + "data-AllIDs='" + thisrow["mp_id"].ToString() + "' ";
+                            txt = txt + "data-dbname='" + thisdb.MyID + "' ";
+                            txt = txt + ">" + buttext + "</span></td>";
+                        }
+                        else
+                        {
+                            txt = txt + "<td class='cell " + highlight + "'><span class='spanbutt'>" + buttext + "</span></td>";
+                        }
+                    }
+                    else
+                    {
+                        txt = txt + "<td class='cell " + highlight + "'><span>" + buttext + "</span></td>";
+                    }
+                    txt = txt + "</tr>";
+                }
+                txt = txt + "</table>";
+            }
+
+            string returntext = txt;
+            return returntext;
         }
     }
 

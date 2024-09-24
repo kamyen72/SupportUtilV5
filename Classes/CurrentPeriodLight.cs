@@ -11,6 +11,8 @@
         public int ghl55_m { get; set; }
         public int bv_m { get; set; }
         public int wl_m { get; set; }
+
+        public int local_m { get; set; }
         public int ace99_m { get; set; }
         public int king4d_m { get; set; }
         public int togelking_m { get; set; }
@@ -22,6 +24,8 @@
         public int ghl55_g { get; set; }
         public int bv_g { get; set; }
         public int wl_g { get; set; }
+
+        public int local_g { get; set; }
         public int ace99_g { get; set; }
         public int king4d_g { get; set; }
         public int togelking_g { get; set; }

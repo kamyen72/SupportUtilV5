@@ -11,6 +11,26 @@
     <script src="js/menu.js"></script>
     <link rel="stylesheet" href="css/menu.css">
     <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "/API/GetLastAgentCode",
+                data: JSON.stringify({ "InputText": "" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    let txt = response.ReturnText;
+                    $("#txtStartNum").val(txt);
+                    //document.getElementById("menuRootsJson").innerText = txt;
+                },
+                failure: function (response) {
+                },
+                error: function (response, status) {
+                }
+            });
+        })
+    </script>
+    <script>
         function ShowAscii() {
             //alert("I will demo the running alphabets");
             var txt = "<table border=1 style='border-style:solid;boder-color:grey;border-width:1px;'>";
@@ -124,7 +144,7 @@
                 <input type="text" id="txtStartNum" value="DAHY" />
                 <button onclick="GenerateNextCode()">Generate Next Code</button>
                 <label>New Code</label>
-                <input type="text" id="txtNewCode" value="DAHY" />
+                <input type="text" id="txtNewCode" value="" />
             </div>
         </div>
         <div class="row">
