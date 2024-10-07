@@ -14,6 +14,23 @@
     <script>
         $(document).ready(function () {
             GetMenuRootsV3();
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const ticket = urlParams.get('ticket')
+            const dbname = urlParams.get('dbname')
+
+            //alert(dbname);
+
+            if (ticket != null) {
+                //alert(ticket);
+
+                $("#txtCurrentPeriod").val(ticket)
+            }
+            if (ticket != null && dbname != null) {
+                //alert("executing");
+                SynchronizePlayerByDB(dbname);
+            }
         });
     </script>
 

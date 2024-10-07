@@ -1284,28 +1284,190 @@ namespace SupportUtil.Classes
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Real Close Time</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.RealCloseTime.ToString() + "</td></tr>";
             output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Is Open</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.IsOpen.ToString() + "</td></tr>";
             output = output + "<tr><td colspan='2'><label style='opacity:0;display:block;height:20px;'> </label></td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>ACE99 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>King4D MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.king4d_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TogelKing MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.togelking_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>GHL 55 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ghl55_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM2 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm2_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_m + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Local MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.local_m + "</td></tr>";
+
+            if (cpl.ace99_m != cpl.ace99_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_ace99'>ACE99 MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_m + "</td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>ACE99 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_m + "</td></tr>";
+            }
+
+            if (cpl.king4d_m != cpl.king4d_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_king4d'>King4D MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_king4d'>" + cpl.king4d_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>King4D MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.king4d_m + "</td></tr>";
+            }
+
+            if (cpl.togelking_m != cpl.togelking_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_togelking'>TogelKing MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_togelking'>" + cpl.togelking_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TogelKing MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.togelking_m + "</td></tr>";
+            }
+
+            if (cpl.ghl55_m != cpl.ghl55_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_ghl55'>GHL 55 MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_ghl55'>" + cpl.ghl55_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>GHL 55 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ghl55_m + "</td></tr>";
+            }
+
+            if (cpl.tm_m != cpl.tm_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm'>TM MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm'>" + cpl.tm_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm_m + "</td></tr>";
+            }
+
+            if (cpl.tm2_m != cpl.tm2_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm2'>TM2 MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm2'>" + cpl.tm2_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM2 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm2_m + "</td></tr>";
+            }
+
+            if (cpl.tm3_m != cpl.tm3_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm3'>TM3 MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm3'>" + cpl.tm3_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_m + "</td></tr>";
+            }
+
+            if (cpl.wl_m != cpl.wl_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_wl'>WL MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_wl'>" + cpl.wl_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_m + "</td></tr>";
+            }
+
+            if (cpl.bv_m != cpl.bv_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_bv'>BV MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_bv'>" + cpl.bv_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_m + "</td></tr>";
+            }
+
+            if (cpl.local_m != cpl.local_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_local'>Local MP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a  href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_local'>" + cpl.local_m + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Local MP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.local_m + "</td></tr>";
+            }
             output = output + "<tr><td colspan='2'><label style='opacity:0;display:block;height:20px;'> </label></td></tr>";
 
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>ACE99 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>King4D GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.king4d_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TogelKing GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.togelking_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>GHL 55 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ghl55_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM2 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm2_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_g + "</td></tr>";
-            output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Local GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.local_g + "</td></tr>";
+            //---- GameDealerMPlayer Portion -------------------------------------------------------------------------------------------------------------------------------------------
+
+            if (cpl.ace99_m != cpl.ace99_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_ace99'>ACE99 GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_ace99'>" + cpl.ace99_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>ACE99 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ace99_g + "</td></tr>";
+            }
+
+            if (cpl.king4d_m != cpl.king4d_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_king4d'>King4D GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_king4d'>" + cpl.king4d_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>King4D GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.king4d_g + "</td></tr>";
+            }
+
+            if (cpl.togelking_m != cpl.togelking_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_togelking'>TogelKing GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_togelking'>" + cpl.togelking_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TogelKing GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.togelking_g + "</td></tr>";
+            }
+
+            if (cpl.ghl55_m != cpl.ghl55_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_ghl55'>GHL 55 GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_ghl55'>" + cpl.ghl55_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>GHL 55 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.ghl55_g + "</td></tr>";
+            }
+
+            if (cpl.tm_m != cpl.tm_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm'>TM GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm'>" + cpl.tm_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm_g + "</td></tr>";
+            }
+
+            if (cpl.tm2_m != cpl.tm2_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm2'>TM2 GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm2'>" + cpl.tm2_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM2 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm2_g + "</td></tr>";
+            }
+
+            if (cpl.tm3_m != cpl.tm3_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm3'>TM3 GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_tm3'>" + cpl.tm3_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>TM3 GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.tm3_g + "</td></tr>";
+            }
+
+            if (cpl.wl_m != cpl.wl_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_wl'>WL GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_wl'>" + cpl.wl_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>WL GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.wl_g + "</td></tr>";
+            }
+
+            if (cpl.bv_m != cpl.bv_g)
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_bv'>BV GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_bv'>" + cpl.bv_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>BV GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.bv_g + "</td></tr>";
+            }
+
+            if (cpl.local_m != cpl.local_g)
+            {
+                output = output + "<tr><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_local'>Local GDMP</a></td><td class='diffclass' style='font-weight:bolder;font-size:16px;'><a href='SynchronizePlayers.html?ticket=" + cpl.CurrentPeriod + "&dbname=db_local'>" + cpl.local_g + "</a></td></tr>";
+            }
+            else
+            {
+                output = output + "<tr><td style='font-weight:bolder;font-size:16px;'>Local GDMP</td><td style='font-weight:bolder;font-size:16px;'>" + cpl.local_g + "</td></tr>";
+            }
+            
 
             output = output + "</table>";
 
@@ -1539,11 +1701,11 @@ namespace SupportUtil.Classes
                 sql = sql + "where currentperiod = @currentPeriod ";
                 sql = sql + "group by CurrentPeriod, UserName, SelectedNums, GamedealerMemberID ";
                 sql = sql + "union ";
-                sql = sql + "select CurrentPeriod, UserName, SelectedNums, a.MemberID as GameDealerMemberID ";
+                sql = sql + "select CurrentPeriod, b.UserName, SelectedNums, a.MemberID as GameDealerMemberID ";
                 sql = sql + "from gamedealermplayer a ";
                 sql = sql + "left join GameDealerMemberShip b on a.MemberID = b.MemberID ";
                 sql = sql + "where currentperiod = @currentPeriod ";
-                sql = sql + "group by CurrentPeriod, UserName, SelectedNums, a.MemberID ";
+                sql = sql + "group by CurrentPeriod, b.UserName, SelectedNums, a.MemberID ";
                 sql = sql + ") x ";
                 sql = sql + "group by CurrentPeriod, UserName, SelectedNums, GamedealerMemberID ";
                 sql = sql + "drop table if exists #tempgdmp ";
@@ -1576,7 +1738,7 @@ namespace SupportUtil.Classes
                 sql = sql + "update #tempcompare ";
                 sql = sql + "set gdmp_id = isnull((select top 1 id from #tempgdmp where CurrentPeriod = a.currentPeriod and SelectedNums = a.selectedNums and MemberID = a.GameDealerMemberID order by id asc), 0) ";
                 sql = sql + "from #tempcompare a ";
-                sql = sql + "select * from #tempcompare  ";
+                sql = sql + "select * from #tempcompare where mp_rec <> gdmp_rec ";
 
                 string sql2 = sql.Replace("@dbCurrentPeriod", CurrentPeriod);
                 SqlConnection connection = new SqlConnection(localconnstr);
@@ -1701,6 +1863,160 @@ namespace SupportUtil.Classes
 
             string returntext = txt;
             return returntext;
+        }
+
+        public List<MenuItem> GetMenuRootitems()
+        {
+            string sql = "select a.*, Children = (select count(*) from mnitem where parentId = a.ID) from mnItem a where parentid is null order by squence";
+
+            SqlConnection connection = new SqlConnection(db_local_support.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            List<MenuItem> roots = new List<MenuItem>();
+
+            for (int i = 0; i < myDataRows.Rows.Count; i++)
+            {
+                DataRow dr = myDataRows.Rows[i];
+                MenuItem mi = new MenuItem();
+
+                mi.ID = int.Parse(dr["ID"].ToString());
+                mi.text = dr["text"].ToString();
+                mi.url = dr["url"].ToString();
+
+                bool test = false;
+                if (dr["islink"] == null)
+                {
+                    mi.IsLink =false;
+                }
+                else
+                {
+                    bool.TryParse(dr["islink"].ToString(), out test);
+                    if (test) { mi.IsLink =true; }
+                    else { mi.IsLink =false; }
+                    //mi.IsLink = bool.Parse(dr["islink"].ToString());
+                }
+                
+                mi.Squence = int.Parse(dr["squence"].ToString());
+                mi.Children = int.Parse(dr["children"].ToString());
+
+                roots.Add(mi);
+            }
+
+            return roots;
+        }
+
+        public List<MenuItem> GetMenuChildItems(string myid)
+        {
+            string sql = "select a.*, Children = (select count(*) from mnitem where parentId = a.ID) from mnItem a where parentid = " + myid + " order by squence";
+
+            SqlConnection connection = new SqlConnection(db_local_support.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+
+            List<MenuItem> items = new List<MenuItem>();
+
+            for (int i = 0; i < myDataRows.Rows.Count; i++)
+            {
+                DataRow dr = myDataRows.Rows[i];
+                MenuItem mi = new MenuItem();
+
+                mi.ID = int.Parse(dr["ID"].ToString());
+                mi.text = dr["text"].ToString();
+                mi.url = dr["url"].ToString();
+
+                bool test = false;
+                if (dr["islink"] == null)
+                {
+                    mi.IsLink = false;
+                }
+                else
+                {
+                    bool.TryParse(dr["islink"].ToString(), out test);
+                    if (test) { mi.IsLink = true; }
+                    else { mi.IsLink = false; }
+                    //mi.IsLink = bool.Parse(dr["islink"].ToString());
+                }
+
+                mi.Squence = int.Parse(dr["squence"].ToString());
+                mi.Children = int.Parse(dr["children"].ToString());
+
+                items.Add(mi);
+            }
+
+            return items;
+        }
+
+        public string DeleteMenuItem(string ID)
+        {
+            string sql = "delete from mnitem where ID = " + ID;
+
+            SqlConnection connection = new SqlConnection(db_local_support.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            command.ExecuteNonQuery();
+
+            sql = "delete from mnitem where parentid = " + ID;
+            command = new SqlCommand(sql, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            command.ExecuteNonQuery();
+
+            connection.Close();
+
+            return "Menu Item Deleted Successfully";
+        }
+
+        public string AddMenuRoot(MenuItemInput mi)
+        {
+
+            var txt = mi.text;
+            var seq = mi.Squence;
+            var url1 = mi.url;
+
+            string sql = "insert into mnitem (text, squence) values ('" + txt + "', " + seq + ")";
+
+            SqlConnection connection = new SqlConnection(db_local_support.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            return "Menu Item Created Successfully";
+        }
+
+        public string EditMenuRoot(MenuItemInput mi)
+        {
+            var ID = mi.mID;
+            var txt = mi.text;
+            var seq = mi.Squence;
+            var url1 = mi.url;
+
+            string sql = "update mnitem set text = '@dbText', Squence = @dbSeq, url = '@dbURL' where id = @dbID";
+            string sql2 = sql.Replace("@dbText", txt).Replace("@dbSeq", seq).Replace("@dbURL", url1).Replace("@dbID", ID);
+
+            SqlConnection connection = new SqlConnection(db_local_support.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql2, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            return "Menu Item Modified Successfully";
         }
     }
 

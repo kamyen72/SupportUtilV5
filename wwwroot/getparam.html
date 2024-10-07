@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+
+	<script>
+		function getParam() {
+			// alert("getting param");
+			const queryString = window.location.search;
+			const urlParams = new URLSearchParams(queryString);
+			const ticket = urlParams.get('ticket')
+
+			if (ticket != null) {
+				alert(ticket);
+			}
+		}
+	</script>
+
+	<style type="text/css">
+		body {
+			background-color: orange;
+		}
+	</style>
+</head>
+<body>
+	<button onclick="getParam()">Get Param</button>
+
+	<br>
+	<div id="result"></div>
+</body>
+</html>

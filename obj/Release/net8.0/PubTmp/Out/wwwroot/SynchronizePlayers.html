@@ -14,6 +14,23 @@
     <script>
         $(document).ready(function () {
             GetMenuRootsV3();
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const ticket = urlParams.get('ticket')
+            const dbname = urlParams.get('dbname')
+
+            //alert(dbname);
+
+            if (ticket != null) {
+                //alert(ticket);
+
+                $("#txtCurrentPeriod").val(ticket)
+            }
+            if (ticket != null && dbname != null) {
+                //alert("executing");
+                SynchronizePlayerByDB(dbname);
+            }
         });
     </script>
 
@@ -140,7 +157,7 @@
             var ik = $(me).attr("data-IDtoKeep");
             var cs = $(me).attr("data-ConnStr");
 
-            alert(cp + "\n" + sn + "\n" + gi + "\n" + ik + "\n" + cs);
+            // alert(cp + "\n" + sn + "\n" + gi + "\n" + ik + "\n" + cs);
 
             $.ajax({
                 type: "POST",
@@ -172,7 +189,7 @@
             var ik = $(me).attr("data-IDtoKeep");
             var cs = $(me).attr("data-ConnStr");
 
-            alert(cp + "\n" + sn + "\n" + gi + "\n" + ik + "\n" + cs);
+            // alert(cp + "\n" + sn + "\n" + gi + "\n" + ik + "\n" + cs);
 
             $.ajax({
                 type: "POST",
@@ -198,7 +215,7 @@
 
     <script>
         function createmp(me) {
-            alert(me.getAttribute("data-dbname") + " \n " + me.getAttribute("data-AllIDs") );
+            // alert(me.getAttribute("data-dbname") + " \n " + me.getAttribute("data-AllIDs") );
 
 
             $.ajax({
@@ -223,7 +240,7 @@
 
     <script>
         function creategdmp(me) {
-            alert(me.getAttribute("data-dbname") + " \n " + me.getAttribute("data-AllIDs") );
+            // alert(me.getAttribute("data-dbname") + " \n " + me.getAttribute("data-AllIDs") );
 
 
             $.ajax({

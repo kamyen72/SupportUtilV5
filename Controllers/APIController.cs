@@ -35,15 +35,9 @@ namespace DupRecRemoval.Controllers
             _env = env;
         }
 
-        public class InputModel
-        {
-            public string InputText { get; set; }
-        }
+        
 
-        public class ReturnModel
-        {
-            public string ReturnText { get; set; }
-        }
+
 
         [EnableCors("AllowAll")]
         [Route("GetDBsCount")]
@@ -809,17 +803,6 @@ namespace DupRecRemoval.Controllers
             return Ok(rJason);
         }
 
-        [EnableCors("AllowAll")]
-        [Route("Test3")]
-        [HttpPost]
-        public IActionResult Test3([FromBody] InputModel model)
-        {
-            ReturnModel rm = new ReturnModel();
-            rm.ReturnText = "what";
-
-            string rJason = JsonConvert.SerializeObject(rm);
-            return Ok(rJason);
-        }
 
         [EnableCors("AllowAll")]
         [Route("GetMenuV3")]
@@ -925,6 +908,55 @@ namespace DupRecRemoval.Controllers
             string rJason = JsonConvert.SerializeObject(rm);
             return Ok(rJason);
         }
+
+
+        [EnableCors("AllowAll")]
+        [Route("GetMenuRootItems")]
+        [HttpPost]
+        public IActionResult GetMenuRootItems()
+        {
+            DBUtil dbu = new DBUtil();
+
+            List<MenuItem> list = dbu.GetMenuRootitems();
+
+            string rJason = JsonConvert.SerializeObject(list);
+            return Ok(rJason);
+        }
+
+        [EnableCors("AllowAll")]
+        [Route("CreateNewMenu")]
+        [HttpPost]
+        public IActionResult CreateNewMenu([FromBody] MenuItemInput model)
+        {
+            var myText = model.text;
+            var mySeq = model.Squence;
+            var myurl = model.url;
+
+            DBUtil dbu = new DBUtil();
+
+            ReturnModel rm = new ReturnModel();
+            rm.ReturnText = "";
+
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
+
+        [EnableCors("AllowAll")]
+        [Route("DeleteMenuItem")]
+        [HttpPost]
+        public IActionResult DeleteMenuItem([FromBody] InputModel model)
+        {
+            var myID = model.InputText;
+
+            DBUtil dbu = new DBUtil();
+
+            ReturnModel rm = new ReturnModel();
+            rm.ReturnText = dbu.DeleteMenuItem(myID);
+
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
+
 
     }
 }

@@ -59,7 +59,6 @@ C:\source_codes\SupportUtilV4\obj\Debug\net8.0\SupportUtilV4.csproj.CoreCompileI
 C:\source_codes\SupportUtilV4\obj\Debug\net8.0\SupportUtilV4.MvcApplicationPartsAssemblyInfo.cache
 C:\source_codes\SupportUtilV4\obj\Debug\net8.0\SupportUtilV4.RazorAssemblyInfo.cache
 C:\source_codes\SupportUtilV4\obj\Debug\net8.0\SupportUtilV4.RazorAssemblyInfo.cs
-C:\source_codes\SupportUtilV4\obj\Debug\net8.0\SupportUtilV4.sourcelink.json
 C:\source_codes\SupportUtilV4\obj\Debug\net8.0\staticwebassets.build.json
 C:\source_codes\SupportUtilV4\obj\Debug\net8.0\staticwebassets.development.json
 C:\source_codes\SupportUtilV4\obj\Debug\net8.0\staticwebassets\msbuild.SupportUtilV4.Microsoft.AspNetCore.StaticWebAssets.props
