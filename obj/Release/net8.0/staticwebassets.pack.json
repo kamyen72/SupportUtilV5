@@ -73,6 +73,10 @@
       "PackagePath": "staticwebassets\\getparam.html"
     },
     {
+      "Id": "C:\\source_codes\\SupportUtilV4\\wwwroot\\haziqtest.html",
+      "PackagePath": "staticwebassets\\haziqtest.html"
+    },
+    {
       "Id": "C:\\source_codes\\SupportUtilV4\\wwwroot\\js\\menu.js",
       "PackagePath": "staticwebassets\\js\\menu.js"
     },

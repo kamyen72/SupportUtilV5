@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iPLNBFzE0cCGV0IXkGmeSHU6TW+jA+9NteX8MBwMdcA=",
+  "Hash": "PaSuhy5z7/LSu+cfS3bO5G+bDBk5EEA8ei5tj10Fwtw=",
   "Source": "SupportUtilV4",
   "BasePath": "_content/SupportUtilV4",
   "Mode": "Default",
@@ -262,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\getparam.html"
+    },
+    {
+      "Identity": "C:\\source_codes\\SupportUtilV4\\wwwroot\\haziqtest.html",
+      "SourceId": "SupportUtilV4",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\source_codes\\SupportUtilV4\\wwwroot\\",
+      "BasePath": "_content/SupportUtilV4",
+      "RelativePath": "haziqtest.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\haziqtest.html"
     },
     {
       "Identity": "C:\\source_codes\\SupportUtilV4\\wwwroot\\js\\menu.js",

@@ -102,5 +102,59 @@ namespace DupRecRemoval.Controllers
             string rJason = JsonConvert.SerializeObject(list);
             return Ok(rJason);
         }
+
+        [EnableCors("AllowAll")]
+        [Route("AddMenuChildItem")]
+        [HttpPost]
+        public IActionResult AddMenuChildItem([FromBody] MenuItemInput model)
+        {
+            var myText = model.text;
+            var mySeq = model.Squence;
+            var myurl = model.url;
+            var myparentid = model.ParentID;
+
+            //MenuItemInput minp = new MenuItemInput();
+
+
+            DBUtil dbu = new DBUtil();
+
+            ReturnModel rm = new ReturnModel();
+            rm.ReturnText = dbu.AddMenuChildItem(model);
+
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
+
+        [EnableCors("AllowAll")]
+        [Route("CheckApid")]
+        [HttpPost]
+        public IActionResult CheckApid([FromBody] InputModel model)
+        {
+            string CurrentPeriod = model.InputText;
+
+            DBUtil dbu = new DBUtil();
+
+            ReturnModel rm = new ReturnModel();
+            rm.ReturnText = dbu.GetApid(CurrentPeriod);
+            string rJason = JsonConvert.SerializeObject(rm);
+            return Ok(rJason);
+        }
+
+        [EnableCors("AllowAll")]
+        [Route("ChangeStatusHkSyd")]
+        [HttpPost]
+        public IActionResult ChangeStatusHkSyd([FromBody] ApidDetails model)
+        {
+            string companyId = model.companyId;
+            string status = model.status;
+
+
+            DBUtil dBUtil = new DBUtil();
+            dBUtil.ChangeStatusHkSyd(companyId, status);
+
+            ReturnModel rJason = new ReturnModel();
+            rJason.ReturnText = "Done Creation of MPlayer Records";
+            return Ok(rJason);
+        }
     }
 }

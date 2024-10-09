@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Create New Platform Agent</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="js/menu.js"></script>
+    <link rel="stylesheet" href="css/menu.css">
+    <script>
+        function test2() {
+            alert("am testing new controller");
+            $.ajax({
+                type: "POST",
+                url: "/Hksyd/haziqtest2",
+                data: JSON.stringify({ "InputText": "Just a testing" }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert("success");
+                    // alert(response.ReturnText);
+                    // location.reload();
+                },
+                failure: function (response) {
+                },
+                error: function (response, status) {
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <button id="test" onclick="test2()">Test New Controller</button>
+</body>
+</html>

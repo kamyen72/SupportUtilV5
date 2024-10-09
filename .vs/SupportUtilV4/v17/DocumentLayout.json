@@ -3,20 +3,36 @@
   "WorkspaceRootPath": "C:\\source_codes\\new\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dbs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\dbs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dbutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\dbutil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\checkpendingrecsbycurrentperiod.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\checkpendingrecsbycurrentperiod.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\controllers\\hksydcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:controllers\\hksydcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\dblist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\dblist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\haziqtest.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\haziqtest.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:controllers\\apicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:wwwroot\\removeduplicate.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\controllers\\utilcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:controllers\\utilcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|c:\\source_codes\\new\\classes\\apiddetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{369B4BA2-D38B-433F-9194-13DD69DCAE03}|SupportUtilV4.csproj|solutionrelative:classes\\apiddetails.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,52 +54,105 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CheckPendingRecsByCurrentPeriod.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\CheckPendingRecsByCurrentPeriod.html",
-              "RelativeDocumentMoniker": "wwwroot\\CheckPendingRecsByCurrentPeriod.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\CheckPendingRecsByCurrentPeriod.html",
-              "RelativeToolTip": "wwwroot\\CheckPendingRecsByCurrentPeriod.html",
-              "ViewState": "AQIAAEoAAAAAAAAAAAAiwGwAAABMAAAA",
+              "DocumentIndex": 4,
+              "Title": "haziqtest.html",
+              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\haziqtest.html",
+              "RelativeDocumentMoniker": "wwwroot\\haziqtest.html",
+              "ToolTip": "C:\\source_codes\\new\\wwwroot\\haziqtest.html",
+              "RelativeToolTip": "wwwroot\\haziqtest.html",
+              "ViewState": "AQIAABEAAAAAAAAAAAAiwDsAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-23T05:28:09.63Z"
+              "WhenOpened": "2024-10-09T06:43:31.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ApidDetails.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\ApidDetails.cs",
+              "RelativeDocumentMoniker": "Classes\\ApidDetails.cs",
+              "ToolTip": "C:\\source_codes\\new\\Classes\\ApidDetails.cs",
+              "RelativeToolTip": "Classes\\ApidDetails.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-07T12:41:45.24Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DBUtil.cs",
-              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
-              "RelativeDocumentMoniker": "Classes\\DBUtil.cs",
-              "ToolTip": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
-              "RelativeToolTip": "Classes\\DBUtil.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAADAGAAAQAAAA",
+              "Title": "DBs.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBs.cs",
+              "RelativeDocumentMoniker": "Classes\\DBs.cs",
+              "ToolTip": "C:\\source_codes\\new\\Classes\\DBs.cs",
+              "RelativeToolTip": "Classes\\DBs.cs",
+              "ViewState": "AQIAAFMAAAAAAAAAAAAuwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T08:19:26.63Z",
+              "WhenOpened": "2024-10-07T12:38:02.693Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "RemoveDuplicate.html",
-              "DocumentMoniker": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
-              "RelativeDocumentMoniker": "wwwroot\\RemoveDuplicate.html",
-              "ToolTip": "C:\\source_codes\\new\\wwwroot\\RemoveDuplicate.html",
-              "RelativeToolTip": "wwwroot\\RemoveDuplicate.html",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAANkAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-22T08:15:48.711Z"
+              "Title": "DBList.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBList.cs",
+              "RelativeDocumentMoniker": "Classes\\DBList.cs",
+              "ToolTip": "C:\\source_codes\\new\\Classes\\DBList.cs",
+              "RelativeToolTip": "Classes\\DBList.cs",
+              "ViewState": "AQIAADwAAAAAAAAAAAAowAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-07T12:37:57.725Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "APIController.cs",
               "DocumentMoniker": "C:\\source_codes\\new\\Controllers\\APIController.cs",
               "RelativeDocumentMoniker": "Controllers\\APIController.cs",
               "ToolTip": "C:\\source_codes\\new\\Controllers\\APIController.cs",
               "RelativeToolTip": "Controllers\\APIController.cs",
-              "ViewState": "AQIAAAACAAAAAAAAAAAYwJUCAAApAAAA",
+              "ViewState": "AQIAAIMAAAAAAAAAAAAwwJUAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-22T03:50:42.204Z"
+              "WhenOpened": "2024-10-07T12:26:35.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DBUtil.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
+              "RelativeDocumentMoniker": "Classes\\DBUtil.cs",
+              "ToolTip": "C:\\source_codes\\new\\Classes\\DBUtil.cs",
+              "RelativeToolTip": "Classes\\DBUtil.cs",
+              "ViewState": "AQIAAAgIAAAAAAAAAAAwwB8IAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-07T12:01:59.929Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UtilController.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Controllers\\UtilController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UtilController.cs",
+              "ToolTip": "C:\\source_codes\\new\\Controllers\\UtilController.cs",
+              "RelativeToolTip": "Controllers\\UtilController.cs",
+              "ViewState": "AQIAAH0AAAAAAAAAAAAkwJ0AAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-07T11:59:49.11Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HksydController.cs",
+              "DocumentMoniker": "C:\\source_codes\\new\\Controllers\\HksydController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HksydController.cs",
+              "ToolTip": "C:\\source_codes\\new\\Controllers\\HksydController.cs",
+              "RelativeToolTip": "Controllers\\HksydController.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAADkAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-07T11:31:03.501Z",
+              "EditorCaption": ""
             }
           ]
         }

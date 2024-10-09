@@ -35,10 +35,6 @@ namespace DupRecRemoval.Controllers
             _env = env;
         }
 
-        
-
-
-
         [EnableCors("AllowAll")]
         [Route("GetDBsCount")]
         [HttpPost]

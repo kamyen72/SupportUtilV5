@@ -1,6 +1,8 @@
 ﻿using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DupRecRemoval.Classes;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using SupportUtilV3.Classes;
@@ -1727,7 +1729,7 @@ namespace SupportUtil.Classes
                 sql = sql + ") ";
                 sql = sql + "insert into #tempmplayer (CurrentPeriod, SelectedNums, GamedealerMemberID, id) ";
                 sql = sql + "select CurrentPeriod, SelectedNums, GamedealerMemberID, id ";
-                sql = sql + "from mplayer where CurrentPeriod = @currentPeriod ";
+                sql = sql + "from mplayer where CurrentPeriod = @currentPeriod and IsWin is Null ";
                 sql = sql + "update #tempcompare ";
                 sql = sql + "set mp_rec = (select count(*) from #tempmplayer where CurrentPeriod = x.CurrentPeriod and SelectedNums = x.SelectedNums and GameDealerMemberID = x.GameDealerMemberID) ";
                 sql = sql + ", GDMP_rec = (select count(*) from #tempgdmp where CurrentPeriod = x.CurrentPeriod and SelectedNums = x.SelectedNums and MemberID = x.GameDealerMemberID) ";
@@ -1795,6 +1797,10 @@ namespace SupportUtil.Classes
                     {
                         highlight = "pinkcell";
                         buttext = "Create MP";
+
+                        var gdmpid = int.Parse(thisrow["gdmp_id"].ToString());
+
+                        CreateMissingMPlayerByDB(thisdb.MyID, gdmpid.ToString()); //temp fixed
                     }
                     txt = txt + "<tr>";
                     txt = txt + "<td class='cell " + highlight + "'>" + thisrow["rowid"].ToString() + "</td>";
@@ -1905,6 +1911,21 @@ namespace SupportUtil.Classes
                 mi.Squence = int.Parse(dr["squence"].ToString());
                 mi.Children = int.Parse(dr["children"].ToString());
 
+
+                int pid = 0;
+
+                bool fool = int.TryParse(dr["parentid"].ToString(), out pid);
+
+                if (!fool)
+                {
+                    mi.ParentID = 0;
+                }
+                else
+                {
+                    mi.ParentID = pid;
+                }
+                
+
                 roots.Add(mi);
             }
 
@@ -1950,6 +1971,19 @@ namespace SupportUtil.Classes
 
                 mi.Squence = int.Parse(dr["squence"].ToString());
                 mi.Children = int.Parse(dr["children"].ToString());
+
+                int pid = 0;
+
+                test = int.TryParse(dr["parentid"].ToString(), out pid);
+
+                if (!test)
+                {
+                    mi.ParentID = 0;
+                }
+                else
+                {
+                    mi.ParentID = pid;
+                }
 
                 items.Add(mi);
             }
@@ -1998,14 +2032,46 @@ namespace SupportUtil.Classes
             return "Menu Item Created Successfully";
         }
 
+        public string AddMenuChildItem(MenuItemInput mi)
+        {
+            var txt = mi.text;
+            var seq = mi.Squence;
+            var url1 = mi.url;
+            var parentid = mi.ParentID;
+
+            string sql = "insert into mnitem (text, squence, url, parentid) values ('" + txt + "', " + seq + ", '" + url1 + "', " + parentid + ")";
+
+            SqlConnection connection = new SqlConnection(db_local_support.connStr);
+            connection.Open();
+            DataTable myDataRows = new DataTable();
+            SqlCommand command = new SqlCommand(sql, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            return "Menu Item Created Successfully";
+        }
+
         public string EditMenuRoot(MenuItemInput mi)
         {
             var ID = mi.mID;
             var txt = mi.text;
             var seq = mi.Squence;
             var url1 = mi.url;
+            var parentid = mi.ParentID;
+            var islink = mi.IsLink;
 
-            string sql = "update mnitem set text = '@dbText', Squence = @dbSeq, url = '@dbURL' where id = @dbID";
+            if (mi.ParentID == "0")
+            {
+                parentid = "NULL";
+            }
+
+            if (mi.IsLink == "")
+            {
+                islink = "0";
+            }
+
+            string sql = "update mnitem set text = '@dbText', Squence = @dbSeq, url = '@dbURL', ParentID = " + parentid + ", IsLink = " +islink + " where id = @dbID";
             string sql2 = sql.Replace("@dbText", txt).Replace("@dbSeq", seq).Replace("@dbURL", url1).Replace("@dbID", ID);
 
             SqlConnection connection = new SqlConnection(db_local_support.connStr);
@@ -2017,6 +2083,139 @@ namespace SupportUtil.Classes
             connection.Close();
 
             return "Menu Item Modified Successfully";
+        }
+
+        public string GetApid(string CurrentPeriod)
+        {
+            string result = "";
+            string txt = "";
+            string sql = "select * from platformsetting where Apid = '@dbCurrentPeriod'";
+            string sql2 = sql.Replace("@dbCurrentPeriod", CurrentPeriod);
+            SqlConnection connection = new SqlConnection(db_ghl33.connStr);
+            connection.Open();
+            SqlCommand command = new SqlCommand(sql2, connection);
+            command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+            DataTable myDataRows = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+            adapter.Fill(myDataRows);
+            connection.Close();
+            int mx = myDataRows.Rows.Count;
+            txt = "<table cellspacing=0 cellpadding=0>";
+            txt = txt + "<tr>";
+            txt = txt + "<td class='cell hdcell'>##</td>";
+            txt = txt + "<td class='cell hdcell'>CompanyID</td>";
+            txt = txt + "<td class='cell hdcell'>PlatformGroup</td>";
+            txt = txt + "<td class='cell hdcell'>APID</td>";
+            txt = txt + "<td class='cell hdcell'>Status</td>";
+            txt = txt + "<td class='cell hdcell'>Action</td>";
+            txt = txt + "</tr>";
+            for (int i = 0; i < mx; i++)
+            {
+                var thisrow = myDataRows.Rows[i];
+
+                string sqlStatus = "select * from LotteryTypeMaintain where companyID = '@dbcompanyID' and LotteryTypeID in (18,19)";
+                string sqlStatus2 = sqlStatus.Replace("@dbcompanyID", thisrow["ID"].ToString());
+
+                SqlConnection connection1 = new SqlConnection(db_tm.connStr);
+                connection1.Open();
+
+                SqlCommand command1 = new SqlCommand(sqlStatus2, connection1);
+                command1.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+                DataTable myDataRows1 = new DataTable();
+
+                SqlDataAdapter adapter1 = new SqlDataAdapter(command1);
+                adapter1.Fill(myDataRows1);
+                connection1.Close();
+                int thisrow1 = myDataRows1.Rows.Count;
+                string status = "";
+                string status2 = "";
+                if (thisrow1 > 0)
+                {
+                    status = "Enabled";
+                    status2 = "Disabled";
+                }
+                else
+                {
+                    status = "Disabled";
+                    status2 = "Enabled";
+                }
+
+                // “Enabled” when there is no record can be found on ThirdMdatabase with above query. So, the only available option for next action is to “Disable”
+
+                txt = txt + "<tr>";
+                txt = txt + "<td class='cell'>" + i.ToString() + "</td>";
+                txt = txt + "<td class='cell'>" + thisrow["ID"].ToString() + "</td>";
+                txt = txt + "<td class='cell'>" + thisrow["PlatformGroup"].ToString() + "</td>";
+                txt = txt + "<td class='cell'>" + thisrow["APID"].ToString() + "</td>";
+                txt = txt + "<td class='cell'>" + status + "</td>";
+                txt = txt + "<td class='cell'><span class='spanbutt' onclick='toggleStatus(this)' data-apid='" + thisrow["ID"].ToString() + "' data-status='" + status + "'>" + status2 + "</span></td>";
+                txt = txt + "</tr>";
+            }
+            txt = txt + "</table>";
+
+            string returntext = txt;
+            return returntext;
+        }
+
+        public void ChangeStatusHkSyd(string companyId, string status)
+        {
+            Console.WriteLine(status == "Enabled");
+
+            if (status == "Enabled")
+            {
+                string sql = "delete from LotteryTypeMaintain where LotteryTypeID in (18, 19) CompanyID = '@dbCurrentPeriod'";
+                string sql2 = sql.Replace("@dbCurrentPeriod", companyId);
+
+                SqlConnection connection = new SqlConnection(db_tm.connStr);
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(sql2, connection);
+                command.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+            else
+            {
+                string sqlHk = "insert into LotteryTypeMaintain (LotteryTypeID,CompanyID,Status,IsMaintain,IsCloseGame,CreateDate,CreateBy,UpdateDate,UpdateBy) VALUES (18, @dbCurrentPeriod, 0, 0, 0, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0)";
+                string sqlHk2 = sqlHk.Replace("@dbCurrentPeriod", companyId);
+
+                SqlConnection connection = new SqlConnection(db_tm.connStr);
+                connection.Open();
+
+                SqlCommand command1 = new SqlCommand(sqlHk2, connection);
+                command1.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+                command1.ExecuteNonQuery();
+
+                string sqlSyd = "insert into LotteryTypeMaintain (LotteryTypeID,CompanyID,Status,IsMaintain,IsCloseGame,CreateDate,CreateBy,UpdateDate,UpdateBy) VALUES (19, @dbCurrentPeriod, 0, 0, 0, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0)";
+                string sqlSyd2 = sqlSyd.Replace("@dbCurrentPeriod", companyId);
+
+                SqlCommand command2 = new SqlCommand(sqlSyd2, connection);
+                command2.CommandTimeout = 300; // 5 minutes (60 seconds X 5)
+                command2.ExecuteNonQuery();
+
+                connection.Close();
+            }
+
+        }
+
+        public string GetConnStr(string dbname)
+        {
+            DBList alldbs = new DBList();
+            int mx = alldbs.dbs.Count;
+            db thisdb = new db();
+            for (int i = 0; i < mx; i++)
+            {
+                thisdb = alldbs.dbs[i];
+
+                if (thisdb.MyID.IndexOf(dbname) != -1)
+                {
+                    break;
+                }
+            }
+
+            string localconnstr = thisdb.connStr;
+
+            return localconnstr;
         }
     }
 

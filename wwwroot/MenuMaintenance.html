@@ -78,6 +78,10 @@
             width: 3px;
         }
 
+        .yellow {
+            background-color: yellow;
+        }
+
     </style>
 
     <script>
@@ -105,6 +109,7 @@
                     var txt = "<table cellspacing=0 cellpadding=0 width='95%'>";
                     txt = txt + "<tr>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>##</span></td>";
+                    txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Menu ID</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Menu Text</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>URL</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Sequence</span></td>";
@@ -117,6 +122,7 @@
 
                         txt = txt + "<tr>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + (x + 1) + "</span></td>";
+                        txt = txt + "<td class='bordercell leftcell'><span>" + mi.ID + "</span></td>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + mi.text + "</span></td>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + mi.url + "</span></td>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + mi.Squence + "</span></td>";
@@ -137,7 +143,7 @@
                             url = mi.url;
                         }
 
-                        txt = txt + "<svg onclick='EditMenuRoot(this)' data-itemid='" + mi.ID + "' data-mtext='" + mi.text + "' data-mseq='" + mi.Squence + "' data-murl='" + url + "' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'><path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>  <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z'/></svg>" ;
+                        txt = txt + "<svg onclick='EditMenuRoot(this)' data-itemid='" + mi.ID + "' data-mtext='" + mi.text + "' data-mseq='" + mi.Squence + "' data-murl='" + url + "' data-mparentid='" + mi.ParentID + "' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'><path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>  <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z'/></svg>" ;
                         txt = txt + "<label class='spacing'></label><svg onclick='DeleteItem(this)' data-itemid='" + mi.ID + "' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash3' viewBox='0 0 16 16'><path d='M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5'/></svg>"
                         txt = txt + "</td>";
                         txt = txt + "</tr>";
@@ -179,6 +185,7 @@
         }
     </script>
 
+
     <script>
         function AddMenuRoot() {
             // alert("am adding new menu item");
@@ -186,14 +193,48 @@
             var myurl = document.getElementById("murl").value;
             var myseq = document.getElementById("sequence").value;
 
+            var myparentid = document.getElementById("mparentid").value;
+            // alert(myparentid);
+
+            if (myparentid != "") {
+                AddMenuChildItem();
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Util/CreateNewRoot",
+                    data: JSON.stringify( { "text": mytext, "url": myurl, "Squence": myseq } ),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.ReturnText);
+                        location.reload();
+                    },
+                    failure: function (response) {
+                    },
+                    error: function (response, status) {
+                    }
+                });
+            }
+        }
+    </script>
+
+    <script>
+        function AddMenuChildItem() {
+            var mytext = document.getElementById("mtext").value;
+            var myurl = document.getElementById("murl").value;
+            var myseq = document.getElementById("sequence").value;
+            var myparentid = document.getElementById("mparentid").value;
+
             // alert(mytext + "<br>" + myurl + "<br>" + myseq);
 
             // alert(JSON.stringify( { "text": mytext, "url": myurl, "Squence": myseq } ));
 
             $.ajax({
                 type: "POST",
-                url: "/Util/CreateNewRoot",
-                data: JSON.stringify( { "text": mytext, "url": myurl, "Squence": myseq } ),
+                url: "/Util/AddMenuChildItem",
+                data: JSON.stringify({ "text": mytext, "url": myurl, "Squence": myseq, "ParentID": myparentid }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
@@ -216,11 +257,15 @@
             var mytext = $(me).attr('data-mtext');
             var myurl = $(me).attr('data-murl');
             var myseq = $(me).attr('data-mseq');
+            var myparentid = $(me).attr('data-mparentid');
+            var myislink = $(me).attr('data-mislink');
 
             $("#mtext").val(mytext);
             $("#mid").val(myid);
             $("#murl").val(myurl);
             $("#sequence").val(myseq);
+            $("#mparentid").val(myparentid);
+            $("#mislink").val(myislink);
 
             $("#addbutton").html("Update");
             $("#addbutton").attr("onclick", "UpdateMenuRoot()");
@@ -235,11 +280,13 @@
                 var mytext = $("#mtext").val();
                 var myurl = $("#murl").val();
                 var myseq = $("#sequence").val();
+                var myparentid = $("#mparentid").val();
+                var myislink = $("#mislink").val();
 
                 $.ajax({
                     type: "POST",
                     url: "/Util/EditMenuRoot",
-                    data: JSON.stringify( { "mID": myid, "text": mytext, "url": myurl, "Squence": myseq } ),
+                    data: JSON.stringify( { "mID": myid, "text": mytext, "url": myurl, "Squence": myseq , "ParentID": myparentid, "IsLink": myislink} ),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
@@ -276,9 +323,11 @@
                     var txt = "<table cellspacing=0 cellpadding=0 width='95%'>";
                     txt = txt + "<tr>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>##</span></td>";
+                    txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Menu ID</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Menu Text</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>URL</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Sequence</span></td>";
+                    txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Is Link</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Children</span></td>";
                     txt = txt + "<td class='bordercell leftcell boldcell headercell'><span>Actions</span></td>";
                     txt = txt + "</tr>";
@@ -288,9 +337,11 @@
 
                         txt = txt + "<tr>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + (x + 1) + "</span></td>";
+                        txt = txt + "<td class='bordercell leftcell'><span>" + mi.ID + "</span></td>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + mi.text + "</span></td>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + mi.url + "</span></td>";
                         txt = txt + "<td class='bordercell leftcell'><span>" + mi.Squence + "</span></td>";
+                        txt = txt + "<td class='bordercell leftcell'><span>" + mi.IsLink + "</span></td>";
 
                         if (mi.Children != 0) {
                             txt = txt + "<td class='bordercell leftcell boldcell clickable' onclick='ShowChildren(this)' data-mid='" + mi.ID + "'><span>" + mi.Children + "</span></td>";
@@ -308,7 +359,7 @@
                             url = mi.url;
                         }
 
-                        txt = txt + "<svg onclick='EditMenuRoot(this)' data-itemid='" + mi.ID + "' data-mtext='" + mi.text + "' data-mseq='" + mi.Squence + "' data-murl='" + url + "' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'><path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>  <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z'/></svg>" ;
+                        txt = txt + "<svg onclick='EditMenuRoot(this)' data-itemid='" + mi.ID + "' data-mtext='" + mi.text + "' data-mseq='" + mi.Squence + "' data-murl='" + url + "' data-mparentid='" + mi.ParentID + "' data-mislink='" + mi.IsLink + "' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil-square' viewBox='0 0 16 16'><path d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z'/>  <path fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z'/></svg>" ;
                         txt = txt + "<label class='spacing'></label><svg onclick='DeleteItem(this)' data-itemid='" + mi.ID + "' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-trash3' viewBox='0 0 16 16'><path d='M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5'/></svg>"
                         txt = txt + "</td>";
                         txt = txt + "</tr>";
@@ -352,7 +403,10 @@
                 <label>Menu ID</label><input type="text" id="mid">
                 <label>Menu Text</label><input type="text" id="mtext">
                 <label>Sequence</label><input type="text" id="sequence">
+                <label>Is Link</label><input type="text" id="mislink">
+                <label>Parent ID</label><input type="text" id="mparentid">
                 <label>URL</label><input type="text" id="murl">
+                
                 <br>
                 <button onclick="AddMenuRoot()" id="addbutton">Add</button>
                 <!-- <svg id='defaultbutton' xmlns='http://www.w3.org/2000/svg' width='35' height='35' fill='currentColor' class='bi bi-plus-square' viewBox='0 0 16 16'><path d='M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z'/><path d='M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4'/></svg> -->
